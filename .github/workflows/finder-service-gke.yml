@@ -10,21 +10,21 @@
 #
 # For more support on how to run the workflow, please visit https://github.com/google-github-actions/setup-gcloud/tree/master/example-workflows/gke
 
-name: Build and deploy discovery-service to GKE
+name: Build and deploy finder-service to GKE
 
 on:
    push:
     branches:
     - develop
     paths: 
-        - "discovery-service/**"
+        - "finder-service/**"
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
   GKE_CLUSTER: ascout-cluster
   GKE_ZONE: europe-west1-c
-  DEPLOYMENT_NAME: discovery-service
-  IMAGE: discovery-service
+  DEPLOYMENT_NAME: finder-service
+  IMAGE: finder-service
 
 jobs:
   setup-build-publish-deploy:
@@ -33,7 +33,7 @@ jobs:
     environment: test
     defaults:
       run:
-        working-directory: ./discovery-service
+        working-directory: ./finder-service
 
     steps:
     - name: Checkout
