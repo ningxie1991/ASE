@@ -16,6 +16,8 @@ on:
    push:
     branches:
     - develop
+    paths: 
+        - "discovery-service/**"
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
