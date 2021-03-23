@@ -30,6 +30,10 @@ dependencyManagement {
     }
 }
 
+springBoot {
+    mainClassName = 'ifi.ase.ascout.gatewayservice.GatewayServiceApplication'
+}
+
 test {
     useJUnitPlatform()
 }
