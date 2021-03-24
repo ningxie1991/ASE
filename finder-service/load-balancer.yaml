@@ -6,7 +6,8 @@ spec:
   rules:
   - http:
       paths:
-      - path: /finder
+      - pathType: Prefix
+        path: /finder
         backend:
           serviceName: finder-service
           servicePort: 3001
