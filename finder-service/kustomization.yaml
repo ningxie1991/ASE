@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - deployment.yaml
   - service.yaml
-  - load-balancer.yaml
+  - gateway-ingress.yaml

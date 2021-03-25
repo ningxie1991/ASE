@@ -1,14 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "1"
   labels:
     app: finder-service
   name: finder-service
   namespace: default
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: finder-service
@@ -26,7 +24,4 @@ spec:
       - image: gcr.io/PROJECT_ID/IMAGE:TAG
         imagePullPolicy: IfNotPresent
         name: finder-service
-        env:
-         - name: DISCOVERY_SERVICE_URI
-           value: http://discovery-service
       restartPolicy: Always

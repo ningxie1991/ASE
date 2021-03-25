@@ -1,13 +1,14 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: load-balancer
+  name: gateway-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
       paths:
-      - pathType: Prefix
-        path: /finder
+      - path: /finder/*
         backend:
           serviceName: finder-service
           servicePort: 3001
