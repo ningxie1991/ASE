@@ -6,8 +6,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/finder/")
-public class HelloController {
+@RequestMapping(path = "/finder")
+public class FinderController {
+
+    @GetMapping("/")
+    public String imHealthy() {
+        return "{healthy:true}";
+    }
 
     @GetMapping("/hello")
     public String hello(@RequestParam(value = "name", defaultValue = "World") String name) {
