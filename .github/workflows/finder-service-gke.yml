@@ -15,7 +15,7 @@ name: Build and deploy finder-service to GKE
 on:
    push:
     branches:
-    - ASCOUT-2-set-up-spring-boot-CI
+    - develop
     paths: 
         - "finder-service/**"
 
