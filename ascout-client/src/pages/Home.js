@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import  getMessage  from '../services/finderService';
+import getMessage from '../services/finderService';
 
 class Home extends Component{
 
