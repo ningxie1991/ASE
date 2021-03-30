@@ -1,11 +1,37 @@
-import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import Home from './pages/home/Home'
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import FinderService from './services/FinderService.js';
 
-const App = () => (
-  <Switch>
-    <Route path='/' component={Home}></Route>
-  </Switch>
-)
+export default class App extends React.Component {
 
-export default App
+    constructor(props) {
+        super(props);
+        this.state = {
+            message: ''
+        };
+    }
+
+    componentDidMount(){
+        FinderService.getMessage().then(response => {
+            this.setState({message: response.data})
+        });
+    }
+
+    render(){
+
+        return (
+            <div className="App">
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo"/>
+                    <p>
+                        Edit <code>src/App.js</code> and save to reload.
+                    </p>
+
+                    <h1>{this.state.message}</h1>
+
+                </header>
+            </div>
+        );
+    }
+}
