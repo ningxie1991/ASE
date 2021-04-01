@@ -1,13 +1,13 @@
 # This workflow will build a Java project with Gradle
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
 
-name: "finder-service CI"
+name: "browse-service CI"
 
 on:
   push:
     branches: [ develop ]
     paths: 
-        - "finder-service/**"
+        - "browse-service/**"
 
 jobs:
   service1:
@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./finder-service
+        working-directory: ./browse-service
 
     steps:
     - uses: actions/checkout@v2
