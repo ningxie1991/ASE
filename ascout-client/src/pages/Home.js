@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
-import getMessage from '../services/finderService';
+import getAllListings from '../services/browseService';
 
 class Home extends Component{
 
     constructor() {
         super();
         this.state = {
-            message: ''
+            allListings: []
         };
     }
 
     async componentDidMount() {
-        const message = await getMessage();
-        this.setState({ message: message });
+        const allListings = await getAllListings();
+        this.setState({ allListings: allListings });
     }
 
     render() {
+        const renderListings = this.state.allListings.map(item => (
+            <tr key={item.id} align= "left">
+                <td><img src={item.picture_url} width="100px" height="100px" /></td>
+                <td>{item.name}</td>
+                <td>Neighbourhood: {item.neighbourhood}</td>
+            </tr>
+        ));
+
         return (
             <div>
-                <p>{this.state.message}</p>
+                <table>{renderListings}</table>
             </div>
         );
     }
