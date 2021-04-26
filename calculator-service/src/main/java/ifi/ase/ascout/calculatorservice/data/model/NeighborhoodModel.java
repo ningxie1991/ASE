@@ -2,8 +2,9 @@ package ifi.ase.ascout.calculatorservice.data.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Entity;
+
 @Repository
-//@Document(collection = "")
 public class NeighborhoodModel {
     private String name;
     private String city;
@@ -12,10 +13,15 @@ public class NeighborhoodModel {
     private Double lat;
     private Double lng;
 
-    private String picture_url="optional";
-    private String decription="optional";
+    private String picture_url;
+    private String description;
 
-    public NeighborhoodModel(){ }
+    public NeighborhoodModel(){
+        this.name = "test";
+        this.city = "test";
+        this.picture_url = "optional";
+        this.description = "optional";
+    }
 
     public NeighborhoodModel(String name,String city,Double lat,Double lng){
         this.name = name;
@@ -71,11 +77,12 @@ public class NeighborhoodModel {
         this.picture_url = picture_url;
     }
 
+
     public String getDecription() {
-        return decription;
+        return description;
     }
 
     public void setDecription(String decription) {
-        this.decription = decription;
+        this.description = decription;
     }
 }

@@ -1,13 +1,17 @@
 package ifi.ase.ascout.calculatorservice.data.dto;
 
-import java.util.Map;
+import java.math.BigDecimal;
+import javax.persistence.Id;
+import java.io.Serializable;
 
-public class AttractionDTO {
+
+public class AttractionDTO implements Serializable{
+    private Long id;
     //google places api https://developers.google.com/maps/documentation/places/web-service/place-id
     private String placeId;
     //example={ "lat": 50.064192, "lng": -130.605469 }
-    private Double lat;
-    private Double lng;
+    private BigDecimal lat;
+    private BigDecimal lng;
     //
     private int groupId;
 
@@ -19,7 +23,14 @@ public class AttractionDTO {
     public AttractionDTO(){ }
     public AttractionDTO(String placeId,Double lat,Double lng,int groupId){ }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    @Id
+    public Long getId() {
+        return id;
+    }
     public String getPlaceId() {
         return placeId;
     }
@@ -28,19 +39,19 @@ public class AttractionDTO {
         this.placeId = placeId;
     }
 
-    public Double getLat() {
+    public BigDecimal getLat() {
         return lat;
     }
 
-    public void setLat(Double lat) {
+    public void setLat(BigDecimal lat) {
         this.lat = lat;
     }
 
-    public Double getLng() {
+    public BigDecimal getLng() {
         return lng;
     }
 
-    public void setLng(Double lng) {
+    public void setLng(BigDecimal lng) {
         this.lng = lng;
     }
 

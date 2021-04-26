@@ -1,12 +1,15 @@
 package ifi.ase.ascout.calculatorservice.data.dto;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.List;
+import java.math.BigDecimal;
 
 @Entity
 public class BestNeighborhoodsQueryDTO implements Serializable {
     private String test;
     private List<AttractionDTO> attractionList;
+
 
     public BestNeighborhoodsQueryDTO(){ }
     public BestNeighborhoodsQueryDTO(String test,List<AttractionDTO> attractionList){
@@ -23,7 +26,6 @@ public class BestNeighborhoodsQueryDTO implements Serializable {
     public List<AttractionDTO> getAttractionList() {
         return attractionList;
     }
-
     public void setAttractionList(List<AttractionDTO> attractionList) {
         this.attractionList = attractionList;
     }

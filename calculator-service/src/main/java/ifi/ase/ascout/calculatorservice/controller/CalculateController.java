@@ -7,6 +7,7 @@ import ifi.ase.ascout.calculatorservice.servise.CalculatorService;
 import ifi.ase.ascout.calculatorservice.servise.ICalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +20,6 @@ import java.util.List;
 public class CalculateController {
     @Autowired
     private ICalculatorService calculatorService;
-//    private ICalculatorService calculatorService = new CalculatorService();
 
     @PostMapping(path = "/best_neighborhoods", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<NeighborhoodModel>> bestNeighborhoods(@RequestBody BestNeighborhoodsQueryDTO query) {//@RequestBody List<String> destinations
