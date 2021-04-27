@@ -14,6 +14,7 @@ import welcomemodal1 from '../../assets/imgs/welcomemodal1.png'
 import './WelcomeModal.css'
 import CityAutoComplete from '../autocomplete/city/CityAutoComplete'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import hist from '../../utils/History'
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -61,6 +62,9 @@ const DialogActions = withStyles((theme) => ({
 export default function WelcomeModal2() {
   const [open, setOpen] = React.useState(true)
 
+  const calulateNeighbourhoodButtonClick = () => {
+    hist.push('/home')
+  }
   return (
     <div>
       <Dialog
@@ -78,7 +82,11 @@ export default function WelcomeModal2() {
             <Grid item md={7}>
               <h6 className='textQuestion'>Pick how you want to Scout?</h6>
               <div style={{ marginBottom: '3%', marginTop: '2%' }}>
-                <Button color='primary' variant='contained'>
+                <Button
+                  color='primary'
+                  variant='contained'
+                  onClick={calulateNeighbourhoodButtonClick}
+                >
                   Calculate the ideal neighbourhood{' '}
                   <ArrowForwardIosIcon
                     style={{ paddingLeft: '3%' }}
