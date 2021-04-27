@@ -1,0 +1,10 @@
+.textQuestion {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 35px;
+  display: flex;
+  align-items: center;
+  margin: 1%;
+}
