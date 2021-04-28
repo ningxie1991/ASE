@@ -9,9 +9,9 @@ class AppRouter extends React.Component {
     return (
       <Switch>
         <div>
-          <Route path='/' exact component={WelcomeInitial} />
           <Route path='/listings' exact component={Home} />
           <Route path='/home' exact component={Welcome} />
+          <Route path='/' exact component={WelcomeInitial} />
         </div>
       </Switch>
     )
