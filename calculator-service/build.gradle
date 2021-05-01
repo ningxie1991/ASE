@@ -23,6 +23,9 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     // https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api
     implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2'
+    // https://github.com/googlemaps/google-maps-services-java
+    implementation 'com.google.maps:google-maps-services:0.18.0'
+//    implementation 'org.slf4j:slf4j-simple:1.7.25'//required by google-maps-services but cause "LoggerFactory is not a Logback LoggerContext but Logback is on the classpath" at Test.
 
 }
 

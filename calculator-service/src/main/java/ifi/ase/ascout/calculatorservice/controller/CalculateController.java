@@ -37,12 +37,10 @@ public class CalculateController {
     }
     @GetMapping("/get_test")
     public ResponseEntity<List<NeighborhoodModel>> getTest() {
-        //example={ "lat": 50.064192, "lng": -130.605469 }
-        AttractionDTO attraction1 = new AttractionDTO("placeID1",50.064192,-130.605469,1);
-        AttractionDTO attraction2 = new AttractionDTO("placeID2",50.074192,-130.705469,1);
         List<AttractionDTO> attractionList = new ArrayList<>();
-        attractionList.add(attraction1);
-        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO("test",attractionList);
+        attractionList.add(new AttractionDTO("Brandenburg Gate",1));
+        attractionList.add(new AttractionDTO("Museum Island",1));
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,"DRIVING");
         return bestNeighborhoods(q);
     }
 }

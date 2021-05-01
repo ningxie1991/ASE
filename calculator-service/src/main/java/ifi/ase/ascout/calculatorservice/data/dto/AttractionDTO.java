@@ -6,13 +6,9 @@ import java.io.Serializable;
 
 
 public class AttractionDTO implements Serializable{
-    private Long id;
     //google places api https://developers.google.com/maps/documentation/places/web-service/place-id
     private String placeId;
-    //example={ "lat": 50.064192, "lng": -130.605469 }
-    private BigDecimal lat;
-    private BigDecimal lng;
-    //
+    private String name;
     private int groupId;
 
     //optional
@@ -21,38 +17,17 @@ public class AttractionDTO implements Serializable{
     private int duration;
 
     public AttractionDTO(){ }
-    public AttractionDTO(String placeId,Double lat,Double lng,int groupId){ }
-
-    public void setId(Long id) {
-        this.id = id;
+    public AttractionDTO(String placeId,int groupId){
+        this.placeId=placeId;
+        this.groupId=groupId;
     }
 
-    @Id
-    public Long getId() {
-        return id;
-    }
     public String getPlaceId() {
         return placeId;
     }
 
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
-    }
-
-    public BigDecimal getLat() {
-        return lat;
-    }
-
-    public void setLat(BigDecimal lat) {
-        this.lat = lat;
-    }
-
-    public BigDecimal getLng() {
-        return lng;
-    }
-
-    public void setLng(BigDecimal lng) {
-        this.lng = lng;
     }
 
     public int getGroupId() {
@@ -87,5 +62,7 @@ public class AttractionDTO implements Serializable{
         this.duration = duration;
     }
 
+    public String getName() { return name; }
 
+    public void setName(String name) { this.name = name; }
 }

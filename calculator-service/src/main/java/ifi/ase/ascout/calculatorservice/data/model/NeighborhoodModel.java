@@ -1,18 +1,16 @@
 package ifi.ase.ascout.calculatorservice.data.model;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Entity;
-
 @Repository
-public class NeighborhoodModel {
+public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
     private String name;
+    private String placeId;
+    private long score;
+
     private String city;
     private String group;
-
     private Double lat;
     private Double lng;
-
     private String picture_url;
     private String description;
 
@@ -23,11 +21,8 @@ public class NeighborhoodModel {
         this.description = "optional";
     }
 
-    public NeighborhoodModel(String name,String city,Double lat,Double lng){
+    public NeighborhoodModel(String name){
         this.name = name;
-        this.city = city;
-        this.lat = lat;
-        this.lng = lng;
     }
 
     public String getName() {
@@ -84,5 +79,14 @@ public class NeighborhoodModel {
 
     public void setDecription(String decription) {
         this.description = decription;
+    }
+    public Long getScore() { return score; }
+    public void setScore(long score) { this.score = score; }
+    public String getPlaceId() { return placeId; }
+    public void setPlaceId(String placeId) { this.placeId = placeId; }
+
+    @Override
+    public int compareTo(NeighborhoodModel o) {
+        return this.getScore().compareTo(o.getScore());
     }
 }
