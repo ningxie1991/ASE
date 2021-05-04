@@ -2,10 +2,10 @@ import React, { Component, useState, useEffect, useRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
-import Map from '../components/map/Map'
-import Sidebar from '../components/sideBar/Sidebar'
-import WelcomeModal1 from '../components/welcome1/WelcomeModal1'
-import WelcomeModal2 from '../components/welcome2/WelcomeModal2'
+import Map from 'components/map/Map'
+import Sidebar from 'components/sideBar/Sidebar'
+import WelcomeModal1 from 'components/welcome1/WelcomeModal1'
+import WelcomeModal2 from 'components/welcome2/WelcomeModal2'
 export default function WelcomeInitial() {
   const pickedCity = useRef(null)
   const [city, setCity] = useState(null)

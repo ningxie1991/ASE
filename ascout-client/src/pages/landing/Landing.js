@@ -1,8 +1,8 @@
 import Grid from '@material-ui/core/Grid'
 import React, { Component } from 'react'
-import Map from '../components/map/Map'
-import Sidebar from '../components/sideBar/Sidebar'
-export default function Welcome() {
+import Map from 'components/map/Map'
+import Sidebar from 'components/sideBar/Sidebar'
+export default function Landing() {
   return (
     <div>
       <Grid container style={{ height: '100vh' }}>
