@@ -11,6 +11,7 @@ import com.google.maps.DistanceMatrixApi;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
@@ -41,9 +42,9 @@ public class GoogleMapAPITests {
         }
     }
 
-    public GoogleMapAPITests() {
+    public GoogleMapAPITests(@Value("${api.key}") String apiKey) {
         this.context = new GeoApiContext.Builder()
-                .apiKey("AIzaSyB22sIbfGNmLSygcFakmVH5I8kK3As8iEE")
+                .apiKey(apiKey)
                 .build();
         getDistanceMatrixWithBasicStringParams =
                 retrieveBody("GetDistanceMatrixWithBasicStringParams.json");

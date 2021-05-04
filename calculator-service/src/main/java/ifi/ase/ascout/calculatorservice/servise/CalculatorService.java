@@ -8,6 +8,7 @@ import com.google.maps.model.TravelMode;
 import ifi.ase.ascout.calculatorservice.data.dto.BestNeighborhoodsQueryDTO;
 import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
 import ifi.ase.ascout.calculatorservice.utils.UTILS;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,9 +19,9 @@ import java.util.stream.IntStream;
 public class CalculatorService implements ICalculatorService{
     private final GeoApiContext context;
 
-    public CalculatorService() {
+    public CalculatorService(@Value("${api.key}") String apiKey) {
         this.context = new GeoApiContext.Builder()
-                .apiKey("AIzaSyB22sIbfGNmLSygcFakmVH5I8kK3As8iEE")
+                .apiKey(apiKey)
                 .build();
     }
 
