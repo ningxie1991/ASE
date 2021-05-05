@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: browse-service
+  name: browse-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: browse-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: browse-service
+    spec:
+      containers:
+      - image: gcr.io/PROJECT_ID/IMAGE:TAG
+        imagePullPolicy: IfNotPresent
+        name: browse-service
+      restartPolicy: Always
