@@ -15,7 +15,7 @@ name: Build and deploy browse-service to GKE
 on:
    push:
     branches:
-    - ASCOUT-15-browse-service
+    - develop
     paths: 
         - "browse-service/**"
 
