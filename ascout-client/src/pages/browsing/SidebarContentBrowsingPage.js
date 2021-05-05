@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import info_1 from 'assets/imgs/info_1.png'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
@@ -17,6 +17,9 @@ import Pagination from '@material-ui/lab/Pagination'
 import Chip from '@material-ui/core/Chip'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
 import EditLocationIcon from '@material-ui/icons/EditLocation'
+import FilterListIcon from '@material-ui/icons/FilterList'
+import IconButton from '@material-ui/core/IconButton'
+import Filters from './Filters'
 export default function SidebarContentBrowsingPage() {
   const useStyles = makeStyles({
     root: {
@@ -55,9 +58,22 @@ export default function SidebarContentBrowsingPage() {
 
   const [category, setCategory] = useState('neibourhood_1')
   const [lisitngs, setListings] = useState([])
+  const [filterModal, setFilterModal] = useState(false)
+  const [filters, setFilters] = useState([])
   const [error, setError] = useState('')
+  const filtersRef = useRef({})
+
   const handleCategory = (event, category) => {
     setCategory(category)
+  }
+
+  const toggleFilterModal = () => {
+    setFilterModal(!filterModal)
+  }
+
+  const handleFilters = () => {
+    const params = filtersRef.current
+    console.log('selected mountain routes', params['filters'])
   }
 
   useEffect(() => {
@@ -136,9 +152,24 @@ export default function SidebarContentBrowsingPage() {
           </Grid>
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
-          <h5 className='textHeading' style={{ marginBottom: '4%' }}>
-            Top 3 neighbourhood
-          </h5>
+          <Grid container style={{ marginTop: '5%', marginBottom: '5%' }}>
+            <Grid item xs={10} md={10} lg={10}>
+              <h5 className='textHeading' style={{ margin: '0' }}>
+                Top 3 neighbourhood
+              </h5>
+            </Grid>
+            <Grid item xs={2} md={2} lg={2}>
+              <IconButton aria-label='upload picture' component='span'>
+                <FilterListIcon onClick={toggleFilterModal}></FilterListIcon>
+              </IconButton>
+              <Filters
+                stateRef={filtersRef}
+                handleFilters={handleFilters}
+                src={filters}
+                open={filterModal}
+              ></Filters>
+            </Grid>
+          </Grid>
           <FormControl>
             <StyledToggleButtonGroup
               value={category}
