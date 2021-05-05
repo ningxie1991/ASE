@@ -24,3 +24,10 @@ hs_err_pid*
 
 #IntelliJ files
 .idea/
+/.metadata/
+/.gradle/
+/.idea/
+/.build/
+/Servers/
+
+calculator-service/src/main/resources/application.properties

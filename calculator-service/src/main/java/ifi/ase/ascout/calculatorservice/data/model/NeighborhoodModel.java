@@ -1,7 +1,9 @@
 package ifi.ase.ascout.calculatorservice.data.model;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Document(collection = "airbnb_neighborhoods")
 public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
     private String name;
     private String placeId;

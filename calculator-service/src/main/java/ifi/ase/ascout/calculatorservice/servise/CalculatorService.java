@@ -7,7 +7,9 @@ import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.TravelMode;
 import ifi.ase.ascout.calculatorservice.data.dto.BestNeighborhoodsQueryDTO;
 import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
+import ifi.ase.ascout.calculatorservice.data.repository.NeighborhoodsRepository;
 import ifi.ase.ascout.calculatorservice.utils.UTILS;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +20,21 @@ import java.util.stream.IntStream;
 @Service
 public class CalculatorService implements ICalculatorService{
     private final GeoApiContext context;
+    @Autowired
+    private NeighborhoodsRepository repository;
 
     public CalculatorService(@Value("${api.key}") String apiKey) {
         this.context = new GeoApiContext.Builder()
                 .apiKey(apiKey)
                 .build();
     }
+    public List<NeighborhoodModel> getAllNeighborhoods(){
+        return repository.findAll();
+    }
 
     public long[][] getCostMatrix(DistanceMatrix dMatrix){
         // TODO regulation and balance
-        int rlen = dMatrix.rows.length;
+        int rlen = dMatrix.rows.length;//TODO NullPointerException: null
         int clen = dMatrix.rows[0].elements.length;
         long[][] cMatrix = new long[rlen][clen];
         for(int i=0;i<rlen;++i){
@@ -73,8 +80,8 @@ public class CalculatorService implements ICalculatorService{
 
         for(String s :origin_attractions) System.err.println(s.toString());
 
-        //TODO Get Neighborhoods List from real database
-        List<NeighborhoodModel> neiList = UTILS.dummyNList();
+        //FIXME German neighborhood names result in failure
+        List<NeighborhoodModel> neiList = repository.findAll();//=UTILS.dummyNList();
         String[] destination_neighborhoods = UTILS.getNeiIDs(neiList);// col names,destination/neighborhood names
 
         DistanceMatrix matrix = null;
@@ -88,7 +95,7 @@ public class CalculatorService implements ICalculatorService{
         }catch(InterruptedException | ApiException | IOException e){
             
         }
-        System.err.println(matrix);
+        //FIXME what if null matrix
         long[][] costMatrix = getCostMatrix(matrix);
         int[] groupIds = query.getGroupIds();
         long[] neighborhoodCosts = getNeighborhoodCosts(costMatrix,groupIds);

@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = CalculateController.class)
 @ExtendWith(SpringExtension.class)
-class CalculateControllerTests {
+class CalculatorControllerTests {
     @Autowired
     private MockMvc mockMvc;
     @Autowired

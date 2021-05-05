@@ -4,21 +4,27 @@ package ifi.ase.ascout.calculatorservice;
 import ifi.ase.ascout.calculatorservice.data.dto.AttractionDTO;
 import ifi.ase.ascout.calculatorservice.data.dto.BestNeighborhoodsQueryDTO;
 import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
-import ifi.ase.ascout.calculatorservice.servise.CalculatorService;
+import ifi.ase.ascout.calculatorservice.data.repository.NeighborhoodsRepository;
+import ifi.ase.ascout.calculatorservice.servise.ICalculatorService;
+import ifi.ase.ascout.calculatorservice.utils.UTILS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
-
+import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.ArrayList;
 import java.util.List;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class CalculatorServiceTests {
     @Autowired
-    private CalculatorService service;
+    private ICalculatorService service;
+    @MockBean
+    private NeighborhoodsRepository repository;
 
     @Test
     public void oneAttractionTest() throws Exception {
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
         AttractionDTO attraction1 = new AttractionDTO("Brandenburg Gate",1);
         List<AttractionDTO> attractionList = new ArrayList<>();
         attractionList.add(attraction1);
@@ -28,6 +34,7 @@ public class CalculatorServiceTests {
     }
     @Test
     public void validAttractionsTest() throws Exception {
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
         List<AttractionDTO> attractionList = new ArrayList<>();
         attractionList.add(new AttractionDTO("Brandenburg Gate",1));
         attractionList.add(new AttractionDTO("Berlin Wall",1));
