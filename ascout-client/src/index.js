@@ -8,7 +8,7 @@ import hist from './utils/History'
 
 ReactDOM.render(
   <Router history={hist}>
-    <App />
+      <App />
   </Router>,
   document.getElementById('root')
 )

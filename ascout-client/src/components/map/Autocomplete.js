@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
-  position: relative;
+  position: absolute;
+  z-index: 1;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 10%;
   padding: 20px;
   text-align: center;
 `
@@ -59,6 +60,7 @@ class AutoComplete extends Component {
       <Wrapper>
         <input
           className='search-input'
+          width='200px'
           ref={(ref) => {
             this.searchInput = ref
           }}

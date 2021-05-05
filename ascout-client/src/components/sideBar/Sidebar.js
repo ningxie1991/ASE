@@ -6,8 +6,8 @@ import './sidebar.css'
 import SidebarContentPage1 from './SidebarContentPage1'
 
 class Sidebar extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
   }
   async componentDidMount() {}
 
@@ -28,7 +28,10 @@ class Sidebar extends Component {
           </Grid>
           <Grid container>
             <Grid item xs={12} md={12} lg={12} style={{ paddingLeft: '3%' }}>
-              <SidebarContentPage1></SidebarContentPage1>
+              <SidebarContentPage1
+                  attractions={this.props.attractions}
+                  onRemoveAttraction={this.props.onRemoveAttraction}
+              ></SidebarContentPage1>
             </Grid>
           </Grid>
         </Paper>

@@ -72,7 +72,6 @@ export default function WelcomeModal1(props) {
       <Dialog
         aria-labelledby='customized-dialog-title'
         open={open}
-        titleStyle={{ textAlign: 'center' }}
         maxWidth='sm'
         fullWidth
       >

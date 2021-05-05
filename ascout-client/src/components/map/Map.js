@@ -6,6 +6,13 @@ import styled from 'styled-components'
 
 import AutoComplete from './Autocomplete'
 import Marker from './Marker'
+import MarkerWithInfoBox from './MarkerWithInfoBox'
+import {
+  IconButton,
+  ListItem
+} from "@material-ui/core";
+import ClearIcon
+  from "@material-ui/icons/Clear";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -13,22 +20,28 @@ const Wrapper = styled.main`
 `
 
 class Map extends Component {
-  state = {
-    mapApiLoaded: false,
-    mapInstance: null,
-    mapApi: null,
-    geoCoder: null,
-    places: [],
-    center: [],
-    zoom: 1,
-    address: '',
-    draggable: true,
-    lat: null,
-    lng: null,
+  constructor (props) {
+    super(props);
+    this.state = {
+      mapApiLoaded: false,
+      mapInstance: null,
+      mapApi: null,
+      geoCoder: null,
+      places: [],
+      currentPlace: {},
+      center: [],
+      zoom: 1,
+      address: '',
+      name: '',
+      pictureUrl: '',
+      draggable: true,
+      lat: null,
+      lng: null
+    }
   }
 
   componentWillMount() {
-    this.setCurrentLocation()
+    this.setCurrentLocation();
   }
 
   onMarkerInteraction = (childKey, childProps, mouse) => {
@@ -68,13 +81,28 @@ class Map extends Component {
   }
 
   addPlace = (place) => {
+
+    let name = place.name;
+    let placeId = place.place_id;
+    let pictureUrl = place.photos && place.photos[0] ? place.photos[0].getUrl({maxWidth: 200}) : '';
+    let lat = place.geometry.location.lat();
+    let lng = place.geometry.location.lng();
+    let currentPlace = {
+      name: name,
+      placeId: placeId,
+      lat: lat,
+      lng: lng,
+      pictureUrl: pictureUrl
+    }
+
     this.setState((prevState) => ({
       places: [...prevState.places, place],
-      lat: place.geometry.location.lat(),
-      lng: place.geometry.location.lng(),
+      currentPlace: currentPlace
     }))
-    this._generateAddress()
+
+    //this._generateAddress()
   }
+
 
   _generateAddress() {
     const { mapApi } = this.state
@@ -114,32 +142,54 @@ class Map extends Component {
   }
 
   render() {
-    const { places, mapApiLoaded, mapInstance, mapApi } = this.state
+    const { attractions, currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
 
     return (
       <Wrapper>
+        {mapApiLoaded && (
+            <div>
+              <AutoComplete map={mapInstance} mapApi={mapApi} addplace={this.addPlace} />
+            </div>
+        )}
         <GoogleMapReact
           center={this.state.center}
           zoom={this.state.zoom}
           draggable={this.state.draggable}
-          onChange={this._onChange}
-          onChildMouseDown={this.onMarkerInteraction}
-          onChildMouseUp={this.onMarkerInteractionMouseUp}
-          onChildMouseMove={this.onMarkerInteraction}
-          onChildClick={() => console.log('child click')}
-          onClick={this._onClick}
+          //onChange={this._onChange}
+          //onChildMouseDown={this.onMarkerInteraction}
+          //onChildMouseUp={this.onMarkerInteractionMouseUp}
+          //nChildMouseMove={this.onMarkerInteraction}
+          //onChildClick={() => console.log('child click')}
+          //onClick={this._onClick}
           bootstrapURLKeys={{
-            key: 'AIzaSyAqAZ-LMpAfAi3pb9vSStkowVaJaVJ3LYg',
+            key: 'AIzaSyDgniqQ4LcK1HxEOaLE1kIoUcx0YWArZUY',
             libraries: ['places', 'geometry'],
           }}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
         >
-          <Marker
-            text={this.state.address}
-            lat={this.state.lat}
-            lng={this.state.lng}
+
+          {this.props.attractions && (
+              this.props.attractions.map(function(attraction){
+              return (
+                  <Marker
+                      key={attraction.placeId}
+                      lat={attraction.lat}
+                      lng={attraction.lng}
+                      pictureUrl={attraction.pictureUrl}
+                  />
+              );
+            }, this)
+          )}
+
+          <MarkerWithInfoBox
+              key={currentPlace.placeId}
+              lat={currentPlace.lat}
+              lng={currentPlace.lng}
+              attraction={currentPlace}
+              onAddAttraction={this.props.onAddAttraction}
           />
+
         </GoogleMapReact>
 
         <div className='info-wrapper'>

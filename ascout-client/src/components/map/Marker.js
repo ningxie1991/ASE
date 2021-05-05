@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import {Avatar} from "@material-ui/core";
 
 const Wrapper = styled.div`
   position: absolute;
   width: 38px;
   height: 37px;
-  background-image: url(https://icon-library.com/images/pin-icon-png/pin-icon-png-9.jpg);
   background-size: contain;
   background-repeat: no-repeat;
   -webkit-user-select: none;
@@ -18,7 +18,9 @@ const Wrapper = styled.div`
   cursor: grab;
 `
 
-const Marker = ({ text, onClick }) => <Wrapper alt={text} onClick={onClick} />
+const Marker = ({ pictureUrl, lat, lng, text }) => <Wrapper alt={text} >
+  <Avatar src={pictureUrl} />
+</Wrapper>
 
 Marker.defaultProps = {
   onClick: null,
