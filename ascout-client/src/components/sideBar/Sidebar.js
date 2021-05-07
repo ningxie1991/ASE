@@ -1,43 +1,47 @@
 import { Paper } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../../assets/imgs/logo.png'
 import './sidebar.css'
-import SidebarContentPage1 from './SidebarContentPage1'
+import SidebarContentBrowsingPage from 'pages/browsing/SidebarContentBrowsingPage'
+import SidebarContentLandingPage from 'pages/landing/SidebarContentLandingPage'
 
-class Sidebar extends Component {
-  constructor(props) {
-    super(props)
-  }
-  async componentDidMount() {}
+export default function Sidebar(props) {
+  const [path, setPath] = useState('')
 
-  render() {
-    return (
-      <div style={{ height: '100%' }}>
-        <Paper elevation={3} style={{ height: '100%' }}>
-          <Grid
-            container
-            justify='center'
-            style={{
-              borderBottom: '1px solid #BCB7B7',
-              paddingBottom: '4%',
-              paddingTop: '2%',
-            }}
-          >
-            <img src={logo} alt='logo' />
+  useEffect(() => {
+    const pathname = window.location.pathname //returns the current url minus the domain name
+    console.log('path name', pathname)
+    setPath(pathname)
+  }, [])
+
+  return (
+    <div style={{ height: '100%' }}>
+      <Paper elevation={3} style={{ height: '100%' }}>
+        <Grid
+          container
+          justify='center'
+          style={{
+            borderBottom: '1px solid #BCB7B7',
+            paddingBottom: '4%',
+            paddingTop: '2%',
+          }}
+        >
+          <img src={logo} alt='logo' />
+        </Grid>
+        <Grid container>
+          <Grid item xs={12} md={12} lg={12} style={{ padding: '3%' }}>
+            {path.includes('listings') ? (
+              <SidebarContentBrowsingPage></SidebarContentBrowsingPage>
+            ) : (
+              <SidebarContentLandingPage
+                attractions={props.attractions}
+                onRemoveAttraction={props.onRemoveAttraction}
+              ></SidebarContentLandingPage>
+            )}
           </Grid>
-          <Grid container>
-            <Grid item xs={12} md={12} lg={12} style={{ paddingLeft: '3%' }}>
-              <SidebarContentPage1
-                  attractions={this.props.attractions}
-                  onRemoveAttraction={this.props.onRemoveAttraction}
-              ></SidebarContentPage1>
-            </Grid>
-          </Grid>
-        </Paper>
-      </div>
-    )
-  }
+        </Grid>
+      </Paper>
+    </div>
+  )
 }
-
-export default Sidebar

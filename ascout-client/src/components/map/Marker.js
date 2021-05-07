@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import {Avatar} from "@material-ui/core";
+import { Avatar } from '@material-ui/core'
 
 const Wrapper = styled.div`
   position: absolute;
@@ -18,9 +18,11 @@ const Wrapper = styled.div`
   cursor: grab;
 `
 
-const Marker = ({ pictureUrl, lat, lng, text }) => <Wrapper alt={text} >
-  <Avatar src={pictureUrl} />
-</Wrapper>
+const Marker = ({ pictureUrl, lat, lng, key }) => (
+  <Wrapper alt={key}>
+    <Avatar src={pictureUrl} />
+  </Wrapper>
+)
 
 Marker.defaultProps = {
   onClick: null,
@@ -28,7 +30,7 @@ Marker.defaultProps = {
 
 Marker.propTypes = {
   onClick: PropTypes.func,
-  text: PropTypes.string.isRequired,
+  key: PropTypes.string.required,
 }
 
 export default Marker
