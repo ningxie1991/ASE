@@ -33,22 +33,46 @@ public class ListingsController {
     @Autowired
     private ListingsDetailRepository listingsDetailRepository;
 
-    @GetMapping("/allListings")
-    public ResponseEntity<List<ListingsModel>> getAllListings() {
+    @GetMapping("/neighbourhood={neighbourhood}")
+    public ResponseEntity<List<ListingsModel>> getByNeighbourhood(@PathVariable String neighbourhood,
+                                                                  @RequestParam(defaultValue = "true") String paging,
+                                                                  @RequestParam(defaultValue = "0") int page,
+                                                                  @RequestParam(defaultValue = "10") int size) {
 
-        listings = listingsRepository.findAll();
+        if(paging.equals("true")) {
+            listings = listingsRepository.findByNeighbourhood(neighbourhood, PageRequest.of(page, size));
+        }else if(paging.equals("false")){
+            listings = listingsRepository.findByNeighbourhood(neighbourhood);
+        }
+
         if (listings.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(listings);
     }
 
-    @GetMapping("/neighbourhood={neighbourhood}")
-    public ResponseEntity<List<ListingsModel>> getByNeighbourhood(@PathVariable String neighbourhood,
-                                                                  @RequestParam(defaultValue = "0") int page,
-                                                                  @RequestParam(defaultValue = "10") int size) {
+    @PostMapping(path = "/neighbourhoods", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<List<ListingsModel>> getByNeighbourhoods(@RequestBody List<String> neighbourhoods,
+                                                                   @RequestParam(defaultValue = "true") String paging,
+                                                                   @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "10") int size) {
 
-        listings = listingsRepository.findByNeighbourhood(neighbourhood, PageRequest.of(page, size));
+        if(paging.equals("true")) {
+            listings = listingsRepository.findByNeighbourhoodIn(neighbourhoods, PageRequest.of(page, size));
+        }else if(paging.equals("false")){
+            listings = listingsRepository.findByNeighbourhoodIn(neighbourhoods);
+        }
+
+        if (listings.isEmpty())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(listings);
+    }
+
+    @GetMapping("/allListings")
+    public ResponseEntity<List<ListingsModel>> getAllListings() {
+
+        listings = listingsRepository.findAll();
         if (listings.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
