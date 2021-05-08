@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ListingsRepository extends MongoRepository<ListingsModel, String> {
-
     // find the listings by neighbourhood with paging
     List<ListingsModel> findByNeighbourhood(@Param("neighbourhood") String neighbourhood, Pageable pageable);
 

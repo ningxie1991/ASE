@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import getAllListings from '../services/browseService';
+import getListingsFromNeighbourhood from "../services/browseService";
 
 class Home extends Component{
 
@@ -11,7 +11,7 @@ class Home extends Component{
     }
 
     async componentDidMount() {
-        const allListings = await getAllListings();
+        const allListings = await getListingsFromNeighbourhood("Brunnenstr. Süd");
         this.setState({ allListings: allListings });
     }
 
