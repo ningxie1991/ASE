@@ -12,7 +12,7 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import getAllListings from 'services/browseService'
+import getListingsByNeighbourhood, { getAllListings, getListingsByNeighbourhoodList } from 'services/browseService'
 import Pagination from '@material-ui/lab/Pagination'
 import Chip from '@material-ui/core/Chip'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
@@ -20,7 +20,9 @@ import EditLocationIcon from '@material-ui/icons/EditLocation'
 import FilterListIcon from '@material-ui/icons/FilterList'
 import IconButton from '@material-ui/core/IconButton'
 import Filters from './Filters'
-export default function SidebarContentBrowsingPage() {
+import LinearProgress from '@material-ui/core/LinearProgress';
+
+export default function SidebarContentBrowsingPage(props) {
   const useStyles = makeStyles({
     root: {
       minWidth: 275,
@@ -48,7 +50,7 @@ export default function SidebarContentBrowsingPage() {
       '&:first-child': {
         borderRadius: theme.shape.borderRadius,
       },
-      fontSize: '12px',
+      fontSize: '11px',
       lineHeight: '1px',
     },
   }))(ToggleButtonGroup)
@@ -56,8 +58,10 @@ export default function SidebarContentBrowsingPage() {
   const classes = useStyles()
   const bull = <span className={classes.bullet}>•</span>
 
-  const [category, setCategory] = useState('neibourhood_1')
-  const [lisitngs, setListings] = useState([])
+  const [category, setCategory] = useState('0')
+  const [listings, setListings] = useState([])
+  const [neighbourhoods, setNeighbourhoods] = useState([])
+  const [loadingListings, setLoadingListings] = useState(false);
   const [filterModal, setFilterModal] = useState(false)
   const [filters, setFilters] = useState([])
   const [error, setError] = useState('')
@@ -93,6 +97,33 @@ export default function SidebarContentBrowsingPage() {
     }
   }, [])
 
+  const findNeighbourhoods = () => {
+    // hardcode for now, To-Do: call calculator service
+    const neighbourhoods = ["Brunnenstr. Süd","Prenzlauer Berg Nordwest","Schöneberg-Nord"];
+    setNeighbourhoods(neighbourhoods);
+    getListingsByNeighbourhoods(neighbourhoods);
+  }
+
+  const getListingsByNeighbourhoods = (neighbourhoods) => {
+    try {
+      //redux store
+      setLoadingListings(true);
+      getListingsByNeighbourhoodList(neighbourhoods)
+          .then((res) => {
+            setListings(res.data)
+            setLoadingListings(false);
+            props.onPopulateListings(res.data);
+          })
+          .catch((err) => {
+            console.log(err)
+            setError(err)
+          })
+    } catch (error) {
+      console.log(error.response)
+      setError(error.response)
+    }
+  }
+
   return (
     <div>
       <Grid container>
@@ -120,8 +151,9 @@ export default function SidebarContentBrowsingPage() {
                 color='primary'
                 variant='contained'
                 style={{ fontSize: '12px', float: 'right' }}
+                onClick={() => { findNeighbourhoods(); }}
               >
-                Edit Locations
+                Find Neighbourhood
                 <EditLocationIcon
                   style={{ paddingLeft: '3%' }}
                 ></EditLocationIcon>
@@ -129,33 +161,23 @@ export default function SidebarContentBrowsingPage() {
             </Grid>
           </Grid>
           <Grid item xs={12} md={12} lg={12} style={{ textAlign: 'left' }}>
-            <Chip
-              label='location_1'
-              icon={<LocationOnIcon />}
-              style={{ margin: '1%' }}
-            />
-            <Chip
-              label='location_2'
-              icon={<LocationOnIcon />}
-              style={{ margin: '1%' }}
-            />
-            <Chip
-              label='location_3'
-              icon={<LocationOnIcon />}
-              style={{ margin: '1%' }}
-            />
-            <Chip
-              label='location_4'
-              icon={<LocationOnIcon />}
-              style={{ margin: '1%' }}
-            />
+            {props.attractions && props.attractions.map(function(attraction){
+              return (
+                  <Chip
+                      label={attraction.name}
+                      icon={<LocationOnIcon />}
+                      style={{ margin: '1%' }}
+                      onDelete={() => { props.onRemoveAttraction(attraction) }}
+                  />
+              )}
+            )}
           </Grid>
         </Grid>
         <Grid item xs={12} md={12} lg={12}>
           <Grid container style={{ marginTop: '5%', marginBottom: '5%' }}>
             <Grid item xs={10} md={10} lg={10}>
               <h5 className='textHeading' style={{ margin: '0' }}>
-                Top 3 neighbourhood
+                Top 3 Neighbourhood
               </h5>
             </Grid>
             <Grid item xs={2} md={2} lg={2}>
@@ -177,9 +199,12 @@ export default function SidebarContentBrowsingPage() {
               onChange={handleCategory}
               aria-label='text alignmepynt'
             >
-              <ToggleButton value='neibourhood_1'>Neighbourhood 1</ToggleButton>
-              <ToggleButton value='neibourhood_2'>Neighbourhood 2</ToggleButton>
-              <ToggleButton value='neibourhood_3'>Neighbourhood 3</ToggleButton>
+              {neighbourhoods && neighbourhoods.map(function(neighbourhood, index){
+                  return (
+                      <ToggleButton value={index}>{neighbourhood}</ToggleButton>
+                  )
+               })
+              }
             </StyledToggleButtonGroup>
           </FormControl>
         </Grid>
@@ -188,297 +213,74 @@ export default function SidebarContentBrowsingPage() {
           xs={12}
           md={12}
           lg={12}
-          style={{ overflowY: 'auto', height: '550px' }}
+          style={{ overflowY: 'auto', height: '630px' }}
         >
-          <Grid item xs={12} md={12} lg={12} style={{ marginBottom: '3%' }}>
-            <Card className={classes.root}>
-              <CardContent style={{ textAlign: 'left' }}>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Private room in Lausanne
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  Listing Name
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  adjective
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  {'"a benevolent smile"'}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  component='p'
-                  style={{ float: 'right' }}
-                >
-                  116CHF
-                </Typography>
-              </CardContent>
-              <CardActions style={{ width: '100%', display: 'inline-block' }}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ fontSize: '12px', float: 'right' }}
-                >
-                  More Details
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ marginBottom: '3%' }}>
-            <Card className={classes.root}>
-              <CardContent style={{ textAlign: 'left' }}>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Private room in Lausanne
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  Listing Name
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  adjective
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  {'"a benevolent smile"'}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  component='p'
-                  style={{ float: 'right' }}
-                >
-                  116CHF
-                </Typography>
-              </CardContent>
-              <CardActions style={{ width: '100%', display: 'inline-block' }}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ fontSize: '12px', float: 'right' }}
-                >
-                  More Details
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ marginBottom: '3%' }}>
-            <Card className={classes.root}>
-              <CardContent style={{ textAlign: 'left' }}>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Private room in Lausanne
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  Listing Name
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  adjective
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  {'"a benevolent smile"'}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  component='p'
-                  style={{ float: 'right' }}
-                >
-                  116CHF
-                </Typography>
-              </CardContent>
-              <CardActions style={{ width: '100%', display: 'inline-block' }}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ fontSize: '12px', float: 'right' }}
-                >
-                  More Details
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ marginBottom: '3%' }}>
-            <Card className={classes.root}>
-              <CardContent style={{ textAlign: 'left' }}>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Private room in Lausanne
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  Listing Name
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  adjective
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  {'"a benevolent smile"'}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  component='p'
-                  style={{ float: 'right' }}
-                >
-                  116CHF
-                </Typography>
-              </CardContent>
-              <CardActions style={{ width: '100%', display: 'inline-block' }}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ fontSize: '12px', float: 'right' }}
-                >
-                  More Details
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ marginBottom: '3%' }}>
-            <Card className={classes.root}>
-              <CardContent style={{ textAlign: 'left' }}>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Private room in Lausanne
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  Listing Name
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  adjective
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  {'"a benevolent smile"'}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  component='p'
-                  style={{ float: 'right' }}
-                >
-                  116CHF
-                </Typography>
-              </CardContent>
-              <CardActions style={{ width: '100%', display: 'inline-block' }}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ fontSize: '12px', float: 'right' }}
-                >
-                  More Details
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ marginBottom: '3%' }}>
-            <Card className={classes.root}>
-              <CardContent style={{ textAlign: 'left' }}>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Private room in Lausanne
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  Listing Name
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  adjective
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  {'"a benevolent smile"'}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  component='p'
-                  style={{ float: 'right' }}
-                >
-                  116CHF
-                </Typography>
-              </CardContent>
-              <CardActions style={{ width: '100%', display: 'inline-block' }}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ fontSize: '12px', float: 'right' }}
-                >
-                  More Details
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={12} lg={12} style={{ marginBottom: '3%' }}>
-            <Card className={classes.root}>
-              <CardContent style={{ textAlign: 'left' }}>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Private room in Lausanne
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  Listing Name
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  adjective
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  {'"a benevolent smile"'}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  component='p'
-                  style={{ float: 'right' }}
-                >
-                  116CHF
-                </Typography>
-              </CardContent>
-              <CardActions style={{ width: '100%', display: 'inline-block' }}>
-                <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ fontSize: '12px', float: 'right' }}
-                >
-                  More Details
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
+          {loadingListings && <LinearProgress />}
+          {!loadingListings && listings && listings.map(function(listing){
+            return (
+              <Grid
+                  item
+                  xs={12}
+                  md={12}
+                  lg={12}
+                  style={{marginBottom: '3%'}}>
+                <Card
+                    className={classes.root}>
+                  <CardContent
+                      style={{textAlign: 'left'}}>
+                    <Typography
+                        className={classes.title}
+                        color='textSecondary'
+                        gutterBottom
+                    >
+                    </Typography>
+                    <Typography
+                        variant='h5'
+                        component='h2'>
+                      {listing.name}
+                    </Typography>
+                    <Typography
+                        className={classes.pos}
+                        color='textSecondary'>
+                    </Typography>
+                    <Typography
+                        variant='body2'
+                        component='p'>
+                      <img src={listing.picture_url} width="150" height="150" />
+                    </Typography>
+                    <Typography
+                        variant='body2'
+                        component='p'
+                        style={{float: 'right'}}
+                    >
+                      {listing.price} CHF
+                    </Typography>
+                  </CardContent>
+                  <CardActions
+                      style={{
+                        width: '100%',
+                        display: 'inline-block'
+                      }}>
+                    <Button
+                        color='primary'
+                        variant='contained'
+                        style={{
+                          fontSize: '12px',
+                          float: 'right'
+                        }}
+                    >
+                      More
+                      Details
+                      <ArrowForwardIosIcon
+                          style={{paddingLeft: '3%'}}
+                      ></ArrowForwardIosIcon>
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            )}
+          )}
         </Grid>
-
         <Grid
           item
           xs={12}

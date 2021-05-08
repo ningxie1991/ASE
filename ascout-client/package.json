@@ -47,6 +47,7 @@
     "proxy": "http://localhost:3001"
   },
   "devDependencies": {
+    "prop-types": "^15.7.2",
     "react-laag": "^2.0.2"
   }
 }

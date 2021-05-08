@@ -5,8 +5,9 @@ import GoogleMapReact from 'google-map-react'
 import styled from 'styled-components'
 
 import AutoComplete from './Autocomplete'
-import Marker from './Marker'
-import MarkerWithInfoBox from './MarkerWithInfoBox'
+import LocationMarker from './LocationMarker'
+import AttractionMarker from './AttractionMarker'
+import ListingMarker from './ListingMarker'
 import {
   IconButton,
   ListItem
@@ -77,7 +78,7 @@ class Map extends Component {
       mapApi: maps,
     })
 
-    this._generateAddress()
+    this.setChosenCityLocation();
   }
 
   addPlace = (place) => {
@@ -130,6 +131,7 @@ class Map extends Component {
 
   // Get Current Location Coordinates
   setCurrentLocation() {
+
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.setState({
@@ -141,8 +143,38 @@ class Map extends Component {
     }
   }
 
+  setChosenCityLocation() {
+    const {mapApi, mapInstance} = this.state;
+    const request = {
+      query: 'Berlin, Germany',
+      fields: ['name', 'geometry'],
+    }
+
+    const service  = new mapApi.places.PlacesService(mapInstance);
+    service.findPlaceFromQuery(request, (results, status) => {
+      if (status === mapApi.places.PlacesServiceStatus.OK) {
+        const place = results[0];
+        const latitude = place.geometry.location.lat();
+        const longitude = place.geometry.location.lng();
+        this.setState({
+          center: [latitude, longitude],
+          lat: latitude,
+          lng: longitude,
+        });
+        if (place.geometry.viewport) {
+          mapInstance.fitBounds(place.geometry.viewport)
+        } else {
+          mapInstance.setCenter(place.geometry.location)
+          //map.setZoom(17);
+        }
+      }
+    });
+
+
+  }
+
   render() {
-    const { attractions, currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
+    const { currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
 
     return (
       <Wrapper>
@@ -172,8 +204,7 @@ class Map extends Component {
           {this.props.attractions && (
               this.props.attractions.map(function(attraction){
               return (
-                  <Marker
-                      key={attraction.placeId}
+                  <LocationMarker
                       lat={attraction.lat}
                       lng={attraction.lng}
                       pictureUrl={attraction.pictureUrl}
@@ -182,7 +213,19 @@ class Map extends Component {
             }, this)
           )}
 
-          <MarkerWithInfoBox
+          {this.props.listings && (
+              this.props.listings.map(function(listing){
+                return (
+                    <ListingMarker
+                        lat={listing.latitude}
+                        lng={listing.longitude}
+                        listing={listing}
+                    />
+                );
+              }, this)
+          )}
+
+          <AttractionMarker
               key={currentPlace.placeId}
               lat={currentPlace.lat}
               lng={currentPlace.lng}
@@ -191,19 +234,6 @@ class Map extends Component {
           />
 
         </GoogleMapReact>
-
-        <div className='info-wrapper'>
-          <div className='map-details'>
-            Latitude: <span>{this.state.lat}</span>, Longitude:{' '}
-            <span>{this.state.lng}</span>
-          </div>
-          <div className='map-details'>
-            Zoom: <span>{this.state.zoom}</span>
-          </div>
-          <div className='map-details'>
-            Address: <span>{this.state.address}</span>
-          </div>
-        </div>
       </Wrapper>
     )
   }

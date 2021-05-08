@@ -27,12 +27,16 @@ export default function Sidebar(props) {
             paddingTop: '2%',
           }}
         >
-          <img src={logo} alt='logo' />
+            <img src={logo} alt='logo' /> <span style={{fontSize: '14pt'}}>Berlin, Germany</span>
         </Grid>
         <Grid container>
           <Grid item xs={12} md={12} lg={12} style={{ padding: '3%' }}>
             {path.includes('listings') ? (
-              <SidebarContentBrowsingPage></SidebarContentBrowsingPage>
+              <SidebarContentBrowsingPage
+                  attractions={props.attractions}
+                  onRemoveAttraction={props.onRemoveAttraction}
+                  onPopulateListings={props.onPopulateListings}
+              ></SidebarContentBrowsingPage>
             ) : (
               <SidebarContentLandingPage
                 attractions={props.attractions}

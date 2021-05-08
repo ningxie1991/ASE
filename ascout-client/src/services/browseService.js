@@ -1,12 +1,18 @@
 import axios from 'axios'
 import { config } from 'helpers/Constants.js'
 
-//const API_URL = 'http://localhost:3001/browse/';
+export default async function getListingsByNeighbourhood(neighbourhood) {
+  //   return data
+  return await axios.get(`${config.url.REACT_APP_API_BROWSE}/neighbourhood=` + neighbourhood)
+}
 
-export default async function getAllListings() {
-  //   const response = await axios.get(API_URL + 'allListings')
-  //   const data = await response.data
+export async function getListingsByNeighbourhoodList(neighbourhoodList) {
+  //   return data
+  // return await axios.post(`${config.url.REACT_APP_API_BROWSE}/neighbourhoods`, neighbourhoodList)
+   return await axios.post(`http://34.116.255.40:3002/browse/neighbourhoods`, neighbourhoodList)
+}
 
+export async function getAllListings() {
   //   return data
   return await axios.get(`${config.url.REACT_APP_API_BROWSE}/allListings`)
 }

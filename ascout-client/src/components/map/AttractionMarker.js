@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useLayer, useHover, Arrow } from 'react-laag'
-import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@material-ui/core'
-import './MarkerWithInfoBox.css'
+import './AttractionMarker.css'
 
 const StyledMarker = styled.div`
   position: absolute;
@@ -36,7 +35,7 @@ const InfoDetail = styled.span`
   padding: 1em;
 `
 
-export default function Marker({ key, attraction, onAddAttraction }) {
+export default function AttractionMarker({ key, attraction, onAddAttraction }) {
   const [isShown, setShown] = useState(true)
   const [isOpen, setOpen] = useState(false)
 

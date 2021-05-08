@@ -18,19 +18,19 @@ const Wrapper = styled.div`
   cursor: grab;
 `
 
-const Marker = ({ pictureUrl, lat, lng, key }) => (
+const LocationMarker = ({ pictureUrl, lat, lng, key }) => (
   <Wrapper alt={key}>
     <Avatar src={pictureUrl} />
   </Wrapper>
 )
 
-Marker.defaultProps = {
+LocationMarker.defaultProps = {
   onClick: null,
 }
 
-Marker.propTypes = {
+LocationMarker.propTypes = {
   onClick: PropTypes.func,
-  key: PropTypes.string.required,
+  key: PropTypes.string.isRequired,
 }
 
-export default Marker
+export default LocationMarker

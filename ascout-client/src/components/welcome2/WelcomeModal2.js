@@ -63,8 +63,9 @@ export default function WelcomeModal2() {
   const [open, setOpen] = React.useState(true)
 
   const calulateNeighbourhoodButtonClick = () => {
-    hist.push('/home')
+    hist.push('/listings')
   }
+
   return (
     <div>
       <Dialog
