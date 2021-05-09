@@ -8,12 +8,8 @@ import AutoComplete from './Autocomplete'
 import LocationMarker from './LocationMarker'
 import AttractionMarker from './AttractionMarker'
 import ListingMarker from './ListingMarker'
-import {
-  IconButton,
-  ListItem
-} from "@material-ui/core";
-import ClearIcon
-  from "@material-ui/icons/Clear";
+import { IconButton, ListItem } from '@material-ui/core'
+import ClearIcon from '@material-ui/icons/Clear'
 
 const Wrapper = styled.main`
   width: 100%;
@@ -21,8 +17,8 @@ const Wrapper = styled.main`
 `
 
 class Map extends Component {
-  constructor (props) {
-    super(props);
+  constructor(props) {
+    super(props)
     this.state = {
       mapApiLoaded: false,
       mapInstance: null,
@@ -37,12 +33,12 @@ class Map extends Component {
       pictureUrl: '',
       draggable: true,
       lat: null,
-      lng: null
+      lng: null,
     }
   }
 
   componentWillMount() {
-    this.setCurrentLocation();
+    this.setCurrentLocation()
   }
 
   onMarkerInteraction = (childKey, childProps, mouse) => {
@@ -78,32 +74,33 @@ class Map extends Component {
       mapApi: maps,
     })
 
-    this.setChosenCityLocation();
+    this.setChosenCityLocation()
   }
 
   addPlace = (place) => {
-
-    let name = place.name;
-    let placeId = place.place_id;
-    let pictureUrl = place.photos && place.photos[0] ? place.photos[0].getUrl({maxWidth: 200}) : '';
-    let lat = place.geometry.location.lat();
-    let lng = place.geometry.location.lng();
+    let name = place.name
+    let placeId = place.place_id
+    let pictureUrl =
+      place.photos && place.photos[0]
+        ? place.photos[0].getUrl({ maxWidth: 200 })
+        : ''
+    let lat = place.geometry.location.lat()
+    let lng = place.geometry.location.lng()
     let currentPlace = {
       name: name,
       placeId: placeId,
       lat: lat,
       lng: lng,
-      pictureUrl: pictureUrl
+      pictureUrl: pictureUrl,
     }
 
     this.setState((prevState) => ({
       places: [...prevState.places, place],
-      currentPlace: currentPlace
+      currentPlace: currentPlace,
     }))
 
     //this._generateAddress()
   }
-
 
   _generateAddress() {
     const { mapApi } = this.state
@@ -131,7 +128,6 @@ class Map extends Component {
 
   // Get Current Location Coordinates
   setCurrentLocation() {
-
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.setState({
@@ -144,23 +140,23 @@ class Map extends Component {
   }
 
   setChosenCityLocation() {
-    const {mapApi, mapInstance} = this.state;
+    const { mapApi, mapInstance } = this.state
     const request = {
       query: 'Berlin, Germany',
       fields: ['name', 'geometry'],
     }
 
-    const service  = new mapApi.places.PlacesService(mapInstance);
+    const service = new mapApi.places.PlacesService(mapInstance)
     service.findPlaceFromQuery(request, (results, status) => {
       if (status === mapApi.places.PlacesServiceStatus.OK) {
-        const place = results[0];
-        const latitude = place.geometry.location.lat();
-        const longitude = place.geometry.location.lng();
+        const place = results[0]
+        const latitude = place.geometry.location.lat()
+        const longitude = place.geometry.location.lng()
         this.setState({
           center: [latitude, longitude],
           lat: latitude,
           lng: longitude,
-        });
+        })
         if (place.geometry.viewport) {
           mapInstance.fitBounds(place.geometry.viewport)
         } else {
@@ -168,9 +164,7 @@ class Map extends Component {
           //map.setZoom(17);
         }
       }
-    });
-
-
+    })
   }
 
   render() {
@@ -179,9 +173,13 @@ class Map extends Component {
     return (
       <Wrapper>
         {mapApiLoaded && (
-            <div>
-              <AutoComplete map={mapInstance} mapApi={mapApi} addplace={this.addPlace} />
-            </div>
+          <div>
+            <AutoComplete
+              map={mapInstance}
+              mapApi={mapApi}
+              addplace={this.addPlace}
+            />
+          </div>
         )}
         <GoogleMapReact
           center={this.state.center}
@@ -194,45 +192,41 @@ class Map extends Component {
           //onChildClick={() => console.log('child click')}
           //onClick={this._onClick}
           bootstrapURLKeys={{
-            key: 'AIzaSyDgniqQ4LcK1HxEOaLE1kIoUcx0YWArZUY',
+            key: '', //todo please change the API key
             libraries: ['places', 'geometry'],
           }}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
         >
-
-          {this.props.attractions && (
-              this.props.attractions.map(function(attraction){
+          {this.props.attractions &&
+            this.props.attractions.map(function (attraction) {
               return (
-                  <LocationMarker
-                      lat={attraction.lat}
-                      lng={attraction.lng}
-                      pictureUrl={attraction.pictureUrl}
-                  />
-              );
-            }, this)
-          )}
+                <LocationMarker
+                  lat={attraction.lat}
+                  lng={attraction.lng}
+                  pictureUrl={attraction.pictureUrl}
+                />
+              )
+            }, this)}
 
-          {this.props.listings && (
-              this.props.listings.map(function(listing){
-                return (
-                    <ListingMarker
-                        lat={listing.latitude}
-                        lng={listing.longitude}
-                        listing={listing}
-                    />
-                );
-              }, this)
-          )}
+          {this.props.listings &&
+            this.props.listings.map(function (listing) {
+              return (
+                <ListingMarker
+                  lat={listing.latitude}
+                  lng={listing.longitude}
+                  listing={listing}
+                />
+              )
+            }, this)}
 
           <AttractionMarker
-              key={currentPlace.placeId}
-              lat={currentPlace.lat}
-              lng={currentPlace.lng}
-              attraction={currentPlace}
-              onAddAttraction={this.props.onAddAttraction}
+            key={currentPlace.placeId}
+            lat={currentPlace.lat}
+            lng={currentPlace.lng}
+            attraction={currentPlace}
+            onAddAttraction={this.props.onAddAttraction}
           />
-
         </GoogleMapReact>
       </Wrapper>
     )
