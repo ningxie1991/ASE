@@ -90,7 +90,7 @@ class Map extends Component {
     let lng = place.geometry.location.lng();
     let currentPlace = {
       name: name,
-      placeId: placeId,
+      placeId: name,
       lat: lat,
       lng: lng,
       pictureUrl: pictureUrl
@@ -194,7 +194,7 @@ class Map extends Component {
           //onChildClick={() => console.log('child click')}
           //onClick={this._onClick}
           bootstrapURLKeys={{
-            key: 'AIzaSyDgniqQ4LcK1HxEOaLE1kIoUcx0YWArZUY',
+            key: 'AIzaSyCbKaQsuL6O1PJH73XG7Pjdg2uD0TGPUuI', //todo please change the API key
             libraries: ['places', 'geometry'],
           }}
           yesIWantToUseGoogleMapApiInternals

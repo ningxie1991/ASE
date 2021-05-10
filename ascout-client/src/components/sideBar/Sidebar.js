@@ -35,7 +35,7 @@ export default function Sidebar(props) {
               <SidebarContentBrowsingPage
                   attractions={props.attractions}
                   onRemoveAttraction={props.onRemoveAttraction}
-                  onPopulateListings={props.onPopulateListings}
+                  onMarkListings={props.onMarkListings}
               ></SidebarContentBrowsingPage>
             ) : (
               <SidebarContentLandingPage

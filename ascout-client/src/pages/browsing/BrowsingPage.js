@@ -25,7 +25,7 @@ export default class BrowsingPage extends Component {
     this.setState({ attractions })
   }
 
-  populateListings = (listings) => {
+  markListings = (listings) => {
     this.setState({ listings })
   }
 
@@ -43,7 +43,7 @@ export default class BrowsingPage extends Component {
               <Sidebar
                   attractions={this.state.attractions}
                   onRemoveAttraction={this.removeAttraction}
-                  onPopulateListings={this.populateListings}
+                  onMarkListings={this.markListings}
               ></Sidebar>
             </Grid>
             <Grid

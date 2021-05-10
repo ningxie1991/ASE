@@ -12,7 +12,7 @@ import Card from '@material-ui/core/Card'
 import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import getListingsByNeighbourhood, { getAllListings, getListingsByNeighbourhoodList } from 'services/browseService'
+import getListingsByNeighbourhood, { getListingsByNeighbourhoodList } from 'services/browseService'
 import Pagination from '@material-ui/lab/Pagination'
 import Chip from '@material-ui/core/Chip'
 import LocationOnIcon from '@material-ui/icons/LocationOn'
@@ -21,6 +21,7 @@ import FilterListIcon from '@material-ui/icons/FilterList'
 import IconButton from '@material-ui/core/IconButton'
 import Filters from './Filters'
 import LinearProgress from '@material-ui/core/LinearProgress';
+import getBestNeighbourhoods from "../../services/calculatorService";
 
 export default function SidebarContentBrowsingPage(props) {
   const useStyles = makeStyles({
@@ -80,28 +81,26 @@ export default function SidebarContentBrowsingPage(props) {
     console.log('selected mountain routes', params['filters'])
   }
 
-  useEffect(() => {
+  const findNeighbourhoods = () => {
+    // hardcode for now, To-Do: call calculator service
     try {
-      //redux store
-      getAllListings()
-        .then((res) => {
-          setListings(res.data)
-        })
-        .catch((err) => {
-          console.log(err)
-          setError(err)
-        })
+      // redux store
+      // setLoadingListings(true);
+      getBestNeighbourhoods(props.attractions)
+          .then((res) => {
+            setNeighbourhoods(res.data);
+            //setLoadingListings(false);
+          })
+          .catch((err) => {
+            console.log(err)
+            setError(err)
+          })
     } catch (error) {
       console.log(error.response)
       setError(error.response)
+    } finally {
+      getListingsByNeighbourhoods(neighbourhoods);
     }
-  }, [])
-
-  const findNeighbourhoods = () => {
-    // hardcode for now, To-Do: call calculator service
-    const neighbourhoods = ["Brunnenstr. Süd","Prenzlauer Berg Nordwest","Schöneberg-Nord"];
-    setNeighbourhoods(neighbourhoods);
-    getListingsByNeighbourhoods(neighbourhoods);
   }
 
   const getListingsByNeighbourhoods = (neighbourhoods) => {
@@ -112,7 +111,7 @@ export default function SidebarContentBrowsingPage(props) {
           .then((res) => {
             setListings(res.data)
             setLoadingListings(false);
-            props.onPopulateListings(res.data);
+            props.onMarkListings(res.data);
           })
           .catch((err) => {
             console.log(err)
