@@ -85,11 +85,11 @@ export default function SidebarContentBrowsingPage(props) {
     // hardcode for now, To-Do: call calculator service
     try {
       // redux store
-      // setLoadingListings(true);
-      getBestNeighbourhoods(props.attractions)
+      getBestNeighbourhoods({ attractionList: props.attractions, travelMode: 'TRANSIT'})
           .then((res) => {
-            setNeighbourhoods(res.data);
-            //setLoadingListings(false);
+            const data = res.data;
+            setNeighbourhoods(data);
+            getListingsByNeighbourhoods(data);
           })
           .catch((err) => {
             console.log(err)
@@ -98,8 +98,6 @@ export default function SidebarContentBrowsingPage(props) {
     } catch (error) {
       console.log(error.response)
       setError(error.response)
-    } finally {
-      getListingsByNeighbourhoods(neighbourhoods);
     }
   }
 
@@ -107,7 +105,8 @@ export default function SidebarContentBrowsingPage(props) {
     try {
       //redux store
       setLoadingListings(true);
-      getListingsByNeighbourhoodList(neighbourhoods)
+      const neighbourhoodNames = neighbourhoods.map(n => n.name);
+      getListingsByNeighbourhoodList(neighbourhoodNames)
           .then((res) => {
             setListings(res.data)
             setLoadingListings(false);
@@ -200,7 +199,7 @@ export default function SidebarContentBrowsingPage(props) {
             >
               {neighbourhoods && neighbourhoods.map(function(neighbourhood, index){
                   return (
-                      <ToggleButton value={index}>{neighbourhood}</ToggleButton>
+                      <ToggleButton value={index}>{neighbourhood.name}</ToggleButton>
                   )
                })
               }
