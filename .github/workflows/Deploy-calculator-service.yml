@@ -15,7 +15,7 @@ name: Build and deploy calculator-service to GKE
 on:
    push:
     branches:
-    - ASCOUT-16-create-calculator-service
+    - develop
     paths: 
         - "calculator-service/**"
 
