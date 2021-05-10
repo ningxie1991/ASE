@@ -16,3 +16,4 @@ spec:
     app: browse-service
   sessionAffinity: None
   type: LoadBalancer
+  loadBalancerIP: "34.65.207.172"
