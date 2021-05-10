@@ -30,8 +30,8 @@ hs_err_pid*
 */.idea/
 */build/
 /Servers/
-
-#gradle files
-/.gradle/
+.vscode/
 
 calculator-service/src/main/resources/application.properties
+
+
