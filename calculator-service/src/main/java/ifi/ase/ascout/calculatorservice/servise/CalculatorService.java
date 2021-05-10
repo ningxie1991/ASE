@@ -42,30 +42,6 @@ public class CalculatorService implements ICalculatorService{
         return repository.findAll();
     }
 
-    public double[] getNeighborhoodCosts(double[][] costMatrix, int[] groupIds){
-        //rlen=cnum = number of neighborhoods, as destinations;
-        int rlen = costMatrix.length;
-        //clen=rnum = number of attractions, as origins;
-        int clen = costMatrix[0].length;
-        double[] neiToAllCosts = new double[clen];
-        IntStream.range(0, clen).forEach(i -> neiToAllCosts[i] = 0);
-        double[] neiToGroupCost = costMatrix[0];
-        for(int i=1;i<rlen;++i){
-            if(groupIds[i]==groupIds[i-1]){//Same group, take minimum
-                //neiToGroupCost = min{costMatrix[i],neiToGroupCost}
-                for(int j=0;j<clen;++j){
-                    UTILS.min_rows(neiToGroupCost,costMatrix[i]);
-                }
-            }else{//Change group, adds to neiToAllCosts, optionally with weight
-                //neiToAllCosts += neiToGroupCost
-                UTILS.add_rows(neiToAllCosts,neiToGroupCost);
-                neiToGroupCost = costMatrix[i];
-            }
-        }
-        UTILS.add_rows(neiToAllCosts,neiToGroupCost);
-        return neiToAllCosts;
-    }
-
     @Override
     public List<NeighborhoodModel> bestNeighborhoods(BestNeighborhoodsQueryDTO query) {
         //TODO what if name is null : java.lang.NullPointerException
