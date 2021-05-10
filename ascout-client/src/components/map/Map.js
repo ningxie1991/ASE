@@ -139,7 +139,16 @@ class Map extends Component {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         })
-      })
+      }, () => {
+        // hardcode Berlin geometry location
+        const latitude = 52.52000659999999;
+        const longitude = 13.404954
+        this.setState({
+          center: [latitude, longitude],
+          lat: latitude,
+          lng: longitude,
+        })
+      });
     }
   }
 
