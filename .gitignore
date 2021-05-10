@@ -12,6 +12,7 @@
 
 # Package Files #
 *.jar
+!*/gradle/wrapper/gradle-wrapper.jar
 *.war
 *.nar
 *.ear
@@ -24,5 +25,13 @@ hs_err_pid*
 
 #IntelliJ files
 .idea/
-
+/.metadata/
+*/.gradle/
+*/.idea/
+*/build/
+/Servers/
 .vscode/
+
+calculator-service/src/main/resources/application.properties
+
+
