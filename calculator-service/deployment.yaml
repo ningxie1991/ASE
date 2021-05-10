@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: calculator-service
+  name: calculator-service
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calculator-service
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: calculator-service
+    spec:
+      containers:
+      - image: gcr.io/PROJECT_ID/IMAGE:TAG
+        imagePullPolicy: IfNotPresent
+        name: calculator-service
+      restartPolicy: Always
