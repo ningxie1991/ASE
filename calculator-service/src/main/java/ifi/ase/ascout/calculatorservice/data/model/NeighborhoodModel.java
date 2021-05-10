@@ -3,11 +3,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Document(collection = "airbnb_neighborhoods")
+@Document(collection = "neighbourhoods")
 public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
     private String name;
-    private String placeId;
-    private long score;
+    private String place_id;
+    private double score;
 
     private String city;
     private String group;
@@ -18,6 +18,7 @@ public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
 
     public NeighborhoodModel(){
         this.name = "test";
+        this.place_id = null;
         this.city = "test";
         this.picture_url = "optional";
         this.description = "optional";
@@ -82,10 +83,14 @@ public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
     public void setDecription(String decription) {
         this.description = decription;
     }
-    public Long getScore() { return score; }
-    public void setScore(long score) { this.score = score; }
-    public String getPlaceId() { return placeId; }
-    public void setPlaceId(String placeId) { this.placeId = placeId; }
+    public Double getScore() { return score; }
+    public void setScore(double score) { this.score = score; }
+    public String getPlace_id() {
+        return place_id;
+    }
+    public void setPlace_id(String place_id) {
+        this.place_id = place_id;
+    }
 
     @Override
     public int compareTo(NeighborhoodModel o) {
