@@ -25,7 +25,7 @@ public class CalculatorServiceTests {
     @Test
     public void oneAttractionTest() throws Exception {
         when(repository.findAll()).thenReturn(UTILS.dummyNList());
-        AttractionDTO attraction1 = new AttractionDTO("Brandenburg Gate",1);
+        AttractionDTO attraction1 = new AttractionDTO("ChIJiQnyVcZRqEcRY0xnhE77uyY",1);
         List<AttractionDTO> attractionList = new ArrayList<>();
         attractionList.add(attraction1);
         BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,"DRIVING");
@@ -36,9 +36,9 @@ public class CalculatorServiceTests {
     public void validAttractionsTest() throws Exception {
         when(repository.findAll()).thenReturn(UTILS.dummyNList());
         List<AttractionDTO> attractionList = new ArrayList<>();
-        attractionList.add(new AttractionDTO("Brandenburg Gate",1));
-        attractionList.add(new AttractionDTO("Berlin Wall",1));
-        attractionList.add(new AttractionDTO("Museum Island",1));
+        attractionList.add(new AttractionDTO("ChIJiQnyVcZRqEcRY0xnhE77uyY",1));
+        attractionList.add(new AttractionDTO("ChIJZ0KxF_JRqEcRrLHB-4r-U-o",1));
+        attractionList.add(new AttractionDTO("ChIJx8qLPN9RqEcRB2gSnmw5bJM",1));
         BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,"DRIVING");
         List<NeighborhoodModel> result = service.bestNeighborhoods(q);
         for( NeighborhoodModel nm :result){
