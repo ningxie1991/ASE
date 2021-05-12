@@ -90,7 +90,7 @@ class Map extends Component {
     let lng = place.geometry.location.lng();
     let currentPlace = {
       name: name,
-      placeId: name,
+      placeId: placeId,
       lat: lat,
       lng: lng,
       pictureUrl: pictureUrl
