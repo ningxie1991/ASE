@@ -1,19 +1,11 @@
 import React, { Component } from 'react'
-
 import GoogleMapReact from 'google-map-react'
-
 import styled from 'styled-components'
-
 import AutoComplete from './Autocomplete'
 import LocationMarker from './LocationMarker'
 import AttractionMarker from './AttractionMarker'
 import ListingMarker from './ListingMarker'
-import {
-  IconButton,
-  ListItem
-} from "@material-ui/core";
-import ClearIcon
-  from "@material-ui/icons/Clear";
+import { config } from 'helpers/Constants.js'
 
 const Wrapper = styled.main`
   width: 100%;
@@ -203,7 +195,7 @@ class Map extends Component {
           //onChildClick={() => console.log('child click')}
           //onClick={this._onClick}
           bootstrapURLKeys={{
-            key: 'AIzaSyCbKaQsuL6O1PJH73XG7Pjdg2uD0TGPUuI', //todo please change the API key
+            key: `${config.api_key}`, //todo please change the API key
             libraries: ['places', 'geometry'],
           }}
           yesIWantToUseGoogleMapApiInternals
