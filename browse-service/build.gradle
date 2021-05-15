@@ -35,3 +35,4 @@ sonarqube {
 test {
     useJUnitPlatform()
 }
+
