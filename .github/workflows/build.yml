@@ -1,8 +1,8 @@
-name: Build
+oname: Build
 on:
   push:
     branches:
-      - master
+      - develop
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
