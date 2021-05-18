@@ -78,7 +78,7 @@ public class ListingsController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(listings);
     }
-
+ 
     @GetMapping("/allListingsDetail")
     public ResponseEntity<List<ListingsDetailModel>> getAllListingsDetail() {
 
