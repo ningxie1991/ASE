@@ -79,6 +79,7 @@ class Map extends Component {
     })
 
     this.setChosenCityLocation();
+    this.overrideInfoWindowClick();
   }
 
   addPlace = (place) => {
