@@ -204,6 +204,40 @@ class Map extends Component {
     }
   }
 
+  overrideInfoWindowClick = () => {
+    const {  mapInstance, mapApi } = this.state
+
+    //override the built-in setPosition-method
+    mapApi.InfoWindow.prototype.setPosition = function () {
+      //this property isn't documented, but as it seems
+      //it's only defined for InfoWindows opened on POI's
+      if(this.logAsInternal) {
+        mapApi.event.addListenerOnce(this, 'map_changed',function () {
+          //the infoWindow will be opened, usually after a click on a POI
+          if(mapInstance) {
+            //trigger the click
+            mapApi.event.trigger(mapInstance, 'click', {latLng: this.getPosition()});
+          }
+        });
+      }
+    };
+
+    mapApi.event.addListener(mapInstance,'click', (e) => {
+      if(e.placeId) {
+        const request = {
+          placeId: e.placeId,
+          fields: ['name', 'geometry', 'place_id', 'photo'],
+        }
+        const service  = new mapApi.places.PlacesService(mapInstance);
+        service.getDetails(request, (place, status) => {
+          if (status === mapApi.places.PlacesServiceStatus.OK) {
+            this.addPlace(place)
+          }
+        });
+      }
+    });
+  }
+
   render() {
     const { currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
     const { attractions, listings } = this.props
@@ -219,11 +253,11 @@ class Map extends Component {
           center={this.state.center}
           zoom={this.state.zoom}
           draggable={this.state.draggable}
-          onChange={this._onChange}
-          onChildMouseDown={this.onMarkerInteraction}
-          onChildMouseUp={this.onMarkerInteractionMouseUp}
-          nChildMouseMove={this.onMarkerInteraction}
-          onChildClick={() => console.log('child click')}
+          //onChange={this._onChange}
+          //onChildMouseDown={this.onMarkerInteraction}
+          //onChildMouseUp={this.onMarkerInteractionMouseUp}
+          //onChildMouseMove={this.onMarkerInteraction}
+          //onChildClick={() => console.log('child click')}
           onClick={this._onClick}
           bootstrapURLKeys={{
             key: `${config.api_key}`, //todo please change the API key
@@ -246,7 +280,7 @@ class Map extends Component {
                       pictureUrl={attraction.pictureUrl}
                   />
               );
-            }, this)
+            })
           )}
 
           {listings && (
@@ -258,7 +292,7 @@ class Map extends Component {
                         listing={listing}
                     />
                 );
-              }, this)
+              })
           )}
 
           {currentPlace.placeId && <AttractionMarker

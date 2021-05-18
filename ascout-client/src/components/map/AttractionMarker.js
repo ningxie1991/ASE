@@ -32,7 +32,11 @@ const InfoBox = styled.div`
 `
 
 const InfoDetail = styled.span`
-  padding: 1em;
+  padding: 0.8em;
+  font-size: 10pt;
+  display:block;
+  width:200px;
+  word-wrap:break-word;
 `
 
 export default function AttractionMarker({ key, attraction, onAddAttraction }) {
@@ -43,8 +47,8 @@ export default function AttractionMarker({ key, attraction, onAddAttraction }) {
   const { triggerProps, layerProps, arrowProps, renderLayer } = useLayer({
     isOpen,
     placement: 'bottom-center',
-    triggerOffset: 8,
-    //onOutsideClick: () => setOpen(false),
+    triggerOffset: 0,
+    onOutsideClick: () => setOpen(false),
     onDisappear: (type) => {
       //if (type === 'full') setOpen(false)
     },
@@ -65,7 +69,6 @@ export default function AttractionMarker({ key, attraction, onAddAttraction }) {
             <img src={attraction.pictureUrl} />
             <br />
             <InfoDetail>{attraction.name}</InfoDetail>
-            <br />
             <Button
               color='primary'
               style={{
