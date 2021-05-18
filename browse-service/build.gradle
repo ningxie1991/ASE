@@ -2,6 +2,15 @@ plugins {
     id 'org.springframework.boot' version '2.4.4'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id "org.sonarqube" version "3.2.0"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "ningxie1991_ASE"
+        property "sonar.organization", "ningxie"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
 }
 
 group = 'ifi.ase.ascout'
