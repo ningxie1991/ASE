@@ -23,18 +23,26 @@ class Map extends Component {
       places: [],
       currentPlace: {},
       center: [],
-      zoom: 1,
+      zoom: 10,
       address: '',
       name: '',
       pictureUrl: '',
       draggable: true,
       lat: null,
-      lng: null
+      lng: null,
+      cityViewPort: null
     }
   }
 
   componentWillMount() {
     this.setCurrentLocation();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.attractions !== this.props.attractions ||
+        prevProps.listings !== this.props.listings) {
+      this.fitMapBounds();
+    }
   }
 
   onMarkerInteraction = (childKey, childProps, mouse) => {
@@ -137,8 +145,8 @@ class Map extends Component {
         const longitude = 13.404954
         this.setState({
           center: [latitude, longitude],
-          lat: latitude,
-          lng: longitude,
+          //lat: latitude,
+          //lng: longitude,
         })
       });
     }
@@ -157,25 +165,48 @@ class Map extends Component {
         const place = results[0];
         const latitude = place.geometry.location.lat();
         const longitude = place.geometry.location.lng();
+        let viewPort = place.geometry.viewport;
+        mapInstance.fitBounds(viewPort)
         this.setState({
           center: [latitude, longitude],
-          lat: latitude,
-          lng: longitude,
+          cityViewPort: viewPort
+          //lat: latitude,
+          //lng: longitude,
         });
-        if (place.geometry.viewport) {
-          mapInstance.fitBounds(place.geometry.viewport)
-        } else {
-          mapInstance.setCenter(place.geometry.location)
-          //map.setZoom(17);
-        }
       }
     });
+  }
 
+  fitMapBounds = () => {
+    const { mapApiLoaded, mapInstance, mapApi } = this.state
+    const { attractions, listings } = this.props
 
+    if (mapApiLoaded) {
+      const bounds = new mapApi.LatLngBounds();
+
+      if(attractions && attractions.length > 1) {
+        attractions.map(function(attraction){
+          const position = {lat: attraction.lat, lng: attraction.lng}
+          bounds.extend(position);
+        });
+      }
+
+      if(listings && listings.length > 0) {
+        listings.map(function(listing){
+          const position = {lat: parseFloat(listing.latitude), lng: parseFloat(listing.longitude)}
+          bounds.extend(position);
+        });
+      }
+
+      if((attractions && attractions.length > 1) || (listings && listings.length > 1)) {
+        mapInstance.fitBounds(bounds);
+      }
+    }
   }
 
   render() {
     const { currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
+    const { attractions, listings } = this.props
 
     return (
       <Wrapper>
@@ -188,22 +219,26 @@ class Map extends Component {
           center={this.state.center}
           zoom={this.state.zoom}
           draggable={this.state.draggable}
-          //onChange={this._onChange}
-          //onChildMouseDown={this.onMarkerInteraction}
-          //onChildMouseUp={this.onMarkerInteractionMouseUp}
-          //nChildMouseMove={this.onMarkerInteraction}
-          //onChildClick={() => console.log('child click')}
-          //onClick={this._onClick}
+          onChange={this._onChange}
+          onChildMouseDown={this.onMarkerInteraction}
+          onChildMouseUp={this.onMarkerInteractionMouseUp}
+          nChildMouseMove={this.onMarkerInteraction}
+          onChildClick={() => console.log('child click')}
+          onClick={this._onClick}
           bootstrapURLKeys={{
             key: `${config.api_key}`, //todo please change the API key
             libraries: ['places', 'geometry'],
+            mapIds: [`${config.map_id}`]
+          }}
+          options={{
+            mapId: `${config.map_id}`,
           }}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
         >
 
-          {this.props.attractions && (
-              this.props.attractions.map(function(attraction){
+          {attractions && (
+              attractions.map(function(attraction){
               return (
                   <LocationMarker
                       lat={attraction.lat}
@@ -214,8 +249,8 @@ class Map extends Component {
             }, this)
           )}
 
-          {this.props.listings && (
-              this.props.listings.map(function(listing){
+          {listings && (
+              listings.map(function(listing){
                 return (
                     <ListingMarker
                         lat={listing.latitude}
@@ -226,13 +261,13 @@ class Map extends Component {
               }, this)
           )}
 
-          <AttractionMarker
+          {currentPlace.placeId && <AttractionMarker
               key={currentPlace.placeId}
               lat={currentPlace.lat}
               lng={currentPlace.lng}
               attraction={currentPlace}
               onAddAttraction={this.props.onAddAttraction}
-          />
+          />}
 
         </GoogleMapReact>
       </Wrapper>

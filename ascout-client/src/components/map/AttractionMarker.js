@@ -37,7 +37,7 @@ const InfoDetail = styled.span`
 
 export default function AttractionMarker({ key, attraction, onAddAttraction }) {
   const [isShown, setShown] = useState(true)
-  const [isOpen, setOpen] = useState(false)
+  const [isOpen, setOpen] = useState(true)
 
   // specify the appended div id on the container option
   const { triggerProps, layerProps, arrowProps, renderLayer } = useLayer({
@@ -46,7 +46,7 @@ export default function AttractionMarker({ key, attraction, onAddAttraction }) {
     triggerOffset: 8,
     //onOutsideClick: () => setOpen(false),
     onDisappear: (type) => {
-      if (type === 'full') setOpen(false)
+      //if (type === 'full') setOpen(false)
     },
   })
 
