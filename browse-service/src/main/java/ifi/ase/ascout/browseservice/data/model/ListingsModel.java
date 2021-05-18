@@ -36,7 +36,7 @@ public class ListingsModel {
     private String propertyType;
 
     @Field(name="room_type")
-    private String room_type;
+    private String roomType;
 
     @Field(name="accommodates")
     private String accommodates;
@@ -137,12 +137,12 @@ public class ListingsModel {
         this.propertyType = propertyType;
     }
 
-    public String getRoom_type() {
-        return room_type;
+    public String getRoomType() {
+        return roomType;
     }
 
-    public void setRoom_type(String room_type) {
-        this.room_type = room_type;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
     public String getAccommodates() {
