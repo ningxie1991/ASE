@@ -244,6 +244,7 @@ class Map extends Component {
 
   drawNeighbourhood(bounds) {
     const { mapApiLoaded, mapInstance, mapApi } = this.state
+
     if (mapApiLoaded) {
       var data = {
         type: 'Feature',
@@ -366,6 +367,9 @@ class Map extends Component {
           lng: boundary[0],
         }
         bounds.extend(position)
+      })
+      mapInstance.data.forEach(function (feature) {
+        mapInstance.data.remove(feature)
       })
       mapInstance.data.addGeoJson(data)
     }
