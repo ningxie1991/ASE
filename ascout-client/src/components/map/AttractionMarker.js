@@ -32,7 +32,11 @@ const InfoBox = styled.div`
 `
 
 const InfoDetail = styled.span`
-  padding: 1em;
+  padding: 0.8em;
+  font-size: 10pt;
+  display: block;
+  width: 200px;
+  word-wrap: break-word;
 `
 
 export default function AttractionMarker({ key, attraction, onAddAttraction }) {
@@ -62,7 +66,7 @@ export default function AttractionMarker({ key, attraction, onAddAttraction }) {
       {isOpen &&
         renderLayer(
           <InfoBox key={key} {...layerProps}>
-            <img src={attraction.pictureUrl} />
+            <img src={attraction.pictureUrl} width='200' height='150' />
             <br />
             <InfoDetail>{attraction.name}</InfoDetail>
             <br />
