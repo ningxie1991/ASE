@@ -9,7 +9,7 @@ const dev = {
     OPEN_STREET_MAP_GEO_LOCATION:
       'http://polygons.openstreetmap.fr/get_geojson.py',
   },
-  api_key: 'AIzaSyCbKaQsuL6O1PJH73XG7Pjdg2uD0TGPUuI',
-  map_id: '3349742210282c73'
+  api_key: "AIzaSyCbKaQsuL6O1PJH73XG7Pjdg2uD0TGPUuI",
+  map_id: "3349742210282c73"
 }
 export const config = process.env.NODE_ENV === 'development' ? dev : prod

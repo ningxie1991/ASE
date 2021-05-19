@@ -24,14 +24,14 @@ class Map extends Component {
       places: [],
       currentPlace: {},
       center: [],
-      zoom: 1,
+      zoom: 10,
       address: '',
       name: '',
       pictureUrl: '',
       draggable: true,
       lat: null,
       lng: null,
-      cityViewPort: null,
+      cityViewPort: null
       error: ''
     }
   }
@@ -46,6 +46,13 @@ class Map extends Component {
       prevProps.listings !== this.props.listings
     ) {
       this.fitMapBounds()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.attractions !== this.props.attractions ||
+        prevProps.listings !== this.props.listings) {
+      this.fitMapBounds();
     }
   }
 
@@ -82,8 +89,8 @@ class Map extends Component {
       mapApi: maps,
     })
 
-    this.setChosenCityLocation()
-    this.overrideInfoWindowClick()
+    this.setChosenCityLocation();
+    this.overrideInfoWindowClick();
   }
 
   addPlace = (place) => {
@@ -150,8 +157,8 @@ class Map extends Component {
         const longitude = 13.404954
         this.setState({
           center: [latitude, longitude],
-          lat: latitude,
-          lng: longitude,
+          //lat: latitude,
+          //lng: longitude,
         })
       });
    }
@@ -167,19 +174,19 @@ class Map extends Component {
     const service = new mapApi.places.PlacesService(mapInstance)
     service.findPlaceFromQuery(request, (results, status) => {
       if (status === mapApi.places.PlacesServiceStatus.OK) {
-        const place = results[0]
-        const latitude = place.geometry.location.lat()
-        const longitude = place.geometry.location.lng()
-        let viewPort = place.geometry.viewport
+        const place = results[0];
+        const latitude = place.geometry.location.lat();
+        const longitude = place.geometry.location.lng();
+        let viewPort = place.geometry.viewport;
         mapInstance.fitBounds(viewPort)
         this.setState({
           center: [latitude, longitude],
-          cityViewPort: viewPort,
-          lat: latitude,
-          lng: longitude,
-        })
+          cityViewPort: viewPort
+          //lat: latitude,
+          //lng: longitude,
+        });
       }
-    })
+    });
   }
 
   fitMapBounds = () => {
@@ -212,7 +219,7 @@ class Map extends Component {
       //TODO why checking > 1
       if (
         (attractions && attractions.length > 1) ||
-        (listings && listings.length > 1) ||
+        (listings && listings.length > 0) ||
         (neighbourhoods && neighbourhoods.length > 0)
       ) {
         mapInstance.fitBounds(bounds)
@@ -398,14 +405,14 @@ class Map extends Component {
           placeId: e.placeId,
           fields: ['name', 'geometry', 'place_id', 'photo'],
         }
-        const service = new mapApi.places.PlacesService(mapInstance)
+        const service  = new mapApi.places.PlacesService(mapInstance);
         service.getDetails(request, (place, status) => {
           if (status === mapApi.places.PlacesServiceStatus.OK) {
             this.addPlace(place)
           }
-        })
+        });
       }
-    })
+    });
   }
 
   render() {
@@ -430,52 +437,52 @@ class Map extends Component {
           //onChange={this._onChange}
           //onChildMouseDown={this.onMarkerInteraction}
           //onChildMouseUp={this.onMarkerInteractionMouseUp}
-          //nChildMouseMove={this.onMarkerInteraction}
+          //onChildMouseMove={this.onMarkerInteraction}
           //onChildClick={() => console.log('child click')}
-          //onClick={this._onClick}
+          onClick={this._onClick}
           bootstrapURLKeys={{
             key: `${config.api_key}`, //todo please change the API key
             libraries: ['places', 'geometry'],
-            mapIds: [`${config.map_id}`],
+            mapIds: [`${config.map_id}`]
           }}
           options={{
             mapId: `${config.map_id}`,
-
           }}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
         >
-          {attractions &&
-            attractions.map(function (attraction) {
-              return (
-                <LocationMarker
-                  lat={attraction.lat}
-                  lng={attraction.lng}
-                  pictureUrl={attraction.pictureUrl}
-                />
-              )
-            })}
 
-          {listings &&
-            listings.map(function (listing) {
+          {attractions && (
+              attractions.map(function(attraction){
               return (
-                <ListingMarker
-                  lat={listing.latitude}
-                  lng={listing.longitude}
-                  listing={listing}
-                />
-              )
-            })}
+                  <LocationMarker
+                      lat={attraction.lat}
+                      lng={attraction.lng}
+                      pictureUrl={attraction.pictureUrl}
+                  />
+              );
+            })
+          )}
 
-          {currentPlace.placeId && (
-            <AttractionMarker
+          {listings && (
+              listings.map(function(listing){
+                return (
+                    <ListingMarker
+                        lat={listing.latitude}
+                        lng={listing.longitude}
+                        listing={listing}
+                    />
+                );
+              })
+          )}
+
+          {currentPlace.placeId && <AttractionMarker
               key={currentPlace.placeId}
               lat={currentPlace.lat}
               lng={currentPlace.lng}
               attraction={currentPlace}
               onAddAttraction={this.props.onAddAttraction}
-           />
-          )}
+          />}
         </GoogleMapReact>
       </Wrapper>
     )
