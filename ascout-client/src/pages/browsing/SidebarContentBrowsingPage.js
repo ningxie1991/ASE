@@ -24,7 +24,6 @@ import IconButton from '@material-ui/core/IconButton'
 import Filters from './Filters'
 import LinearProgress from '@material-ui/core/LinearProgress'
 import getBestNeighbourhoods from '../../services/calculatorService'
-import ScrollAnimation from 'react-animate-on-scroll'
 export default function SidebarContentBrowsingPage(props) {
   const useStyles = makeStyles({
     root: {
@@ -129,7 +128,7 @@ export default function SidebarContentBrowsingPage(props) {
 
   const setPaginatedData = (dataFiltered) => {
     var count = 0
-    var chunk = 10
+    var chunk = 44
     var tempArray = []
     for (var i = 0, j = dataFiltered.length; i < j; i += chunk) {
       tempArray.push(dataFiltered.slice(i, i + chunk))
@@ -137,6 +136,7 @@ export default function SidebarContentBrowsingPage(props) {
     }
     setBoundaryNum(count)
     setPaginatedNeighbourhoodListings(tempArray)
+    props.onMarkListings(tempArray[paginateCount - 1])
   }
 
   const getListingsByNeighbourhoods = (neighbourhoods) => {
@@ -155,7 +155,7 @@ export default function SidebarContentBrowsingPage(props) {
           setDisplayNeighbourhoodListings(dataFiltered)
           setPaginatedData(dataFiltered)
           setLoadingListings(false)
-          props.onMarkListings(dataFiltered)
+          //props.onMarkListings(dataFiltered)
         })
         .catch((err) => {
           console.log(err)
@@ -444,7 +444,7 @@ export default function SidebarContentBrowsingPage(props) {
               <Pagination
                 hidden={boundaryNum == 0}
                 color='primary'
-                onChange={(event, val) => setPaginateCount(val)}
+                onChange={(event, val) => {setPaginateCount(val); props.onMarkListings(paginatedNeighbourhoodListings[val - 1])}}
                 count={boundaryNum}
               />
             </Grid>
