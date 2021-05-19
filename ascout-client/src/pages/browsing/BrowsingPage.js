@@ -3,12 +3,12 @@ import React, { Component } from 'react'
 import Map from 'components/map/Map'
 import Sidebar from 'components/sideBar/Sidebar'
 export default class BrowsingPage extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
       attractions: [],
-      listings: []
+      listings: [],
+      neighbourhoods: [],
     }
   }
 
@@ -30,35 +30,32 @@ export default class BrowsingPage extends Component {
     this.setState({ listings })
   }
 
+  markNeighbourhoods = (neighbourhoods) => {
+    this.setState({ neighbourhoods })
+  }
+
   render() {
     return (
-        <div>
-          <Grid
-              container
-              style={{height: '100vh'}}>
-            <Grid
-                item
-                md={3}
-                xs={3}
-                style={{background: 'white'}}>
-              <Sidebar
-                  attractions={this.state.attractions}
-                  onRemoveAttraction={this.removeAttraction}
-                  onMarkListings={this.markListings}
-              ></Sidebar>
-            </Grid>
-            <Grid
-                item
-                md={9}
-                xs={9}>
-              <Map
-                  attractions={this.state.attractions}
-                  listings={this.state.listings}
-                  onAddAttraction={this.addAttraction}
-              ></Map>
-            </Grid>
+      <div>
+        <Grid container style={{ height: '100vh' }}>
+          <Grid item md={4} xs={4} style={{ background: 'white' }}>
+            <Sidebar
+              attractions={this.state.attractions}
+              onRemoveAttraction={this.removeAttraction}
+              onMarkListings={this.markListings}
+              onMarkNeighbourhoods={this.markNeighbourhoods}
+            ></Sidebar>
           </Grid>
-        </div>
+          <Grid item md={8} xs={8}>
+            <Map
+              attractions={this.state.attractions}
+              listings={this.state.listings}
+              onAddAttraction={this.addAttraction}
+              neighbourhoods={this.state.neighbourhoods}
+            ></Map>
+          </Grid>
+        </Grid>
+      </div>
     )
   }
 }

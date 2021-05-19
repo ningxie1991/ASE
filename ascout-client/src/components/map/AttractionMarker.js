@@ -66,7 +66,7 @@ export default function AttractionMarker({ key, attraction, onAddAttraction }) {
       {isOpen &&
         renderLayer(
           <InfoBox key={key} {...layerProps}>
-            <img src={attraction.pictureUrl} />
+            <img src={attraction.pictureUrl} width='200' height='150' />
             <br />
             <InfoDetail>{attraction.name}</InfoDetail>
             <Button
