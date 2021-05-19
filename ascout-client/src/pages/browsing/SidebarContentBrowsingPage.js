@@ -88,10 +88,6 @@ export default function SidebarContentBrowsingPage(props) {
       setDisplayNeighbourhoodListings(dataFiltered)
       setPaginatedData(dataFiltered)
       props.onMarkListings(dataFiltered)
-    } else {
-      setPaginatedData([])
-      setDisplayNeighbourhoodListings([])
-      props.onMarkListings([])
     }
   }
 
