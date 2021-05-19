@@ -3,12 +3,22 @@ import { config } from 'helpers/Constants.js'
 
 export default async function getListingsByNeighbourhood(neighbourhood) {
   //   return data
-  return await axios.get(`${config.url.BACKEND_BROWSE_API}/neighbourhood=` + neighbourhood)
+  return await axios.get(
+    `${config.url.BACKEND_BROWSE_API}/neighbourhood=` + neighbourhood
+  )
 }
 
 export async function getListingsByNeighbourhoodList(neighbourhoodList) {
   //   return data
-    return await axios.post(`${config.url.BACKEND_BROWSE_API}/neighbourhoods`, neighbourhoodList)
+  return await axios.post(
+    `${config.url.BACKEND_BROWSE_API}/neighbourhoods`,
+    neighbourhoodList,
+    {
+      params: {
+        paging: false,
+      },
+    }
+  )
 }
 
 export async function getAllListings() {
