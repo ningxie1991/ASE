@@ -1,32 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { withStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import InputBase from '@material-ui/core/InputBase'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
-
-const useStyles = (theme) => ({
-  root: {
-    padding: '2px 4px',
-    display: 'flex',
-    alignItems: 'center',
-    width: 400,
-  },
-  input: {
-    marginLeft: theme.spacing(1),
-    flex: 1,
-  },
-  iconButton: {
-    padding: 10,
-  },
-  divider: {
-    height: 28,
-    margin: 4,
-  },
-})
 
 const Wrapper = styled.div`
   position: absolute;
@@ -37,13 +10,6 @@ const Wrapper = styled.div`
   padding: 20px;
   text-align: center;
 `
-
-const searchInput = {
-  width: '100%',
-  height: '40px',
-  border: 'none',
-  padding: '3%',
-}
 
 class AutoComplete extends Component {
   constructor(props) {
@@ -90,31 +56,21 @@ class AutoComplete extends Component {
   }
 
   render() {
-    const { classes } = this.props
     return (
       <Wrapper>
-        <Paper component='form' className={classes.root}>
-          <input
-            className='search-input'
-            style={searchInput}
-            ref={(ref) => {
-              this.searchInput = ref
-            }}
-            type='text'
-            onFocus={this.clearSearchBox}
-            placeholder='Enter a location'
-          />
-          <IconButton
-            type='submit'
-            className={classes.iconButton}
-            aria-label='search'
-          >
-            <SearchIcon />
-          </IconButton>
-        </Paper>
+        <input
+          className='search-input'
+          width='200px'
+          ref={(ref) => {
+            this.searchInput = ref
+          }}
+          type='text'
+          onFocus={this.clearSearchBox}
+          placeholder='Enter a location'
+        />
       </Wrapper>
     )
   }
 }
 
-export default withStyles(useStyles)(AutoComplete)
+export default AutoComplete
