@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useLayer, useHover, Arrow } from 'react-laag'
-import HomeIcon from '@material-ui/icons/Home'
+import HomeIcon from '@material-ui/icons/Home';
 import './AttractionMarker.css'
 
 const StyledMarker = styled.div`
@@ -34,9 +34,9 @@ const InfoBox = styled.div`
 const InfoDetail = styled.span`
   padding: 0.8em;
   font-size: 10pt;
-  display: block;
-  width: 200px;
-  word-wrap: break-word;
+  display:block;
+  width:200px;
+  word-wrap:break-word;
 `
 
 export default function ListingMarker({ key, listing }) {
@@ -66,14 +66,11 @@ export default function ListingMarker({ key, listing }) {
       {isOpen &&
         renderLayer(
           <InfoBox key={key} {...layerProps}>
-            <img src={listing.pictureUrl} width='200' height='150' />
+            <img src={listing.picture_url} width="200" height="150" />
             <br />
-            <InfoDetail>
-              {listing.name}
-              <br />
-              <span style={{ float: 'right', paddingBottom: '0.5em' }}>
-                {listing.price} CHF
-              </span>
+            <InfoDetail>{listing.name}
+            <br/>
+            <span style={{float: 'right', paddingBottom: '0.5em'}}>{listing.price} CHF</span>
             </InfoDetail>
             <Arrow {...arrowProps} />
           </InfoBox>
