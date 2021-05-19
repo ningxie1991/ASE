@@ -35,5 +35,3 @@ hs_err_pid*
 calculator-service/src/main/resources/application.properties
 
 
-
-.history/
