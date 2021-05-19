@@ -308,7 +308,7 @@ export default function SidebarContentBrowsingPage(props) {
             lg={12}
             style={{
               overflowY: 'auto',
-              height: '500px',
+              height: '550px',
               paddingTop: '2%',
               paddingRight: '2%',
             }}
