@@ -251,8 +251,8 @@ export default function SidebarContentBrowsingPage(props) {
             <Grid
               container
               style={{
-                marginTop: '3%',
-                marginBottom: '3%',
+                marginTop: '5%',
+                marginBottom: '5%',
                 width: '100%',
                 paddingLeft: '3%',
               }}
@@ -308,7 +308,7 @@ export default function SidebarContentBrowsingPage(props) {
             lg={12}
             style={{
               overflowY: 'auto',
-              height: '490px',
+              height: '500px',
               paddingTop: '2%',
               paddingRight: '2%',
             }}
