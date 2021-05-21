@@ -1,31 +1,69 @@
 package ifi.ase.ascout.browseservice.data.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Document(collection = "airbnb_listings")
 public class ListingsModel {
 
+    @Field(name="name")
     private String name;
-    private String host_id;
-    private String host_name;
-    private String host_is_superhost;
-    private String neighbourhood_group;
+
+    @Field(name="host_id")
+    private String hostId;
+
+    @Field(name="host_name")
+    private String hostName;
+
+    @Field(name="host_is_superhost")
+    private String hostIsSuperhost;
+
+    @Field(name="neighbourhood_group")
+    private String neighbourhoodGroup;
+
+    @Field(name="neighbourhood")
     private String neighbourhood;
+
+    @Field(name="latitude")
     private String latitude;
+
+    @Field(name="longitude")
     private String longitude;
-    private String property_type;
-    private String room_type;
+
+    @Field(name="property_type")
+    private String propertyType;
+
+    @Field(name="room_type")
+    private String roomType;
+
+    @Field(name="accommodates")
     private String accommodates;
+
+    @Field(name="bathrooms")
     private String bathrooms;
+
+    @Field(name="bedrooms")
     private String bedrooms;
-    private String bed_type;
+
+    @Field(name="bed_type")
+    private String bedType;
+
+    @Field(name="beds")
     private String beds;
-    private String picture_url;
+
+    @Field(name="picture_url")
+    private String pictureUrl;
+
+    @Field(name="price")
     private String price;
-    private String security_deposit;
-    private String cleaning_fee;
+
+    @Field(name="security_deposit")
+    private String securityDeposit;
+
+    @Field(name="cleaning_fee")
+    private String cleaningFee;
 
     public String getName() {
         return name;
@@ -35,36 +73,36 @@ public class ListingsModel {
         this.name = name;
     }
 
-    public String getHost_id() {
-        return host_id;
+    public String getHostId() {
+        return hostId;
     }
 
-    public void setHost_id(String host_id) {
-        this.host_id = host_id;
+    public void setHostId(String hostId) {
+        this.hostId = hostId;
     }
 
-    public String getHost_name() {
-        return host_name;
+    public String getHostName() {
+        return hostName;
     }
 
-    public void setHost_name(String host_name) {
-        this.host_name = host_name;
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 
-    public String getHost_is_superhost() {
-        return host_is_superhost;
+    public String getHostIsSuperhost() {
+        return hostIsSuperhost;
     }
 
-    public void setHost_is_superhost(String host_is_superhost) {
-        this.host_is_superhost = host_is_superhost;
+    public void setHostIsSuperhost(String hostIsSuperhost) {
+        this.hostIsSuperhost = hostIsSuperhost;
     }
 
-    public String getNeighbourhood_group() {
-        return neighbourhood_group;
+    public String getNeighbourhoodGroup() {
+        return neighbourhoodGroup;
     }
 
-    public void setNeighbourhood_group(String neighbourhood_group) {
-        this.neighbourhood_group = neighbourhood_group;
+    public void setNeighbourhoodGroup(String neighbourhoodGroup) {
+        this.neighbourhoodGroup = neighbourhoodGroup;
     }
 
     public String getNeighbourhood() {
@@ -91,12 +129,20 @@ public class ListingsModel {
         this.longitude = longitude;
     }
 
-    public String getRoom_type() {
-        return room_type;
+    public String getPropertyType() {
+        return propertyType;
     }
 
-    public void setRoom_type(String room_type) {
-        this.room_type = room_type;
+    public void setPropertyType(String propertyType) {
+        this.propertyType = propertyType;
+    }
+
+    public String getRoomType() {
+        return roomType;
+    }
+
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
     public String getAccommodates() {
@@ -123,12 +169,12 @@ public class ListingsModel {
         this.bedrooms = bedrooms;
     }
 
-    public String getBed_type() {
-        return bed_type;
+    public String getBedType() {
+        return bedType;
     }
 
-    public void setBed_type(String bed_type) {
-        this.bed_type = bed_type;
+    public void setBedType(String bedType) {
+        this.bedType = bedType;
     }
 
     public String getBeds() {
@@ -139,6 +185,14 @@ public class ListingsModel {
         this.beds = beds;
     }
 
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
     public String getPrice() {
         return price;
     }
@@ -147,35 +201,19 @@ public class ListingsModel {
         this.price = price;
     }
 
-    public String getPicture_url() {
-        return picture_url;
+    public String getSecurityDeposit() {
+        return securityDeposit;
     }
 
-    public void setPicture_url(String picture_url) {
-        this.picture_url = picture_url;
+    public void setSecurityDeposit(String securityDeposit) {
+        this.securityDeposit = securityDeposit;
     }
 
-    public String getProperty_type() {
-        return property_type;
+    public String getCleaningFee() {
+        return cleaningFee;
     }
 
-    public void setProperty_type(String property_type) {
-        this.property_type = property_type;
-    }
-
-    public String getSecurity_deposit() {
-        return security_deposit;
-    }
-
-    public void setSecurity_deposit(String security_deposit) {
-        this.security_deposit = security_deposit;
-    }
-
-    public String getCleaning_fee() {
-        return cleaning_fee;
-    }
-
-    public void setCleaning_fee(String cleaning_fee) {
-        this.cleaning_fee = cleaning_fee;
+    public void setCleaningFee(String cleaningFee) {
+        this.cleaningFee = cleaningFee;
     }
 }
