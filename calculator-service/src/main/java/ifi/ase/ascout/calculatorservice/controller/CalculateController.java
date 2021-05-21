@@ -31,7 +31,10 @@ public class CalculateController {
             List<NeighborhoodModel>
         */
         List<NeighborhoodModel> nList = service.bestNeighborhoods(query);
-        return ResponseEntity.status(HttpStatus.OK).body(nList);//FIXME deal with failure
+        if(nList==null){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(nList);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(nList);
     }
     @GetMapping("/get_test")
     public ResponseEntity<List<NeighborhoodModel>> getTest() {
