@@ -7,6 +7,7 @@ import AttractionMarker from './AttractionMarker'
 import ListingMarker from './ListingMarker'
 import { config } from 'helpers/Constants.js'
 import { getGeoJsonCoordinates } from 'services/calculatorService'
+import MarkerClusterer from '@googlemaps/markerclustererplus';
 
 const Wrapper = styled.main`
   width: 100%;
@@ -31,22 +32,13 @@ class Map extends Component {
       draggable: true,
       lat: null,
       lng: null,
-      cityViewPort: null
+      cityViewPort: null,
       error: ''
     }
   }
 
   componentWillMount() {
     this.setCurrentLocation()
-  }
-
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.attractions !== this.props.attractions ||
-      prevProps.listings !== this.props.listings
-    ) {
-      this.fitMapBounds()
-    }
   }
 
   componentDidUpdate(prevProps) {
@@ -63,6 +55,7 @@ class Map extends Component {
       lng: mouse.lng,
     })
   }
+
   onMarkerInteractionMouseUp = (childKey, childProps, mouse) => {
     this.setState({ draggable: true })
     this._generateAddress()
@@ -214,7 +207,7 @@ class Map extends Component {
             lng: parseFloat(listing.longitude),
           }
           bounds.extend(position)
-        })
+        });
       }
       //TODO why checking > 1
       if (
@@ -419,6 +412,30 @@ class Map extends Component {
     const { currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
     const { attractions, listings } = this.props
 
+    const listingMarkers = listings && (
+        listings.map(function(listing){
+          return (
+              <ListingMarker
+                  lat={listing.latitude}
+                  lng={listing.longitude}
+                  listing={listing}
+              />
+          );
+        })
+    )
+
+    const locationsMarkers = attractions && (
+        attractions.map(function(attraction){
+          return (
+              <LocationMarker
+                  lat={attraction.lat}
+                  lng={attraction.lng}
+                  pictureUrl={attraction.pictureUrl}
+              />
+          );
+        })
+    )
+
     return (
       <Wrapper>
         {mapApiLoaded && (
@@ -452,30 +469,6 @@ class Map extends Component {
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
         >
 
-          {attractions && (
-              attractions.map(function(attraction){
-              return (
-                  <LocationMarker
-                      lat={attraction.lat}
-                      lng={attraction.lng}
-                      pictureUrl={attraction.pictureUrl}
-                  />
-              );
-            })
-          )}
-
-          {listings && (
-              listings.map(function(listing){
-                return (
-                    <ListingMarker
-                        lat={listing.latitude}
-                        lng={listing.longitude}
-                        listing={listing}
-                    />
-                );
-              })
-          )}
-
           {currentPlace.placeId && <AttractionMarker
               key={currentPlace.placeId}
               lat={currentPlace.lat}
@@ -483,6 +476,9 @@ class Map extends Component {
               attraction={currentPlace}
               onAddAttraction={this.props.onAddAttraction}
           />}
+          {locationsMarkers}
+          {listingMarkers}
+
         </GoogleMapReact>
       </Wrapper>
     )
