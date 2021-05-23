@@ -23,8 +23,8 @@ export default function Sidebar(props) {
           justify='center'
           style={{
             borderBottom: '1px solid #BCB7B7',
-            paddingBottom: '4%',
-            paddingTop: '2%',
+            paddingBottom: '1%',
+            paddingTop: '1%',
           }}
         >
           <img src={logo} alt='logo' />
