@@ -97,7 +97,7 @@ export default function SidebarContentBrowsingPage(props) {
       '&:first-child': {
         borderRadius: theme.shape.borderRadius,
       },
-      fontSize: '11px',
+      fontSize: '13px',
       lineHeight: '1px',
     },
   }))(ToggleButtonGroup)
