@@ -42,11 +42,14 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      prevProps.attractions !== this.props.attractions ||
-      prevProps.listings !== this.props.listings
-    ) {
-      this.fitMapBounds()
+    if (prevProps.attractions !== this.props.attractions) {
+      console.log('attr change')
+      this.fitMapBounds(false, false, true)
+    } else if (prevProps.listings !== this.props.listings) {
+      console.log('listings change')
+      this.fitMapBounds(false, true, false)
+    } else if (prevProps.neighbourhoods !== this.props.neighbourhoods) {
+      this.fitMapBounds(true, false, false)
     }
   }
 
@@ -187,38 +190,42 @@ class Map extends Component {
     })
   }
 
-  fitMapBounds = () => {
+  fitMapBounds = (neighbourhoodChange, listingChange, attractionChange) => {
     const { mapApiLoaded, mapInstance, mapApi } = this.state
     const { attractions, listings, neighbourhoods } = this.props
     if (mapApiLoaded) {
       const bounds = new mapApi.LatLngBounds()
-
-      if (attractions && attractions.length > 1) {
-        attractions.map(function (attraction) {
-          const position = { lat: attraction.lat, lng: attraction.lng }
-          bounds.extend(position)
-        })
+      if (attractionChange) {
+        if (attractions && attractions.length > 1) {
+          attractions.map(function (attraction) {
+            const position = { lat: attraction.lat, lng: attraction.lng }
+            bounds.extend(position)
+          })
+        }
+      } else if (listingChange) {
+        if (listings && listings.length > 0) {
+          listings.map(function (listing) {
+            const position = {
+              lat: parseFloat(listing.latitude),
+              lng: parseFloat(listing.longitude),
+            }
+            bounds.extend(position)
+          })
+        } else if (listings.length === 0) {
+          this.drawNeighbourhood(bounds, neighbourhoods, false)
+        }
+      } else if (neighbourhoodChange) {
+        if (neighbourhoods && neighbourhoods.length > 0) {
+          console.log('draw neighbourhood if condiiton')
+          this.drawNeighbourhood(bounds, neighbourhoods)
+        }
       }
 
-      if (neighbourhoods && neighbourhoods.length > 0) {
-        //TODO removed get coordinates method for the moment TODO
-        this.drawNeighbourhood(bounds)
-      }
-
-      if (listings && listings.length > 0) {
-        listings.map(function (listing) {
-          const position = {
-            lat: parseFloat(listing.latitude),
-            lng: parseFloat(listing.longitude),
-          }
-          bounds.extend(position)
-        })
-      }
       //TODO why checking > 1
       if (
-        (attractions && attractions.length > 1) ||
-        (listings && listings.length > 0) ||
-        (neighbourhoods && neighbourhoods.length > 0)
+        (attractions && attractions.length > 1 && attractionChange) ||
+        (listings && listingChange) ||
+        (neighbourhoods && neighbourhoods.length > 0 && neighbourhoodChange)
       ) {
         mapInstance.fitBounds(bounds)
       }
@@ -244,138 +251,65 @@ class Map extends Component {
     }
   }
 
-  drawNeighbourhood(bounds) {
+  drawNeighbourhood(bounds, neighbourhoods, addGeoData = true) {
+    console.log('draw neighbourhood')
     const { mapApiLoaded, mapInstance, mapApi } = this.state
-
-    if (mapApiLoaded) {
-      var data = {
-        type: 'Feature',
-        geometry: {
-          type: 'MultiPolygon',
-          coordinates: [
-            [
-              [
-                [13.2816511, 52.5004783],
-                [13.2817371, 52.5004022],
-                [13.2819224, 52.5001981],
-                [13.2820362, 52.5000433],
-                [13.2819918, 52.5000337],
-                [13.2820644, 52.4997652],
-                [13.2813531, 52.4995496],
-                [13.2823061, 52.4985128],
-                [13.2830907, 52.49776],
-                [13.2831928, 52.497694],
-                [13.2833573, 52.4975586],
-                [13.2834827, 52.4974077],
-                [13.2835143, 52.4973139],
-                [13.2835333, 52.4972936],
-                [13.2838948, 52.4968696],
-                [13.2841616, 52.4965024],
-                [13.2842655, 52.4962953],
-                [13.284317, 52.4961129],
-                [13.2844197, 52.4959045],
-                [13.2845354, 52.4957893],
-                [13.2845102, 52.4957818],
-                [13.2847691, 52.4955452],
-                [13.2847445, 52.4955328],
-                [13.2850414, 52.4953058],
-                [13.2850152, 52.4952972],
-                [13.2852145, 52.4951544],
-                [13.2854127, 52.4951727],
-                [13.2862549, 52.4951172],
-                [13.2861899, 52.4949837],
-                [13.2861483, 52.4946737],
-                [13.2861302, 52.4946518],
-                [13.2864687, 52.4945552],
-                [13.2865533, 52.4946623],
-                [13.2872303, 52.4944987],
-                [13.2877403, 52.4944204],
-                [13.2885788, 52.4943927],
-                [13.2887807, 52.494267],
-                [13.2889704, 52.4943802],
-                [13.2891024, 52.4943678],
-                [13.2891449, 52.4943639],
-                [13.2898561, 52.494329],
-                [13.2898868, 52.4943372],
-                [13.2899283, 52.4943266],
-                [13.2901828, 52.4944345],
-                [13.2908495, 52.4939397],
-                [13.290897, 52.494049],
-                [13.2928782, 52.4928815],
-                [13.2937938, 52.4923395],
-                [13.2949294, 52.4916842],
-                [13.2963627, 52.4909088],
-                [13.2966659, 52.490733],
-                [13.2968963, 52.4905835],
-                [13.2970628, 52.4904701],
-                [13.2974741, 52.4901806],
-                [13.2982752, 52.4895837],
-                [13.2989643, 52.48908],
-                [13.2989675, 52.4890664],
-                [13.2993923, 52.4887502],
-                [13.2996616, 52.4885763],
-                [13.3003754, 52.4880442],
-                [13.3008177, 52.4883287],
-                [13.3015203, 52.4886674],
-                [13.3017468, 52.4887035],
-                [13.3019702, 52.4887356],
-                [13.3005816, 52.489634],
-                [13.3007374, 52.4897697],
-                [13.3013184, 52.4937402],
-                [13.301433, 52.4945236],
-                [13.3005098, 52.4947631],
-                [13.3006911, 52.4948774],
-                [13.3009072, 52.4949133],
-                [13.301218, 52.4950613],
-                [13.3014411, 52.4966131],
-                [13.3013822, 52.4966171],
-                [13.3014383, 52.4970025],
-                [13.3015041, 52.4970096],
-                [13.3016723, 52.4982214],
-                [13.301697, 52.4982951],
-                [13.3016209, 52.4982976],
-                [13.3018529, 52.4990214],
-                [13.3019001, 52.4998258],
-                [13.2964364, 52.5013941],
-                [13.2948701, 52.5019058],
-                [13.295999, 52.5022457],
-                [13.2958893, 52.5024191],
-                [13.2958505, 52.5024805],
-                [13.2953652, 52.5032979],
-                [13.2953037, 52.5033177],
-                [13.2915758, 52.5027628],
-                [13.2897984, 52.5025274],
-                [13.2884141, 52.5023922],
-                [13.2882327, 52.502373],
-                [13.2878935, 52.50235],
-                [13.2874647, 52.5023679],
-                [13.2848752, 52.5014708],
-                [13.2852891, 52.5009777],
-                [13.2843618, 52.5006884],
-                [13.2846249, 52.5003745],
-                [13.2842531, 52.5002585],
-                [13.2839885, 52.5005713],
-                [13.283148, 52.5003092],
-                [13.2827361, 52.5008004],
-                [13.2816511, 52.5004783],
-              ],
-            ],
-          ],
-        },
-      }
-      data.geometry.coordinates[0][0].map((boundary) => {
-        const position = {
-          lat: boundary[1],
-          lng: boundary[0],
-        }
-        bounds.extend(position)
-      })
+    if (addGeoData) {
       mapInstance.data.forEach(function (feature) {
         mapInstance.data.remove(feature)
       })
-      mapInstance.data.addGeoJson(data)
+    }
+
+    if (mapApiLoaded) {
+      neighbourhoods.map((neighbourhood) => {
+        if (neighbourhood.coordinates && neighbourhood.coordinates.length > 0) {
+          var coordinatesFormatted = [JSON.parse(neighbourhood.coordinates)]
+          console.log('coordinates to draw', coordinatesFormatted)
+          var data = {
+            type: 'Feature',
+            geometry: {
+              type: 'MultiPolygon',
+              coordinates: coordinatesFormatted,
+            },
+          }
+          data.geometry.coordinates[0][0].map((boundary) => {
+            const position = {
+              lat: boundary[1],
+              lng: boundary[0],
+            }
+            bounds.extend(position)
+          })
+          if (addGeoData) mapInstance.data.addGeoJson(data)
+        }
+      })
     }
   }
+  // drawNeighbourhood(bounds, coordinates) {
+  //   var coordinatesFormatted = [JSON.parse(coordinates)]
+  //   console.log('coordinate', coordinatesFormatted)
+  //   const { mapApiLoaded, mapInstance, mapApi } = this.state
+
+  //   if (mapApiLoaded) {
+  //     var data = {
+  //       type: 'Feature',
+  //       geometry: {
+  //         type: 'MultiPolygon',
+  //         coordinates: coordinatesFormatted,
+  //       },
+  //     }
+  //     data.geometry.coordinates[0][0].map((boundary) => {
+  //       const position = {
+  //         lat: boundary[1],
+  //         lng: boundary[0],
+  //       }
+  //       bounds.extend(position)
+  //     })
+  //     mapInstance.data.forEach(function (feature) {
+  //       mapInstance.data.remove(feature)
+  //     })
+  //     mapInstance.data.addGeoJson(data)
+  //   }
+  // }
 
   overrideInfoWindowClick = () => {
     const { mapInstance, mapApi } = this.state
