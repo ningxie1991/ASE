@@ -39,8 +39,9 @@ public class CalculateController {
     @GetMapping("/get_test")
     public ResponseEntity<List<NeighborhoodModel>> getTest() {
         List<AttractionDTO> attractionList = new ArrayList<>();
-        attractionList.add(new AttractionDTO("Brandenburg Gate",1));
-        attractionList.add(new AttractionDTO("Museum Island",1));
+        attractionList.add(new AttractionDTO("ChIJiQnyVcZRqEcRY0xnhE77uyY",1));
+        attractionList.add(new AttractionDTO("ChIJZ0KxF_JRqEcRrLHB-4r-U-o",1));
+        attractionList.add(new AttractionDTO("ChIJx8qLPN9RqEcRB2gSnmw5bJM",1));
         BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,"DRIVING");
         return bestNeighborhoods(q);
     }
