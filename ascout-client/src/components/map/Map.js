@@ -7,7 +7,7 @@ import AttractionMarker from './AttractionMarker'
 import ListingMarker from './ListingMarker'
 import { config } from 'helpers/Constants.js'
 import { getGeoJsonCoordinates } from 'services/calculatorService'
-import MarkerClusterer from '@googlemaps/markerclustererplus';
+import MarkerClusterer from '@googlemaps/markerclustererplus'
 
 const Wrapper = styled.main`
   width: 100%;
@@ -33,7 +33,7 @@ class Map extends Component {
       lat: null,
       lng: null,
       cityViewPort: null,
-      error: ''
+      error: '',
     }
   }
 
@@ -42,9 +42,11 @@ class Map extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.attractions !== this.props.attractions ||
-        prevProps.listings !== this.props.listings) {
-      this.fitMapBounds();
+    if (
+      prevProps.attractions !== this.props.attractions ||
+      prevProps.listings !== this.props.listings
+    ) {
+      this.fitMapBounds()
     }
   }
 
@@ -82,8 +84,8 @@ class Map extends Component {
       mapApi: maps,
     })
 
-    this.setChosenCityLocation();
-    this.overrideInfoWindowClick();
+    this.setChosenCityLocation()
+    this.overrideInfoWindowClick()
   }
 
   addPlace = (place) => {
@@ -138,24 +140,27 @@ class Map extends Component {
   // Get Current Location Coordinates
   setCurrentLocation() {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.setState({
-          center: [position.coords.latitude, position.coords.longitude],
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        })
-      }, () => {
-        // hardcode Berlin geometry location
-        const latitude = 52.52000659999999;
-        const longitude = 13.404954
-        this.setState({
-          center: [latitude, longitude],
-          //lat: latitude,
-          //lng: longitude,
-        })
-      });
-   }
- }
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.setState({
+            center: [position.coords.latitude, position.coords.longitude],
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          })
+        },
+        () => {
+          // hardcode Berlin geometry location
+          const latitude = 52.52000659999999
+          const longitude = 13.404954
+          this.setState({
+            center: [latitude, longitude],
+            //lat: latitude,
+            //lng: longitude,
+          })
+        }
+      )
+    }
+  }
 
   setChosenCityLocation() {
     const { mapApi, mapInstance } = this.state
@@ -167,19 +172,19 @@ class Map extends Component {
     const service = new mapApi.places.PlacesService(mapInstance)
     service.findPlaceFromQuery(request, (results, status) => {
       if (status === mapApi.places.PlacesServiceStatus.OK) {
-        const place = results[0];
-        const latitude = place.geometry.location.lat();
-        const longitude = place.geometry.location.lng();
-        let viewPort = place.geometry.viewport;
+        const place = results[0]
+        const latitude = place.geometry.location.lat()
+        const longitude = place.geometry.location.lng()
+        let viewPort = place.geometry.viewport
         mapInstance.fitBounds(viewPort)
         this.setState({
           center: [latitude, longitude],
-          cityViewPort: viewPort
+          cityViewPort: viewPort,
           //lat: latitude,
           //lng: longitude,
-        });
+        })
       }
-    });
+    })
   }
 
   fitMapBounds = () => {
@@ -207,7 +212,7 @@ class Map extends Component {
             lng: parseFloat(listing.longitude),
           }
           bounds.extend(position)
-        });
+        })
       }
       //TODO why checking > 1
       if (
@@ -398,43 +403,43 @@ class Map extends Component {
           placeId: e.placeId,
           fields: ['name', 'geometry', 'place_id', 'photo'],
         }
-        const service  = new mapApi.places.PlacesService(mapInstance);
+        const service = new mapApi.places.PlacesService(mapInstance)
         service.getDetails(request, (place, status) => {
           if (status === mapApi.places.PlacesServiceStatus.OK) {
             this.addPlace(place)
           }
-        });
+        })
       }
-    });
+    })
   }
 
   render() {
     const { currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
     const { attractions, listings } = this.props
 
-    const listingMarkers = listings && (
-        listings.map(function(listing){
-          return (
-              <ListingMarker
-                  lat={listing.latitude}
-                  lng={listing.longitude}
-                  listing={listing}
-              />
-          );
-        })
-    )
+    const listingMarkers =
+      listings &&
+      listings.map(function (listing) {
+        return (
+          <ListingMarker
+            lat={listing.latitude}
+            lng={listing.longitude}
+            listing={listing}
+          />
+        )
+      })
 
-    const locationsMarkers = attractions && (
-        attractions.map(function(attraction){
-          return (
-              <LocationMarker
-                  lat={attraction.lat}
-                  lng={attraction.lng}
-                  pictureUrl={attraction.pictureUrl}
-              />
-          );
-        })
-    )
+    const locationsMarkers =
+      attractions &&
+      attractions.map(function (attraction) {
+        return (
+          <LocationMarker
+            lat={attraction.lat}
+            lng={attraction.lng}
+            pictureUrl={attraction.pictureUrl}
+          />
+        )
+      })
 
     return (
       <Wrapper>
@@ -460,7 +465,7 @@ class Map extends Component {
           bootstrapURLKeys={{
             key: `${config.api_key}`, //todo please change the API key
             libraries: ['places', 'geometry'],
-            mapIds: [`${config.map_id}`]
+            mapIds: [`${config.map_id}`],
           }}
           options={{
             mapId: `${config.map_id}`,
@@ -468,17 +473,17 @@ class Map extends Component {
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
         >
-
-          {currentPlace.placeId && <AttractionMarker
+          {currentPlace.placeId && (
+            <AttractionMarker
               key={currentPlace.placeId}
               lat={currentPlace.lat}
               lng={currentPlace.lng}
               attraction={currentPlace}
               onAddAttraction={this.props.onAddAttraction}
-          />}
+            />
+          )}
           {locationsMarkers}
           {listingMarkers}
-
         </GoogleMapReact>
       </Wrapper>
     )
