@@ -211,7 +211,7 @@ class Map extends Component {
             }
             bounds.extend(position)
           })
-        } else if (listings.length === 0) {
+        } else {
           this.drawNeighbourhood(bounds, neighbourhoods, false)
         }
       } else if (neighbourhoodChange) {
