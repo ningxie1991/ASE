@@ -11,9 +11,9 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 3000
+    targetPort: 5000
   selector:
     app: ascout-client
   sessionAffinity: None
   type: LoadBalancer
-  loadBalancerIP: "34.65.48.29"
+  loadBalancerIP: "34.65.244.173"
