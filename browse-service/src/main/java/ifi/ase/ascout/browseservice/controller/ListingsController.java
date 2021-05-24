@@ -19,12 +19,17 @@ import java.util.List;
 @RequestMapping(path = "/browse")
 public class ListingsController {
 
-    private static final Logger log = LoggerFactory.getLogger(ListingsController.class);
+    // default page number
+    private static final String DEFAULT_PAGING = "true";
 
-    @Autowired
+    // default page number
+    private static final String DEFAULT_PAGE_NUMBER = "0";
+
+    // default page size
+    private static final String DEFAULT_PAGE_SIZE = "10";
+
     private List<ListingsModel> listings;
 
-    @Autowired
     private List<ListingsDetailModel> listingsDetail;
 
     @Autowired
@@ -35,38 +40,40 @@ public class ListingsController {
 
     @GetMapping("/neighbourhood={neighbourhood}")
     public ResponseEntity<List<ListingsModel>> getByNeighbourhood(@PathVariable String neighbourhood,
-                                                                  @RequestParam(defaultValue = "true") String paging,
-                                                                  @RequestParam(defaultValue = "0") int page,
-                                                                  @RequestParam(defaultValue = "10") int size) {
+                                                                  @RequestParam(defaultValue = DEFAULT_PAGING) String paging,
+                                                                  @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) int page,
+                                                                  @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 
-        if(paging.equals("true")) {
+        boolean isPaging = Boolean.parseBoolean(paging);
+        if(isPaging) {
             listings = listingsRepository.findByNeighbourhood(neighbourhood, PageRequest.of(page, size));
-        }else if(paging.equals("false")){
+        }else{
             listings = listingsRepository.findByNeighbourhood(neighbourhood);
         }
 
         if (listings.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(listings);
+        return ResponseEntity.status(HttpStatus.OK).body(listings);
     }
 
     @PostMapping(path = "/neighbourhoods", consumes = "application/json", produces = "application/json")
     public ResponseEntity<List<ListingsModel>> getByNeighbourhoods(@RequestBody List<String> neighbourhoods,
-                                                                   @RequestParam(defaultValue = "true") String paging,
-                                                                   @RequestParam(defaultValue = "0") int page,
-                                                                   @RequestParam(defaultValue = "10") int size) {
+                                                                   @RequestParam(defaultValue = DEFAULT_PAGING) String paging,
+                                                                   @RequestParam(defaultValue = DEFAULT_PAGE_NUMBER) int page,
+                                                                   @RequestParam(defaultValue = DEFAULT_PAGE_SIZE) int size) {
 
-        if(paging.equals("true")) {
+        boolean isPaging = Boolean.parseBoolean(paging);
+        if(isPaging) {
             listings = listingsRepository.findByNeighbourhoodIn(neighbourhoods, PageRequest.of(page, size));
-        }else if(paging.equals("false")){
+        }else{
             listings = listingsRepository.findByNeighbourhoodIn(neighbourhoods);
         }
 
         if (listings.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(listings);
+        return ResponseEntity.status(HttpStatus.OK).body(listings);
     }
 
     @GetMapping("/allListings")
@@ -76,7 +83,7 @@ public class ListingsController {
         if (listings.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(listings);
+        return ResponseEntity.status(HttpStatus.OK).body(listings);
     }
  
     @GetMapping("/allListingsDetail")
@@ -86,6 +93,6 @@ public class ListingsController {
         if (listingsDetail.isEmpty())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(listingsDetail);
+        return ResponseEntity.status(HttpStatus.OK).body(listingsDetail);
     }
 }

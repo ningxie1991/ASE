@@ -37,10 +37,10 @@ class CalculatorControllerTests {
     @Test
     public void postTest() throws Exception {
         //example={ "lat": 50.064192, "lng": -130.605469 }
-        AttractionDTO attraction1 = new AttractionDTO("Brandenburg Gate",1);
-        AttractionDTO attraction2 = new AttractionDTO("Museum Island",1);
         List<AttractionDTO> attractionList = new ArrayList<>();
-        attractionList.add(attraction1);
+        attractionList.add(new AttractionDTO("ChIJiQnyVcZRqEcRY0xnhE77uyY",1));
+        attractionList.add(new AttractionDTO("ChIJZ0KxF_JRqEcRrLHB-4r-U-o",1));
+        attractionList.add(new AttractionDTO("ChIJx8qLPN9RqEcRB2gSnmw5bJM",1));
         BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,"DRIVING");
         when(service.bestNeighborhoods(q)).thenReturn(UTILS.dummyNList());
 

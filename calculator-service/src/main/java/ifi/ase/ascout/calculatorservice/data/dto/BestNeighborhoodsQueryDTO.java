@@ -9,12 +9,14 @@ import java.math.BigDecimal;
 public class BestNeighborhoodsQueryDTO implements Serializable {
     private List<AttractionDTO> attractionList;
     private String travelMode;//for DistanceMatrix API
+    private int topK;
 
 
     public BestNeighborhoodsQueryDTO(){ }
     public BestNeighborhoodsQueryDTO(List<AttractionDTO> attractionList,String trvalMode){
         this.travelMode=trvalMode;
         this.attractionList=attractionList;
+        this.topK=5;
     }
 
     public List<AttractionDTO> getAttractionList() {
@@ -38,9 +40,23 @@ public class BestNeighborhoodsQueryDTO implements Serializable {
     public int[] getGroupIds() {
         int len = attractionList.size();
         int[] groupIds = new int[len];
-        for ( int i =0;i<len;++i){
-            groupIds[i]= attractionList.get(i).getGroupId();
+        if(attractionList.get(0).getGroupId()==0){
+            for ( int i =0;i<len;++i){
+                groupIds[i]= i;
+            }
+        }else{
+            for ( int i =0;i<len;++i){
+                groupIds[i]= attractionList.get(i).getGroupId();
+            }
         }
         return groupIds;
+    }
+
+    public int getTopK() {
+        return topK;
+    }
+
+    public void setTopK(int topK) {
+        this.topK = topK;
     }
 }

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    cloud.google.com/neg: '{"ingress":true}'
+  labels:
+    app: calculator-service
+  name: calculator-service
+  namespace: default
+spec:
+  ports:
+  - port: 3001
+    protocol: TCP
+    targetPort: 3001
+  selector:
+    app: calculator-service
+  sessionAffinity: None
+  type: LoadBalancer
+  loadBalancerIP: "34.65.177.14"
