@@ -40,8 +40,14 @@ public class BestNeighborhoodsQueryDTO implements Serializable {
     public int[] getGroupIds() {
         int len = attractionList.size();
         int[] groupIds = new int[len];
-        for ( int i =0;i<len;++i){
-            groupIds[i]= attractionList.get(i).getGroupId();
+        if(attractionList.get(0).getGroupId()==0){
+            for ( int i =0;i<len;++i){
+                groupIds[i]= i;
+            }
+        }else{
+            for ( int i =0;i<len;++i){
+                groupIds[i]= attractionList.get(i).getGroupId();
+            }
         }
         return groupIds;
     }
