@@ -85,7 +85,7 @@ public class ListingsController {
 
         return ResponseEntity.status(HttpStatus.OK).body(listings);
     }
-
+ 
     @GetMapping("/allListingsDetail")
     public ResponseEntity<List<ListingsDetailModel>> getAllListingsDetail() {
 
