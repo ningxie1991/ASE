@@ -9,21 +9,27 @@ export default class BrowsingPage extends Component {
       attractions: [],
       listings: [],
       neighbourhoods: [],
+      hoverListingShow: null,
+      hoverListingHide: null,
     }
   }
 
   addAttraction = (attraction) => {
-    let attractions = [...this.state.attractions];
-    let duplicates = this.state.attractions.filter(item => item.placeId == attraction.placeId);
-    if(!duplicates || duplicates.length == 0) {
-      attractions.push(attraction);
-      this.setState({ attractions });
+    let attractions = [...this.state.attractions]
+    let duplicates = this.state.attractions.filter(
+      (item) => item.placeId == attraction.placeId
+    )
+    if (!duplicates || duplicates.length == 0) {
+      attractions.push(attraction)
+      this.setState({ attractions })
     }
   }
 
   removeAttraction = (attraction) => {
-    let attractions = this.state.attractions.filter(item => item.placeId != attraction.placeId);
-    this.setState({ attractions });
+    let attractions = this.state.attractions.filter(
+      (item) => item.placeId != attraction.placeId
+    )
+    this.setState({ attractions })
   }
 
   markListings = (listings) => {
@@ -32,6 +38,14 @@ export default class BrowsingPage extends Component {
 
   markNeighbourhoods = (neighbourhoods) => {
     this.setState({ neighbourhoods })
+  }
+
+  showInfoBox = (listing) => {
+    this.setState({ hoverListingShow: listing })
+  }
+
+  hideInfoBox = (listing) => {
+    this.setState({ hoverListingHide: listing })
   }
 
   render() {
@@ -44,6 +58,8 @@ export default class BrowsingPage extends Component {
               onRemoveAttraction={this.removeAttraction}
               onMarkListings={this.markListings}
               onMarkNeighbourhoods={this.markNeighbourhoods}
+              showInfoBox={this.showInfoBox}
+              hideInfoBox={this.hideInfoBox}
             ></Sidebar>
           </Grid>
           <Grid item md={8} xs={8}>
@@ -52,6 +68,8 @@ export default class BrowsingPage extends Component {
               listings={this.state.listings}
               onAddAttraction={this.addAttraction}
               neighbourhoods={this.state.neighbourhoods}
+              hoverListingShow={this.state.hoverListingShow}
+              hoverListingHide={this.state.hoverListingHide}
             ></Map>
           </Grid>
         </Grid>

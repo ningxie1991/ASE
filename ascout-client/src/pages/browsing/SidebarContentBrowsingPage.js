@@ -46,22 +46,17 @@ const modalVStyle = {
 
   fontSize: '14px',
 }
-const card = {
-  boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
-  transition: 'all .25s linear',
-  '&:hover': {
-    boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
-    background: 'green',
-    transform: 'scale3d(1.05, 1.05, 1)',
-  },
-}
+
 export default function SidebarContentBrowsingPage(props) {
   const useStyles = makeStyles({
     root: {
       minWidth: 275,
       boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
+      transition: 'all .25s linear',
       '&:hover': {
         boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
+        cursor: 'pointer',
+        transform: 'scale3d(1.05, 1.05, 1)',
       },
     },
     bullet: {
@@ -74,16 +69,6 @@ export default function SidebarContentBrowsingPage(props) {
     },
     pos: {
       marginBottom: 12,
-    },
-    overrides: {
-      MuiCard: {
-        root: {
-          boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
-          '&:hover': {
-            boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
-          },
-        },
-      },
     },
   })
 
@@ -109,8 +94,6 @@ export default function SidebarContentBrowsingPage(props) {
   const [neighbourhoods, setNeighbourhoods] = useState(null)
   const [paginatedNeighbourhoodListings, setPaginatedNeighbourhoodListings] =
     useState(null)
-  const [displayNeighbourhoodListings, setDisplayNeighbourhoodListings] =
-    useState([])
   const [paginateCount, setPaginateCount] = React.useState(1)
   const [boundaryNum, setBoundaryNum] = React.useState(0)
   const [error, setError] = React.useState('')
@@ -141,6 +124,7 @@ export default function SidebarContentBrowsingPage(props) {
       setPaginatedData(dataFiltered)
     } else {
       setPaginatedData([])
+      props.onMarkListings([])
     }
   }
 
@@ -153,7 +137,15 @@ export default function SidebarContentBrowsingPage(props) {
   }
 
   const findNeighbourhoods = () => {
+    setCategory([0])
     setLoadingNeighbourhoods(true)
+    if (listings.length > 0) {
+      setListings([])
+      setPaginatedNeighbourhoodListings(null)
+      props.onMarkNeighbourhoods([])
+      props.onMarkListings([])
+    }
+
     try {
       getBestNeighbourhoods({
         attractionList: props.attractions,
@@ -201,7 +193,6 @@ export default function SidebarContentBrowsingPage(props) {
           const dataFiltered = res.data.filter(
             (e) => e.neighbourhood === neightbourhoodName
           )
-          setDisplayNeighbourhoodListings(dataFiltered)
           setPaginatedData(dataFiltered)
           setLoadingListings(false)
         })
@@ -394,7 +385,11 @@ export default function SidebarContentBrowsingPage(props) {
                     lg={12}
                     style={{ marginBottom: '3%' }}
                   >
-                    <Card className={classes.root} style={card}>
+                    <Card
+                      className={classes.root}
+                      onMouseEnter={() => props.showInfoBox(listing)}
+                      onMouseLeave={() => props.hideInfoBox(listing)}
+                    >
                       <CardContent
                         style={{ textAlign: 'left', paddingBottom: '0' }}
                       >
