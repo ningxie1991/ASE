@@ -11,7 +11,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 5000
+    targetPort: 3000
   selector:
     app: ascout-client
   sessionAffinity: None
