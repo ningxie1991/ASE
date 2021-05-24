@@ -32,7 +32,7 @@ public class BestNeighborhoodsQueryDTO implements Serializable {
         int len = attractionList.size();
         String[] origins = new String[len];
         for ( int i =0;i<len;++i){
-            origins[i]= "placeId:" + attractionList.get(i).getPlaceId();
+            origins[i]= "place_id:" + attractionList.get(i).getPlaceId();
         }
         return origins;
     }
