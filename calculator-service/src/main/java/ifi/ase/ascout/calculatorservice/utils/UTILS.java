@@ -38,7 +38,7 @@ public class UTILS {
             String placeId = nList.get(i).getPlace_id();
             if(placeId!=null){
                 ids[i] = placeId;
-            }else{z
+            }else{
                 ids[i] = name;
             }
         }

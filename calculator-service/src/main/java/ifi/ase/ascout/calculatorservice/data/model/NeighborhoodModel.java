@@ -3,11 +3,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Document(collection = "neighbourhoods")
+@Document(collection = "neighborhoods_with_coords")
 public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
     private String name;
     private String place_id;
     private double score;
+    private String coordinates;
 
     private String city;
     private String group;
@@ -91,6 +92,8 @@ public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
     public void setPlace_id(String place_id) {
         this.place_id = place_id;
     }
+    public String getCoordinates() {return coordinates;}
+    public void setCoordinates(String coordinates) {this.coordinates = coordinates;}
 
     @Override
     public int compareTo(NeighborhoodModel o) {

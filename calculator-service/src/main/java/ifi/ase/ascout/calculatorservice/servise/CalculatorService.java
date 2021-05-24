@@ -50,7 +50,11 @@ public class CalculatorService implements ICalculatorService{
 
         for(String s :origin_attractions) System.err.println(s.toString());
         List<NeighborhoodModel> neiList = repository.findAll();//=UTILS.dummyNList();
-        logger.error("get neighborhoods from mongodb repository.findAll():"+neiList.toString());
+        if(neiList.size()==0){
+            logger.error("Empty response from DB!");
+            return null;
+        }
+        logger.debug("get neighborhoods from mongodb repository.findAll():"+neiList.toString());
         String[] destination_neighborhoods = UTILS.getNeiIDs(neiList);// col names,destination/neighborhood names
         int olen = origin_attractions.length;
         if(olen>apiMaxLen){
@@ -68,7 +72,7 @@ public class CalculatorService implements ICalculatorService{
             int startIndex = 0;
             for(int i=0;i<dPageNum;++i){
                 String[] partDN = UTILS.sliceStringArray(destination_neighborhoods,startIndex,startIndex+=dPageSize);
-                logger.info("destination num:"+dlen+",origin num:"+olen+",partDN num:"+partDN.length);
+                logger.debug("destination num:"+dlen+",origin num:"+olen+",partDN num:"+partDN.length);
                 matrix = DistanceMatrixApi.getDistanceMatrix(
                         this.context,
                         origin_attractions,
