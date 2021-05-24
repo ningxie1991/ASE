@@ -1,0 +1,10 @@
+.textHeading {
+  font-family: Oxygen;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 24px;
+  line-height: 30px;
+  display: flex;
+  align-items: center;
+  color: #6a6969;
+}
