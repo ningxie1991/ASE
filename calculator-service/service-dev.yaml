@@ -16,4 +16,4 @@ spec:
     app: calculator-service
   sessionAffinity: None
   type: LoadBalancer
-  loadBalancerIP: "34.65.177.14"
+  loadBalancerIP: "34.65.91.230"
