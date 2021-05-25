@@ -1,8 +1,6 @@
 package ifi.ase.ascout.browseservice.controller;
 
-import ifi.ase.ascout.browseservice.data.model.ListingsDetailModel;
 import ifi.ase.ascout.browseservice.data.model.ListingsModel;
-import ifi.ase.ascout.browseservice.data.repository.ListingsDetailRepository;
 import ifi.ase.ascout.browseservice.data.repository.ListingsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
