@@ -43,6 +43,6 @@ The back end testing environment is composed of **JUnit** for writing unit tests
 To use the website go to: <a href="http://ascout.org/"> ascout.org </a> and follow the prompts. When you first access the website select Berlin as the city you wish to visit. Then you will be presented with choices. Click the "Calculate the ideal neighborhood" button, and start entering the destinations you wish to visit. After you are done, click the "find neighborhood" button and you will shortly be presented with the listings from the three most convenient neighborhoods for your itenirary.
 
 <p align="center">
-  <img width="700" align="center" src="" alt="demo"/>
+  <img width="700" align="center" src="https://drive.google.com/file/d/1VrEFCxe8rvWUXnQLKN01WOVRYIdk_xj7/view?usp=sharing" alt="demo"/>
 </p>
 
