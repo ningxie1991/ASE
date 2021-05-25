@@ -1,8 +1,6 @@
 package ifi.ase.ascout.browseservice.controller;
 
-import ifi.ase.ascout.browseservice.data.model.ListingsDetailModel;
 import ifi.ase.ascout.browseservice.data.model.ListingsModel;
-import ifi.ase.ascout.browseservice.data.repository.ListingsDetailRepository;
 import ifi.ase.ascout.browseservice.data.repository.ListingsRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +27,8 @@ public class ListingsController {
 
     private List<ListingsModel> listings;
 
-    private List<ListingsDetailModel> listingsDetail;
-
     @Autowired
     private ListingsRepository listingsRepository;
-
-    @Autowired
-    private ListingsDetailRepository listingsDetailRepository;
 
     @GetMapping("/neighbourhood={neighbourhood}")
     public ResponseEntity<List<ListingsModel>> getByNeighbourhood(@PathVariable String neighbourhood,
@@ -73,25 +66,5 @@ public class ListingsController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 
         return ResponseEntity.status(HttpStatus.OK).body(listings);
-    }
-
-    @GetMapping("/allListings")
-    public ResponseEntity<List<ListingsModel>> getAllListings() {
-
-        listings = listingsRepository.findAll();
-        if (listings.isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
-        return ResponseEntity.status(HttpStatus.OK).body(listings);
-    }
- 
-    @GetMapping("/allListingsDetail")
-    public ResponseEntity<List<ListingsDetailModel>> getAllListingsDetail() {
-
-        listingsDetail = listingsDetailRepository.findAll();
-        if (listingsDetail.isEmpty())
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-
-        return ResponseEntity.status(HttpStatus.OK).body(listingsDetail);
     }
 }
