@@ -1,5 +1,6 @@
 package ifi.ase.ascout.browseservice.data.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.stereotype.Repository;
@@ -7,6 +8,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Document(collection = "airbnb_listings")
 public class ListingsModel {
+
+    @Id
+    @Field(name="_id")
+    private String id;
 
     @Field(name="name")
     private String name;
@@ -64,6 +69,14 @@ public class ListingsModel {
 
     @Field(name="cleaning_fee")
     private String cleaningFee;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
