@@ -41,6 +41,7 @@ public class CalculatorServiceTests {
         attractionList.add(new AttractionDTO("ChIJx8qLPN9RqEcRB2gSnmw5bJM",1));
         BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,"DRIVING");
         List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+
         for( NeighborhoodModel nm :result){
             System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
         }

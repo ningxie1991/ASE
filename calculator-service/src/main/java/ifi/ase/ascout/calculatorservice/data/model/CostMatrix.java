@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class CostMatrix {
-    final private double[][] costMatrix;
-    final private int rowNum;//number of neiborhoods/destinations
-    final private int colNum;//number of attractions/origins
+    private final double[][] costMatrix;
+    private final int rowNum;//number of neiborhoods/destinations
+    private final int colNum;//number of attractions/origins
     private int colItr;
 
     public CostMatrix(int rnum, int cnum){
