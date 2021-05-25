@@ -57,6 +57,25 @@ public class DatabaseConnectionTest {
             List<ListingsModel> listings = listingsRepository.findByNeighbourhood("Test Neighbourhood");
             assertEquals(1, listings.size());
             assertEquals("1000", listings.get(0).getId());
+            assertEquals("Nice Apartment Near City Center", listings.get(0).getName());
+            assertEquals("123", listings.get(0).getHostId());
+            assertEquals("Ning", listings.get(0).getHostName());
+            assertEquals("t", listings.get(0).getHostIsSuperhost());
+            assertEquals("Test Neighbourhood Group", listings.get(0).getNeighbourhoodGroup());
+            assertEquals("Test Neighbourhood", listings.get(0).getNeighbourhood());
+            assertEquals("52.49885493", listings.get(0).getLatitude());
+            assertEquals("13.34906453", listings.get(0).getLongitude());
+            assertEquals("Apartment", listings.get(0).getPropertyType());
+            assertEquals("Private room", listings.get(0).getRoomType());
+            assertEquals("2", listings.get(0).getAccommodates());
+            assertEquals("1", listings.get(0).getBathrooms());
+            assertEquals("1", listings.get(0).getBedrooms());
+            assertEquals("Pull-out Sofa", listings.get(0).getBedType());
+            assertEquals("1", listings.get(0).getBeds());
+            assertEquals("https://a0.muscache.com/im/pictures/29054294/b1fad3a2_original.jpg?aki_policy=large", listings.get(0).getPictureUrl());
+            assertEquals("26", listings.get(0).getPrice());
+            assertEquals("250", listings.get(0).getSecurityDeposit());
+            assertEquals("30", listings.get(0).getCleaningFee());
         } catch (Exception e) {
             // fail the test
             assertTrue(false);
