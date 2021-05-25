@@ -20,7 +20,6 @@ sonarqube {
 
 jacoco {
     toolVersion = "0.8.6"
-    reportsDirectory = layout.buildDirectory.dir('/reports/jacoco/')
 }
 
 group = 'ifi.ase.ascout'
