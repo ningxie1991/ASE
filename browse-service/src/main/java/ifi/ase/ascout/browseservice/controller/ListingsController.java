@@ -4,8 +4,7 @@ import ifi.ase.ascout.browseservice.data.model.ListingsDetailModel;
 import ifi.ase.ascout.browseservice.data.model.ListingsModel;
 import ifi.ase.ascout.browseservice.data.repository.ListingsDetailRepository;
 import ifi.ase.ascout.browseservice.data.repository.ListingsRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "${settings.cors_origin}")
 @RequestMapping(path = "/browse")
 public class ListingsController {
 
