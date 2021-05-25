@@ -5,7 +5,7 @@ name: "calculator-service CI + Sonarcloud"
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ scan-calculator-service ]
     paths: 
         - "calculator-service/**"
 
