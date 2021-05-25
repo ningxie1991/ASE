@@ -86,11 +86,12 @@ public class CalculatorService implements ICalculatorService{
                 cm.fillInDistanceMatrix(matrix);
             }
         }catch(InterruptedException | ApiException | IOException e){
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            logger.error("DistanceMatrixApi Error", e);
         }
         logger.debug("cost matrix result:"+cm.toString());
         double[] neighborhoodCosts = cm.calculateColumeCostByGroup(query.getGroupIds());
-        logger.info("all neighborhoods' scores:"+ Arrays.toString(neighborhoodCosts));
+        logger.info("all neighborhoods' scores:", Arrays.toString(neighborhoodCosts));
         return UTILS.getTopNeighborhoods(neiList,neighborhoodCosts,query.getTopK());
     }
 }
