@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "${settings.cors_origin}")
 @RequestMapping(path = "/calculate")
 public class CalculateController {
     @Autowired
