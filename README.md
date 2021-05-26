@@ -60,7 +60,11 @@ GitHub Action is used to deploy each module from the repository's main branch wi
 
 To use the website go to: <a href="http://ascout.org/"> ascout.org </a> and follow the prompts. When you first access the website select Berlin as the city you wish to visit. Then you will be presented with choices. Click the "Calculate the ideal neighborhood" button, and start entering the destinations you wish to visit. After you are done, click the "find neighborhood" button and you will shortly be presented with the listings from the three most convenient neighborhoods for your itenirary.
 
+Youtube link for the demo: https://youtu.be/KB_mKLFabZE
+
 <p align="center">
-  <img width="700" align="center" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
+  <img width="700" align="center" href="https://youtu.be/KB_mKLFabZE" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
 </p>
+
+
 
