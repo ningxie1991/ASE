@@ -65,6 +65,7 @@ public class CalculatorServiceTests {
         aL = new ArrayList<>();
         aL.add(a2);
         aL.add(a1);
+        System.out.println("attraction_order:"+aL.toString());
         q = new BestNeighborhoodsQueryDTO(aL,"DRIVING");
         result = service.bestNeighborhoods(q);
         for( NeighborhoodModel nm :result){
