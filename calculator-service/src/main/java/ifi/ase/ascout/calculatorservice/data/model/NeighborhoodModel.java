@@ -1,100 +1,113 @@
 package ifi.ase.ascout.calculatorservice.data.model;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.stereotype.Repository;
 
+/**
+ * NeighborhoodModel is the data model for a neighbourhood in the "neighborhoods_with_coords" collection stored in MongoDB
+ */
 @Repository
 @Document(collection = "neighborhoods_with_coords")
 public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
-    private String name;
-    private String place_id;
-    private double score;
+
+    // attributes from the DB
+    @Field(name="coordinates")
     private String coordinates;
-
-    private String city;
+    @Field(name="group")
     private String group;
-    private Double lat;
-    private Double lng;
-    private String picture_url;
-    private String description;
+    @Field(name="name")
+    private String name;
+    @Field(name="place_id")
+    private String placeId;
 
-    public NeighborhoodModel(){
-        this.name = "test";
-        this.place_id = null;
-        this.city = "test";
-        this.picture_url = "optional";
-        this.description = "optional";
+    // generated attribute
+    private double score;
+
+    /**
+     * Gets the coordinates of neighbourhood boundaries
+     * @return String
+     */
+    public String getCoordinates() {
+        return coordinates;
     }
 
-    public NeighborhoodModel(String name){
-        this.name = name;
+    /**
+     * Sets the coordinates of neighbourhood boundaries
+     * @param coordinates the coordinates of neighbourhood boundaries
+     */
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
+    /**
+     * Gets the group of the neighbourhood
+     * @return String
+     */
     public String getGroup() {
         return group;
     }
 
+    /**
+     * Sets the group of the neighbourhood
+     * @param group the group of the neighbourhood
+     */
     public void setGroup(String group) {
         this.group = group;
     }
-    public Double getLat() {
-        return lat;
+
+    /**
+     * Gets the name of the neighbourhood
+     * @return String
+     */
+    public String getName() {
+        return name;
     }
 
-    public void setLat(Double lat) {
-        this.lat = lat;
+    /**
+     * Sets the name of the neighbourhood
+     * @param name the name of neighbourhood
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Double getLng() {
-        return lng;
+    /**
+     * Gets the place id of the neighbourhood
+     * @return String
+     */
+    public String getPlaceId() {
+        return placeId;
     }
 
-    public void setLng(Double lng) {
-        this.lng = lng;
+    /**
+     * Sets the place id of the neighbourhood
+     * @param placeId the place id of the neighbourhood
+     */
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
     }
 
-    public String getPicture_url() {
-        return picture_url;
+    /**
+     * Gets the score of of the neighbourhood
+     * @return Double
+     */
+    public Double getScore() {
+        return score;
     }
 
-    public void setPicture_url(String picture_url) {
-        this.picture_url = picture_url;
+    /**
+     * Sets the score of of the neighbourhood
+     * @param score the score of of the neighbourhood
+     */
+    public void setScore(double score) {
+        this.score = score;
     }
 
-
-    public String getDecription() {
-        return description;
-    }
-
-    public void setDecription(String decription) {
-        this.description = decription;
-    }
-    public Double getScore() { return score; }
-    public void setScore(double score) { this.score = score; }
-    public String getPlace_id() {
-        return place_id;
-    }
-    public void setPlace_id(String place_id) {
-        this.place_id = place_id;
-    }
-    public String getCoordinates() {return coordinates;}
-    public void setCoordinates(String coordinates) {this.coordinates = coordinates;}
-
+    /**
+     * Compares neighbourhoods
+     * @param o neighbourhood model to compare to
+     * @return int
+     */
     @Override
     public int compareTo(NeighborhoodModel o) {
         return this.getScore().compareTo(o.getScore());
