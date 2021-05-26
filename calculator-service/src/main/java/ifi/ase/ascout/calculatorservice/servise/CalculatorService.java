@@ -47,10 +47,7 @@ public class CalculatorService implements ICalculatorService{
         //TODO what if name is null : java.lang.NullPointerException
         TravelMode travelMode = TravelMode.valueOf(query.getTravelMode());
         String[] origin_attractions = query.getOrigins();//row names,origin/attraction names
-
-        for(String s :origin_attractions){
-            logger.debug(s);
-        }
+        
         List<NeighborhoodModel> neiList = repository.findAll();//=UTILS.dummyNList();
         if(neiList.size()==0){
             logger.error("Empty response from DB!");
