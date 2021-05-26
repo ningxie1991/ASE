@@ -27,7 +27,7 @@ The **Spring boot** Java framework is used to drive the back end of our web appl
 
 ### Containerization
 
-**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. Github action, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
+**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. GitHub action, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
 
 ### Testing
 The back end testing environment is composed of **JUnit** for writing unit tests and **JaCoCo** for code coverage metrics. The front end testing environment uses the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows.
@@ -35,8 +35,26 @@ The back end testing environment is composed of **JUnit** for writing unit tests
  
 
 
-# How to Install
+## How to Run
+Each module, namely the ascout-client frontend, browse-service and calculator-service has their individual Dockerfile. There are three environemnts, namley local, development and production. The following instructions are how Ascout is run on each environment.
 
+### local: 
+```
+git clone https://github.com/ningxie1991/AScout
+cd ascout
+docker-compose up
+
+# ctrl + c or use the command 'docker-compose down' to exit the application
+```
+The whole application (both frontend and backend) will be running on localhost. AScout website can be accessed at http://localhost:3000
+
+### development/staging:
+
+GitHub Action is used to deploy each module from the repository's develop branch. Latest build in the development/staging environment can be accessed at http://34.65.48.29
+
+### produdction:
+
+GitHub Action is used to deploy each module from the repository's main branch with a release tag. Latest release in the production environment can be accessed at http://ascout.org
       
 # How to Use Demo
 
