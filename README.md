@@ -50,21 +50,17 @@ The first build could take a few minutes. After that, the whole application (bot
 
 ### development/staging:
 
-GitHub Action is used to deploy each module from the repository's develop branch. Latest build in the development/staging environment can be accessed at http://34.65.48.29
+GitHub Action is used to deploy each module from the repository's develop branch. Build and deployment scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a> (scripts starting with "Dev-"). Latest build in the development/staging environment can be accessed at http://34.65.48.29
 
 ### produdction:
 
-GitHub Action is used to deploy each module from the repository's main branch with a release tag. Latest release in the production environment can be accessed at http://ascout.org
+GitHub Action is used to deploy each module from the repository's main branch with a release tag. Build and deployment scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a> (scripts starting with "Prod-"). Latest release in the production environment can be accessed at http://ascout.org
       
 # How to Use Demo
 
 To use the website go to: <a href="http://ascout.org/"> ascout.org </a> and follow the prompts. When you first access the website select Berlin as the city you wish to visit. Then you will be presented with choices. Click the "Calculate the ideal neighborhood" button, and start entering the destinations you wish to visit. After you are done, click the "find neighborhood" button and you will shortly be presented with the listings from the three most convenient neighborhoods for your itenirary.
 
-Youtube link for the demo: https://youtu.be/KB_mKLFabZE
-
 <p align="center">
-  <img width="700" align="center" href="https://youtu.be/KB_mKLFabZE" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
+  <img width="700" align="center" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
 </p>
-
-
 
