@@ -94,7 +94,7 @@ public class CalculatorServiceTests {
         aL.add(a1);
         aL.add(a2);
         System.out.println("attraction_order:"+aL.toString());
-        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING");
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
         List<NeighborhoodModel> result = service.bestNeighborhoods(q);
         for( NeighborhoodModel nm :result){
             System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
@@ -104,7 +104,7 @@ public class CalculatorServiceTests {
         aL.add(a2);
         aL.add(a1);
         System.out.println("attraction_order:"+aL.toString());
-        q = new BestNeighborhoodsQueryDTO(aL,"DRIVING");
+        q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
         result = service.bestNeighborhoods(q);
         for( NeighborhoodModel nm :result){
             System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");

@@ -90,7 +90,11 @@ public class UTILS {
     public static List<NeighborhoodModel> getTopNeighborhoods(List<NeighborhoodModel> nList,double[] neighborhoodCosts,int topk){
         UTILS.fillInScores(nList,neighborhoodCosts);
         Collections.sort(nList);
-        return nList.subList(0,topk);
+        try{
+            return nList.subList(0,topk);
+        }catch (Exception e){
+            return nList;
+        }
     }
 
     /**
