@@ -16,11 +16,22 @@ public class AttractionDTO implements Serializable{
      * The name of the attraction
      */
     private String name;
-
+  
     /**
      * The group id of the attraction
      */
     private int groupId;
+
+    public AttractionDTO(){ }
+    public AttractionDTO(String placeId,int groupId){
+        this.placeId=placeId;
+        this.groupId=groupId;
+    }
+    public AttractionDTO(String name,String placeId,int groupId){
+        this.name=name;
+        this.placeId=placeId;
+        this.groupId=groupId;
+    }
 
     /**
      * Gets the place id
@@ -69,4 +80,31 @@ public class AttractionDTO implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
+
+
+    public void setStartDateTime(String startDateTime) {
+        this.startDateTime = startDateTime;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
+
+    @Override
+    public String toString() {
+        return "AttractionDTO{" +
+                "name='" + name  + '\'' +
+                ", placeId='" + placeId + '\'' +
+                ", groupId=" + groupId +
+                '}';
+    }
+
 }
