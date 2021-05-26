@@ -6,6 +6,7 @@ import ifi.ase.ascout.calculatorservice.data.dto.AttractionDTO;
 import ifi.ase.ascout.calculatorservice.data.dto.BestNeighborhoodsQueryDTO;
 import ifi.ase.ascout.calculatorservice.servise.ICalculatorService;
 import ifi.ase.ascout.calculatorservice.utils.UTILS;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.invocation.InvocationOnMock;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,15 +40,35 @@ class CalculatorControllerTests {
     // size of the list of neighbourhoods returned
     private int topK = UTILS.getTopK();
 
+    // the attraction list
+    private List<AttractionDTO> attractionList = new ArrayList<AttractionDTO>();
+
+    @BeforeEach
+    void setUp() {
+        AttractionDTO a1 = new AttractionDTO();
+        a1.setGroupId(1);
+        a1.setName("Brandenburg Gate");
+        a1.setPlaceId("ChIJiQnyVcZRqEcRY0xnhE77uyY");
+
+        AttractionDTO a2 = new AttractionDTO();
+        a2.setGroupId(1);
+        a2.setName("Berlin Wall Memorial");
+        a2.setPlaceId("ChIJZ0KxF_JRqEcRrLHB-4r-U-o");
+
+        AttractionDTO a3 = new AttractionDTO();
+        a3.setGroupId(1);
+        a3.setName("Museum Island");
+        a3.setPlaceId("ChIJx8qLPN9RqEcRB2gSnmw5bJM");
+
+        attractionList.add(a1);
+        attractionList.add(a2);
+        attractionList.add(a3);
+    }
+
     @Test
     public void postTest() throws Exception {
-        //example={ "lat": 50.064192, "lng": -130.605469 }
-        List<AttractionDTO> attractionList = new ArrayList<>();
-        attractionList.add(new AttractionDTO("ChIJiQnyVcZRqEcRY0xnhE77uyY",1));
-        attractionList.add(new AttractionDTO("ChIJZ0KxF_JRqEcRrLHB-4r-U-o",1));
-        attractionList.add(new AttractionDTO("ChIJx8qLPN9RqEcRB2gSnmw5bJM",1));
         String travelMode = "DRIVING";
-        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,travelMode, topK);
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList, travelMode, topK);
 
         when(service.bestNeighborhoods(any(BestNeighborhoodsQueryDTO.class))).thenAnswer(new Answer() {
             public Object answer(InvocationOnMock invocation) {
@@ -62,13 +84,8 @@ class CalculatorControllerTests {
 
     @Test
     public void postTestNoContent() throws Exception {
-        //example={ "lat": 50.064192, "lng": -130.605469 }
-        List<AttractionDTO> attractionList = new ArrayList<>();
-        attractionList.add(new AttractionDTO("ChIJiQnyVcZRqEcRY0xnhE77uyY",1));
-        attractionList.add(new AttractionDTO("ChIJZ0KxF_JRqEcRrLHB-4r-U-o",1));
-        attractionList.add(new AttractionDTO("ChIJx8qLPN9RqEcRB2gSnmw5bJM",1));
         String travelMode = "DRIVING";
-        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList,travelMode, topK);
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList, travelMode, topK);
 
         when(service.bestNeighborhoods(any(BestNeighborhoodsQueryDTO.class))).thenAnswer(new Answer() {
             public Object answer(InvocationOnMock invocation) {

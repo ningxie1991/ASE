@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * CalculateController provides the API for interacting with the calculator-service
+ */
 @RestController
 @CrossOrigin(origins = "${settings.cors_origin}")
 @RequestMapping(path = "/calculate")
@@ -17,17 +20,14 @@ public class CalculateController {
     @Autowired
     private ICalculatorService service;
 
+    /**
+     * Calculates the best neighbourhoods based on a query from the frontend consisting of a list of attractions,
+     * travel mode and the number of top neighbourhoods
+     * @param query the BestNeighborhoodsQueryDTO query object
+     * @return ResponseEntity with a list of NeighborhoodModel
+     */
     @PostMapping(path = "/best_neighborhoods", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<List<NeighborhoodModel>> bestNeighborhoods(@RequestBody BestNeighborhoodsQueryDTO query) {//@RequestBody List<String> destinations
-       /*
-        Users input trip itinerary with the help of google map API.
-        The trip itinerary includes a list of locations they want to visit, number of people, means of transportation, date and duration.
-        The app suggests neighborhoods based on the distance.
-        Args:
-            query={destinations:[],routes:[],startDate:,endDate:}
-        Return:
-            List<NeighborhoodModel>
-        */
+    public ResponseEntity<List<NeighborhoodModel>> bestNeighborhoods(@RequestBody BestNeighborhoodsQueryDTO query) {
         List<NeighborhoodModel> nList = service.bestNeighborhoods(query);
         if(nList.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(nList);
