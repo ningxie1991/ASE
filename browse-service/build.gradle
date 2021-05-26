@@ -4,11 +4,7 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.2.0"
     id 'jacoco'
-    id 'org.ajoberstar.github-pages' version '1.7.2'
 }
-
-apply plugin: 'java'
-apply plugin: 'org.ajoberstar.github-pages'
 
 sonarqube {
     properties {
@@ -59,28 +55,3 @@ jacocoTestReport {
         html.enabled = true
     }
 }
-
-ext {
-    repoPath = 'ningxie1991/AScout'
-    ghToken = System.getenv('GH_TOKEN')
-}
-
-githubPages {
-    if (ghToken) {
-        repoUri = "https://github.com/${repoPath}.git"
-        credentials {
-            username = ghToken
-            password = ''
-        }
-    } else {
-        repoUri = "git@github.com:${repoPath}.git"
-    }
-
-    pages {
-        from(javadoc.outputs.files) {
-            into 'docs/javadoc'
-        }
-    }
-}
-
-publishGhPages.dependsOn javadoc
