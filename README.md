@@ -46,7 +46,7 @@ docker-compose up
 
 # ctrl + c or use the command 'docker-compose down' to exit the application
 ```
-The whole application (both frontend and backend) will be running on localhost. AScout website can be accessed at http://localhost:3000
+The first build could take a few minutes. After that, the whole application (both frontend and backend) will be running on localhost. AScout website can be accessed at http://localhost:3000
 
 ### development/staging:
 
