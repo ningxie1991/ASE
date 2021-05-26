@@ -23,11 +23,11 @@ The **Spring boot** Java framework is used to drive the back end of our web appl
 
 ### CI/CD
 
-**GitHub Actions** is used to automate the software workflows. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time.
+**GitHub Actions** is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time.
 
 ### Containerization
 
-**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. In addition a docker-compose.yml file is provided to launch the entire application. The Google cloud **Container Registry** is used to manage Docker images.
+**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. Github action, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
 
 ### Testing
 The back end testing environment is composed of **JUnit** for writing unit tests and **JaCoCo** for code coverage metrics. The front end testing environment uses the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows.
