@@ -10,6 +10,7 @@ AScout is an online web application built to provide travelers an efficient and 
 
 Travelers often have an itinerary or a list of places that they want to visit when they travel to a city, however online vacation rental marketplaces like AirBnB do not show information concerning proximity to their itinerary. However, it is often challenging and time-consuming for traveler to find ideal rental locations, especially if they are not very familiar with their destination. This motivated us to create a solution that helps travelers plan their trips, without worrying about the location of their accomodation. Our key functionality would have the user plan their itinerary using the user interface, and then we would be able to suggest neighborhoods that would be the most convenient in terms of proximity, and public transport.
 
+More details about the project can be found in <a href="https://github.com/ningxie1991/AScout/wiki/About-AScout"> Wiki - About AScout </a>.
 
 # Technology Stack
 
@@ -21,21 +22,30 @@ Travelers often have an itinerary or a list of places that they want to visit wh
 
 The **Spring boot** Java framework is used to drive the back end of our web application. It is chosen because it eliminates boilerplate configurations and code, reduces overall development time, and thus increases efficiency. In addition, the **Java Client for Google Maps Services** is used to add the functionality of the Google Maps API's to our back end.
 
-### CI/CD
-
-**GitHub Actions** is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time.
-
 ### Containerization
 
 **Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. GitHub action, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
 
+### CI/CD
+
+**GitHub Actions** is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time.
+
 ### Testing
+
 The back end testing environment is composed of **JUnit** for writing unit tests and **JaCoCo** for code coverage metrics. The front end testing environment uses the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows.
 
- 
+More details about testing and CI/CD can be found in <a href="https://github.com/ningxie1991/AScout/wiki/Testing-and-Continuous-Integration"> Wiki - Testing and Continuous Integration </a>.
 
+### Documentation
+
+Details on Javadoc and API documentation can be found in <a href="https://github.com/ningxie1991/AScout/wiki/Documentation"> Wiki - Documentation </a>.
+ 
+## Project Organization
+
+Details on project organization can be found in <a href="https://github.com/ningxie1991/AScout/wiki/Project-Organization"> Wiki - Project Organization </a>.
 
 ## How to Run
+
 Each module, namely the ascout-client frontend, browse-service and calculator-service has their individual Dockerfile. There are three environemnts, namley local, development and production. The following instructions are how Ascout is run on each environment.
 
 ### local: 
