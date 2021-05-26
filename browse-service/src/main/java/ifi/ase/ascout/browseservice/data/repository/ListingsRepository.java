@@ -7,17 +7,39 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
+/**
+ * ListingsRepository is the MongoDB repository for the airbnb_listings collection
+ */
 public interface ListingsRepository extends MongoRepository<ListingsModel, String> {
-    // find the listings by neighbourhood with paging
+
+    /**
+     * Finds the listings by neighbourhood with paging
+     * @param neighbourhood the name of neighbourhood
+     * @param pageable the Pageable object (refer to ListingsController)
+     * @return list of ListingsModel
+     */
     List<ListingsModel> findByNeighbourhood(@Param("neighbourhood") String neighbourhood, Pageable pageable);
 
-    // find the listings by neighbourhood without paging
+    /**
+     * Finds the listings by neighbourhood without paging
+     * @param neighbourhood the name of neighbourhood
+     * @return list of ListingsModel
+     */
     List<ListingsModel> findByNeighbourhood(@Param("neighbourhood") String neighbourhood);
 
-    // find the listings by a list of neighbourhoods with paging
+    /**
+     * Finds the listings by a list of neighbourhoods with paging
+     * @param neighbourhoods the list of neighbourhood names
+     * @param pageable the Pageable object (refer to ListingsController)
+     * @return list of ListingsModel
+     */
     List<ListingsModel> findByNeighbourhoodIn(List<String> neighbourhoods, Pageable pageable);
 
-    // find the listings by a list of neighbourhoods without paging
+    /**
+     * Finds the listings by a list of neighbourhoods without paging
+     * @param neighbourhoods the list of neighbourhood names
+     * @return list of ListingsModel
+     */
     List<ListingsModel> findByNeighbourhoodIn(List<String> neighbourhoods);
 }
 

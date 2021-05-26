@@ -82,9 +82,9 @@ public class ListingsControllerTest {
 
     private static Stream<Arguments> paginatedParamsForNeighbhouhoods() {
         return Stream.of(
-                Arguments.of(Arrays.asList(new ListingsModel[DEFAULT_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd, Prenzlauer Berg Nordwest, Helmholtzplatz"), 0, DEFAULT_PAGE_SIZE, status().isOk()),
-                Arguments.of(Arrays.asList(new ListingsModel[DEFAULT_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd, Prenzlauer Berg Nordwest, Helmholtzplatz"), 0, DEFAULT_PAGE_SIZE, status().isOk()),
-                Arguments.of(Collections.emptyList(), Arrays.asList("A, B, C"), 0, DEFAULT_PAGE_SIZE, status().isBadRequest())
+                Arguments.of(Arrays.asList(new ListingsModel[DEFAULT_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd"), 0, DEFAULT_PAGE_SIZE, status().isOk()),
+                Arguments.of(Arrays.asList(new ListingsModel[DEFAULT_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd"), 0, DEFAULT_PAGE_SIZE, status().isOk()),
+                Arguments.of(Collections.emptyList(), Arrays.asList("ABC"), 0, DEFAULT_PAGE_SIZE, status().isBadRequest())
         );
 
     }
@@ -101,9 +101,9 @@ public class ListingsControllerTest {
 
     private static Stream<Arguments> nonPaginatedParamsForNeighbhouhoods() {
         return Stream.of(
-                Arguments.of(Arrays.asList(new ListingsModel[REQUESTED_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd, Prenzlauer Berg Nordwest, Helmholtzplatz"), status().isOk()),
-                Arguments.of(Arrays.asList(new ListingsModel[REQUESTED_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd, Prenzlauer Berg Nordwest, Helmholtzplatz"), status().isOk()),
-                Arguments.of(Collections.emptyList(), Arrays.asList("Brunnenstr. Süd, Prenzlauer Berg Nordwest, Helmholtzplatz"), status().isBadRequest())
+                Arguments.of(Arrays.asList(new ListingsModel[REQUESTED_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd"), status().isOk()),
+                Arguments.of(Arrays.asList(new ListingsModel[REQUESTED_PAGE_SIZE]), Arrays.asList("Brunnenstr. Süd"), status().isOk()),
+                Arguments.of(Collections.emptyList(), Arrays.asList("Brunnenstr. Süd"), status().isBadRequest())
         );
 
     }
