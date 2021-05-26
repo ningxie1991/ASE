@@ -6,18 +6,31 @@ import ifi.ase.ascout.calculatorservice.utils.UTILS;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+/**
+ * CostMatrix
+ */
 public class CostMatrix {
     private final double[][] costMatrix;
     private final int rowNum;//number of neiborhoods/destinations
     private final int colNum;//number of attractions/origins
     private int colItr;
 
+    /**
+     * Constructor of CostMatrix
+     * @param rnum the row number
+     * @param cnum the column number
+     */
     public CostMatrix(int rnum, int cnum){
         this.costMatrix = new double[rnum][cnum];
         this.colItr = 0;
         this.rowNum = rnum;
         this.colNum = cnum;
     }
+
+    /**
+     * Fill in the matrix
+     * @param fillInMatrix the matrix to fill in
+     */
     public void fillIn(double[][] fillInMatrix){
         int rnum = fillInMatrix.length;
         if(rnum < 0 || rnum != this.rowNum) return;
@@ -29,6 +42,10 @@ public class CostMatrix {
         }
     }
 
+    /**
+     * Fill in the distance matrix
+     * @param dMatrix the distance matrix to fill in
+     */
     public void fillInDistanceMatrix(DistanceMatrix dMatrix){
         // TODO regulation and balance
         int rlen = dMatrix.rows.length;//TODO NullPointerException: null
@@ -53,23 +70,25 @@ public class CostMatrix {
                 if(maxDis > 0 && maxDur > 0){
                     cMatrix[i][j] = (distance / maxDis + duration / maxDur) * 0.5;
                 }
-//                System.err.println(
-//                        "cm["+i+"]["+j+"]="+cMatrix[i][j]+"\n"+
-//                        "(distance:"+distance+
-//                        ",duration:"+duration+
-//                        ",maxDis:"+maxDis+
-//                        ",maxDur:"+maxDur+")"
-//                );
             }
         }
         this.fillIn(cMatrix);
     }
 
+    /**
+     * Gets the cost matrix
+     * @return a 2D array of double
+     */
     public double[][] getCostMatrix() {
         return this.costMatrix;
     }
 
-    public double[] calculateColumeCostByGroup(int[] groupIds ){
+    /**
+     * Calculates the column cost by group
+     * @param groupIds the group ids
+     * @return an array of double
+     */
+    public double[] calculateColumnCostByGroup(int[] groupIds ){
         //rlen=cnum = number of neighborhoods, as destinations;
         int rlen = this.costMatrix.length;
         //clen=rnum = number of attractions, as origins;
@@ -93,6 +112,10 @@ public class CostMatrix {
         return neiToAllCosts;
     }
 
+    /**
+     * Converts to string
+     * @return String
+     */
     @Override
     public String toString() {
         return "CostMatrix{" +
