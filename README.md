@@ -50,11 +50,15 @@ The first build could take a few minutes. After that, the whole application (bot
 
 ### development/staging:
 
-GitHub Action is used to deploy each module from the repository's develop branch. Latest build in the development/staging environment can be accessed at http://34.65.48.29
+GitHub Action is used to deploy each module from the repository's develop branch. 
+Build and deployment scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a> (scripts starting with "Dev-"). 
+Latest build in the development/staging environment can be accessed at http://34.65.48.29
 
 ### produdction:
 
-GitHub Action is used to deploy each module from the repository's main branch with a release tag. Latest release in the production environment can be accessed at http://ascout.org
+GitHub Action is used to deploy each module from the repository's main branch with a release tag. 
+Build and deployment scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a> (scripts starting with "Prod-").
+Latest release in the production environment can be accessed at http://ascout.org
       
 # How to Use Demo
 
