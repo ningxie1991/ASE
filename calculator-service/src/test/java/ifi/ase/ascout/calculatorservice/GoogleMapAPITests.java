@@ -22,7 +22,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
+import java.io.*;
 @SpringBootTest
 public class GoogleMapAPITests {
 
@@ -101,6 +101,47 @@ public class GoogleMapAPITests {
         assertEquals("Sydney NSW, Australia", matrix.originAddresses[1]);
         assertEquals("Uluru, Petermann NT 0872, Australia", matrix.destinationAddresses[0]);
 //        assertEquals("Kakadu NT 0822, Australia", matrix.destinationAddresses[1]);
+    }
+
+    @Test
+    public void fillPlaceIDCSV(){
+
+        String pathToCsv = "Z:\\2021-3\\ASE\\neighbourhoods.csv";
+        String pathToNewCsv = "neighbourhoods.csv";
+        BufferedReader csvReader;
+        FileWriter csvWriter;
+        Writer fstream = null;
+        BufferedWriter out = null;
+        try {
+            csvReader = new BufferedReader(new InputStreamReader(new FileInputStream(
+                    pathToCsv), "UTF8"));
+            fstream = new OutputStreamWriter(
+                    new FileOutputStream(pathToNewCsv), StandardCharsets.UTF_8);
+
+            String row;
+            //first row
+            row = csvReader.readLine();
+            fstream.append(row+",place_id\n");
+            while ((row = csvReader.readLine()) != null) {
+                String address = row;
+                GeocodingResult[] results =  GeocodingApi.geocode(context,
+                        address).await();
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                String place_id = "place_id:"+results[0].placeId;
+                fstream.append(row+","+place_id+"\n");
+            }
+            csvReader.close();
+        } catch (IOException | ApiException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Test
+    public void randomTest(){
+        double d1 = (double)5/3;double d2 = (double)(5/3);double d3 = 5/(double)3;
+        System.out.println(d2+","+d3);
     }
 
 }

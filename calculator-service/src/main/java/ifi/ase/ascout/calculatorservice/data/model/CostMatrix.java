@@ -40,16 +40,16 @@ public class CostMatrix {
         long maxDur=0;
         for(int i=0;i<rlen;++i){
             for(int j=0;j<clen;++j){
-                long distance = dMatrix.rows[0].elements[j].distance.inMeters;
-                long duration = dMatrix.rows[0].elements[j].duration.inSeconds;
+                long distance = dMatrix.rows[i].elements[j].distance.inMeters;
+                long duration = dMatrix.rows[i].elements[j].duration.inSeconds;
                 if(distance>maxDis)maxDis=distance;
                 if(duration>maxDur)maxDur=duration;
             }
         }
         for(int i=0;i<rlen;++i){
             for(int j=0;j<clen;++j){
-                double distance = dMatrix.rows[0].elements[j].distance.inMeters;
-                double duration = dMatrix.rows[0].elements[j].duration.inSeconds;
+                double distance = dMatrix.rows[i].elements[j].distance.inMeters;
+                double duration = dMatrix.rows[i].elements[j].duration.inSeconds;
                 cMatrix[i][j] = (distance/maxDis+duration/maxDur)*0.5;
 //                System.err.println(
 //                        "cm["+i+"]["+j+"]="+cMatrix[i][j]+"\n"+

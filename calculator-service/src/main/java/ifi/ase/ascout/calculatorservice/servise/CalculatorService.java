@@ -88,7 +88,7 @@ public class CalculatorService implements ICalculatorService{
         }catch(InterruptedException | ApiException | IOException e){
             e.printStackTrace();
         }
-        logger.debug("cost matrix result:"+cm.toString());
+        logger.info("cost matrix result:"+cm.toString());
         double[] neighborhoodCosts = cm.calculateColumeCostByGroup(query.getGroupIds());
         logger.info("all neighborhoods' scores:"+ Arrays.toString(neighborhoodCosts));
         return UTILS.getTopNeighborhoods(neiList,neighborhoodCosts,query.getTopK());
