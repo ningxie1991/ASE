@@ -4,13 +4,19 @@ import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class UTILS {
     private static final Logger logger= LoggerFactory.getLogger(UTILS.class);
+    private static final int TOP_K = 3;
+
+    public static int getTopK(){
+        return TOP_K;
+    }
+
     public static double[] add_rows(double[] r1,double[] r2){
         int len = r1.length;
         for (int i = 0; i < len; i++) {
@@ -35,7 +41,7 @@ public class UTILS {
         String[] ids= new String[len];
         for (int i = 0; i < len; i++) {
             String name = nList.get(i).getName();
-            String placeId = nList.get(i).getPlace_id();
+            String placeId = nList.get(i).getPlaceId();
             if(placeId!=null){
                 ids[i] = placeId;
             }else{
@@ -52,12 +58,26 @@ public class UTILS {
     }
 
     public static List<NeighborhoodModel> dummyNList() {
-        List<NeighborhoodModel> dnList = new ArrayList<>();
-        dnList.add(new NeighborhoodModel("Halensee"));
-        dnList.add(new NeighborhoodModel("Fennpfuhl"));
-        dnList.add(new NeighborhoodModel("Biesdorf"));
-        dnList.add(new NeighborhoodModel("Alexanderplatz"));
-        dnList.add(new NeighborhoodModel("Kantstraße"));
+        NeighborhoodModel n1 = new NeighborhoodModel();
+        n1.setName("Halensee");
+        n1.setGroup("Charlottenburg-Wilm.");
+        n1.setPlaceId("place_id:ChIJFShAgshQqEcRDrn0lWepaKA");
+        n1.setCoordinates("[[[[12.33,13.55]]]]");
+
+        NeighborhoodModel n2 = new NeighborhoodModel();
+        n2.setName("Alexanderplatz");
+        n2.setGroup("Mitte");
+        n2.setPlaceId("place_id:ChIJbygR2x5OqEcRbhbkZsMB_DA");
+        n2.setCoordinates("[[[[13.44,5.55]]]]");
+
+        NeighborhoodModel n3 = new NeighborhoodModel();
+        n3.setName("Kantstraße");
+        n3.setGroup("Charlottenburg-Wilm.");
+        n3.setPlaceId("place_id:ChIJFY-53-NQqEcRyLXE7MeZD24");
+        n3.setCoordinates("[[[[11.33,3.55]]]]");
+
+        // the size of the list must be the same as TOP_K
+        List<NeighborhoodModel> dnList = Arrays.asList(n1, n2, n3);
         return dnList;
     }
 

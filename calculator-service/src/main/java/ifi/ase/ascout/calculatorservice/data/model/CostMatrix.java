@@ -7,12 +7,12 @@ import java.util.Arrays;
 import java.util.stream.IntStream;
 
 public class CostMatrix {
-    final private double[][] costMatrix;
-    final private int rowNum;//number of neiborhoods/destinations
-    final private int colNum;//number of attractions/origins
+    private final double[][] costMatrix;
+    private final int rowNum;//number of neiborhoods/destinations
+    private final int colNum;//number of attractions/origins
     private int colItr;
 
-    public CostMatrix(int rnum,int cnum){
+    public CostMatrix(int rnum, int cnum){
         this.costMatrix = new double[rnum][cnum];
         this.colItr = 0;
         this.rowNum = rnum;
@@ -20,14 +20,13 @@ public class CostMatrix {
     }
     public void fillIn(double[][] fillInMatrix){
         int rnum = fillInMatrix.length;
-        if(rnum<0||rnum!=this.rowNum)return;
+        if(rnum < 0 || rnum != this.rowNum) return;
         int cnum = fillInMatrix[0].length;
-        for(int c=0;c<cnum&&colItr<this.colNum;++colItr,++c){
-            for(int r=0;r<this.rowNum;++r){
+        for(int c = 0; c < cnum && colItr < this.colNum; ++colItr, ++c){
+            for(int r = 0; r < this.rowNum; ++r){
                 this.costMatrix[r][colItr]=fillInMatrix[r][c];
             }
         }
-        return;
     }
 
     public void fillInDistanceMatrix(DistanceMatrix dMatrix){
@@ -38,19 +37,22 @@ public class CostMatrix {
         //findout max distance and duration
         long maxDis=0;
         long maxDur=0;
-        for(int i=0;i<rlen;++i){
-            for(int j=0;j<clen;++j){
+        for(int i = 0; i < rlen; ++i){
+            for(int j = 0; j < clen; ++j) {
                 long distance = dMatrix.rows[0].elements[j].distance.inMeters;
                 long duration = dMatrix.rows[0].elements[j].duration.inSeconds;
-                if(distance>maxDis)maxDis=distance;
-                if(duration>maxDur)maxDur=duration;
+                if(distance > maxDis) maxDis=distance;
+                if(duration > maxDur) maxDur=duration;
             }
         }
-        for(int i=0;i<rlen;++i){
-            for(int j=0;j<clen;++j){
+
+        for(int i = 0; i < rlen; ++i) {
+            for(int j = 0;j < clen; ++j){
                 double distance = dMatrix.rows[0].elements[j].distance.inMeters;
                 double duration = dMatrix.rows[0].elements[j].duration.inSeconds;
-                cMatrix[i][j] = (distance/maxDis+duration/maxDur)*0.5;
+                if(maxDis > 0 && maxDur > 0){
+                    cMatrix[i][j] = (distance / maxDis + duration / maxDur) * 0.5;
+                }
 //                System.err.println(
 //                        "cm["+i+"]["+j+"]="+cMatrix[i][j]+"\n"+
 //                        "(distance:"+distance+
@@ -61,7 +63,6 @@ public class CostMatrix {
             }
         }
         this.fillIn(cMatrix);
-        return;
     }
 
     public double[][] getCostMatrix() {
@@ -76,7 +77,7 @@ public class CostMatrix {
         double[] neiToAllCosts = new double[clen];
         IntStream.range(0, clen).forEach(i -> neiToAllCosts[i] = 0);
         double[] neiToGroupCost = this.costMatrix[0];
-        for(int i=1;i<rlen;++i){
+        for(int i = 1; i < rlen; ++i){
             if(groupIds[i]==groupIds[i-1]){//Same group, take minimum
                 //neiToGroupCost = min{costMatrix[i],neiToGroupCost}
                 for(int j=0;j<clen;++j){

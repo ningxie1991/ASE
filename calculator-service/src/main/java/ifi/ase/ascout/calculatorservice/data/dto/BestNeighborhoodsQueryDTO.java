@@ -1,22 +1,18 @@
 package ifi.ase.ascout.calculatorservice.data.dto;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.List;
-import java.math.BigDecimal;
 
-@Entity
 public class BestNeighborhoodsQueryDTO implements Serializable {
     private List<AttractionDTO> attractionList;
     private String travelMode;//for DistanceMatrix API
     private int topK;
 
-
-    public BestNeighborhoodsQueryDTO(){ }
-    public BestNeighborhoodsQueryDTO(List<AttractionDTO> attractionList,String trvalMode){
-        this.travelMode=trvalMode;
-        this.attractionList=attractionList;
-        this.topK=5;
+    public BestNeighborhoodsQueryDTO(List<AttractionDTO> attractionList,
+                                     String travelMode,
+                                     int topK){
+        this.travelMode = travelMode;
+        this.attractionList = attractionList;
+        this.topK = topK;
     }
 
     public List<AttractionDTO> getAttractionList() {

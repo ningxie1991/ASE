@@ -47,8 +47,7 @@ public class CalculatorService implements ICalculatorService{
         //TODO what if name is null : java.lang.NullPointerException
         TravelMode travelMode = TravelMode.valueOf(query.getTravelMode());
         String[] origin_attractions = query.getOrigins();//row names,origin/attraction names
-
-        for(String s :origin_attractions) System.err.println(s.toString());
+        
         List<NeighborhoodModel> neiList = repository.findAll();//=UTILS.dummyNList();
         if(neiList.size()==0){
             logger.error("Empty response from DB!");
@@ -86,11 +85,12 @@ public class CalculatorService implements ICalculatorService{
                 cm.fillInDistanceMatrix(matrix);
             }
         }catch(InterruptedException | ApiException | IOException e){
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            logger.error("DistanceMatrixApi Error", e);
         }
         logger.debug("cost matrix result:"+cm.toString());
         double[] neighborhoodCosts = cm.calculateColumeCostByGroup(query.getGroupIds());
-        logger.info("all neighborhoods' scores:"+ Arrays.toString(neighborhoodCosts));
+        logger.info("all neighborhoods' scores:", Arrays.toString(neighborhoodCosts));
         return UTILS.getTopNeighborhoods(neiList,neighborhoodCosts,query.getTopK());
     }
 }
