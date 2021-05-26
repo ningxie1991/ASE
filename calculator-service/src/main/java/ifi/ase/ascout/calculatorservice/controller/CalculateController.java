@@ -29,7 +29,7 @@ public class CalculateController {
             List<NeighborhoodModel>
         */
         List<NeighborhoodModel> nList = service.bestNeighborhoods(query);
-        if(nList==null){
+        if(nList.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body(nList);
         }
         return ResponseEntity.status(HttpStatus.OK).body(nList);

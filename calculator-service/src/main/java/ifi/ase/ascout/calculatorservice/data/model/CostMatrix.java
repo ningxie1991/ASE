@@ -27,7 +27,6 @@ public class CostMatrix {
                 this.costMatrix[r][colItr]=fillInMatrix[r][c];
             }
         }
-        return;
     }
 
     public void fillInDistanceMatrix(DistanceMatrix dMatrix){
@@ -64,7 +63,6 @@ public class CostMatrix {
             }
         }
         this.fillIn(cMatrix);
-        return;
     }
 
     public double[][] getCostMatrix() {

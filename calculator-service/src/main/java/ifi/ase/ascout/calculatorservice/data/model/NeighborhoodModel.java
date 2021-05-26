@@ -1,32 +1,39 @@
 package ifi.ase.ascout.calculatorservice.data.model;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Document(collection = "neighborhoods_with_coords")
 public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
-    private String name;
-    private String place_id;
-    private double score;
+
+    // attributes from the DB
+    @Field(name="coordinates")
     private String coordinates;
-
-    private String city;
+    @Field(name="group")
     private String group;
-    private Double lat;
-    private Double lng;
-    private String picture_url;
-    private String description;
+    @Field(name="name")
+    private String name;
+    @Field(name="place_id")
+    private String placeId;
 
-    public NeighborhoodModel(){
-        this.name = "test";
-        this.place_id = null;
-        this.city = "test";
-        this.picture_url = "optional";
-        this.description = "optional";
+    // generated attribute
+    private double score;
+
+    public String getCoordinates() {
+        return coordinates;
     }
 
-    public NeighborhoodModel(String name){
-        this.name = name;
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 
     public String getName() {
@@ -37,63 +44,22 @@ public class NeighborhoodModel implements Comparable<NeighborhoodModel>{
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
+    public String getPlaceId() {
+        return placeId;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-    public Double getLat() {
-        return lat;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
-
-    public Double getLng() {
-        return lng;
-    }
-
-    public void setLng(Double lng) {
-        this.lng = lng;
-    }
-
-    public String getPicture_url() {
-        return picture_url;
-    }
-
-    public void setPicture_url(String picture_url) {
-        this.picture_url = picture_url;
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
     }
 
 
-    public String getDecription() {
-        return description;
+    public Double getScore() {
+        return score;
     }
 
-    public void setDecription(String decription) {
-        this.description = decription;
+    public void setScore(double score) {
+        this.score = score;
     }
-    public Double getScore() { return score; }
-    public void setScore(double score) { this.score = score; }
-    public String getPlace_id() {
-        return place_id;
-    }
-    public void setPlace_id(String place_id) {
-        this.place_id = place_id;
-    }
-    public String getCoordinates() {return coordinates;}
-    public void setCoordinates(String coordinates) {this.coordinates = coordinates;}
 
     @Override
     public int compareTo(NeighborhoodModel o) {

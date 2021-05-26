@@ -7,10 +7,12 @@ public class BestNeighborhoodsQueryDTO implements Serializable {
     private String travelMode;//for DistanceMatrix API
     private int topK;
 
-    public BestNeighborhoodsQueryDTO(List<AttractionDTO> attractionList,String travelMode){
-        this.travelMode=travelMode;
-        this.attractionList=attractionList;
-        this.topK=5;
+    public BestNeighborhoodsQueryDTO(List<AttractionDTO> attractionList,
+                                     String travelMode,
+                                     int topK){
+        this.travelMode = travelMode;
+        this.attractionList = attractionList;
+        this.topK = topK;
     }
 
     public List<AttractionDTO> getAttractionList() {
