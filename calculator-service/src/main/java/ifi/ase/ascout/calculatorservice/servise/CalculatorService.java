@@ -21,34 +21,47 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+/**
+ * CalculatorService is the service that provides the algorithm to calculate the best neighbourhoods
+ */
 @Service
 public class CalculatorService implements ICalculatorService{
+    // logger
     private final Logger logger;
+    // context
     private final GeoApiContext context;
+    // repository
     @Autowired
     private NeighborhoodsRepository repository;
+    // apiMaxNum
     @Value("${api.max_num}")
     private int apiMaxNum;
+    // apiMaxLen
     @Value("${api.max_len}")
     private int apiMaxLen;
 
+    /**
+     * Constructor of CalculatorService
+     * @param apiKey the api key
+     */
     public CalculatorService(@Value("${api.key}") String apiKey) {
         this.context = new GeoApiContext.Builder()
                 .apiKey(apiKey)
                 .build();
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
-    public List<NeighborhoodModel> getAllNeighborhoods(){
-        return repository.findAll();
-    }
 
+    /**
+     * Calculates the best neighbourhoods
+     * @param query a BestNeighborhoodsQueryDTO object
+     * @return a list of NeighborhoodModel
+     */
     @Override
     public List<NeighborhoodModel> bestNeighborhoods(BestNeighborhoodsQueryDTO query) {
         //TODO what if name is null : java.lang.NullPointerException
         TravelMode travelMode = TravelMode.valueOf(query.getTravelMode());
         String[] origin_attractions = query.getOrigins();//row names,origin/attraction names
-
-        for(String s :origin_attractions) System.err.println(s.toString());
+        
         List<NeighborhoodModel> neiList = repository.findAll();//=UTILS.dummyNList();
         if(neiList.size()==0){
             logger.error("Empty response from DB!");
@@ -86,11 +99,12 @@ public class CalculatorService implements ICalculatorService{
                 cm.fillInDistanceMatrix(matrix);
             }
         }catch(InterruptedException | ApiException | IOException e){
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
+            logger.error("DistanceMatrixApi Error", e);
         }
         logger.debug("cost matrix result:"+cm.toString());
-        double[] neighborhoodCosts = cm.calculateColumeCostByGroup(query.getGroupIds());
-        logger.info("all neighborhoods' scores:"+ Arrays.toString(neighborhoodCosts));
+        double[] neighborhoodCosts = cm.calculateColumnCostByGroup(query.getGroupIds());
+        logger.info("all neighborhoods' scores:", Arrays.toString(neighborhoodCosts));
         return UTILS.getTopNeighborhoods(neiList,neighborhoodCosts,query.getTopK());
     }
 }

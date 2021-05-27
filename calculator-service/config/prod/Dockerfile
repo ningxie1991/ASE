@@ -13,4 +13,4 @@ ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 COPY --from=TEMP_BUILD_IMAGE $APP_HOME/build/libs/$ARTIFACT_NAME .
 EXPOSE 3001
-CMD java -jar $ARTIFACT_NAME
+CMD java -Dspring.profiles.active=prod -jar $ARTIFACT_NAME
