@@ -111,4 +111,48 @@ public class CalculatorServiceTests {
         }
     }
 
+    @Test
+    public void testDifferentAttractionGroupIds(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
+        AttractionDTO a1 = new AttractionDTO("Potsdamer Platz","ChIJIeqReMlRqEcRquFNJTyYoUw",0);//
+        AttractionDTO a2 = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",0);//, Am Tierpark
+        List<AttractionDTO> aL = new ArrayList<>();
+        aL.add(a1);
+        aL.add(a2);
+
+        System.out.println("[Testing full 0 groupIds query]");
+        for( AttractionDTO a : aL){
+            a.setGroupId(0);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+        System.out.println("[Testing unique groupIds query]");
+        int i=1;
+        for( AttractionDTO a : aL){
+            a.setGroupId(i++);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+        System.out.println("[Testing full 1 groupIds query]");
+        for( AttractionDTO a : aL){
+            a.setGroupId(1);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+    }
 }
