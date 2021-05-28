@@ -143,6 +143,8 @@ public class CalculatorServiceTests {
             System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
         }
 
+
+
         System.out.println("[Testing full 1 groupIds query]");
         for( AttractionDTO a : aL){
             a.setGroupId(1);
@@ -153,6 +155,50 @@ public class CalculatorServiceTests {
         for( NeighborhoodModel nm :result){
             System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
         }
+
+    }
+
+    @Test
+    public void testInvalidAttractionPlaceId(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
+
+        AttractionDTO a1 = new AttractionDTO("Potsdamer Platz","------",1);//
+        AttractionDTO a2 = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",2);//, Am Tierpark
+        List<AttractionDTO> aL = new ArrayList<>();
+        aL.add(a1);
+        aL.add(a2);
+        System.out.println("attraction_order:"+aL.toString());
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+    }
+    @Test
+    public void testTooManyAttractions(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
+        AttractionDTO a = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",2);//, Am Tierpark
+        List<AttractionDTO> aL = new ArrayList<>();
+        for(int i=0;i<27;++i){
+            aL.add(a);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+    }
+
+    @Test
+    public void testEmptyDBResponse(){
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+        String travelMode = "DRIVING";
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList1,travelMode, topK);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        assertEquals(0, result.size());
 
     }
 }
