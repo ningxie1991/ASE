@@ -201,4 +201,13 @@ public class CalculatorServiceTests {
         assertEquals(0, result.size());
 
     }
+
+    @Test
+    public void testManyNeiborhoods(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNListMany(35));
+        String travelMode = "DRIVING";
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList1,travelMode, topK);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        assertEquals(topK, result.size());
+    }
 }
