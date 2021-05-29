@@ -31,11 +31,11 @@ The **Spring boot** Java framework is used to drive the back end of our web appl
 
 ### CI/CD
 
-**GitHub Actions** is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time.
+**GitHub Actions** is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time. CI/CD scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a>.
 
 ### Testing
 
-The back end testing environment is composed of **JUnit** for writing unit tests and **JaCoCo** for code coverage metrics. The front end testing environment uses the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows.
+The back end testing environment is composed of **JUnit** for writing unit tests and **JaCoCo** for code coverage metrics. The front end testing environment uses the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows <a href="https://github.com/ningxie1991/AScout/blob/develop/.github/workflows/CI-SonarCloud-browse-service.yml"> (example) </a>.
 
 More details about testing and CI/CD can be found in <a href="https://github.com/ningxie1991/AScout/wiki/Testing-and-Continuous-Integration"> Wiki - Testing and Continuous Integration </a>.
 
