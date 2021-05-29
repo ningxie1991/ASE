@@ -5,7 +5,7 @@ name: "browse-service CI + Sonarcloud"
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ scan-browse-service ]
     paths: 
         - "browse-service/**"
 

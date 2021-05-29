@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"ifi.ase.ascout.browseservice"},{"l":"ifi.ase.ascout.browseservice.config"},{"l":"ifi.ase.ascout.browseservice.controller"},{"l":"ifi.ase.ascout.browseservice.data.model"},{"l":"ifi.ase.ascout.browseservice.data.repository"}];updateSearchResults();

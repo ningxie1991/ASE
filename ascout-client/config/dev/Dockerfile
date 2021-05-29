@@ -12,9 +12,10 @@ COPY package.json ./
 COPY package-lock.json ./
 RUN npm install --silent
 RUN npm install react-scripts@3.4.1 -g --silent
+RUN npm install -g env-cmd
 
 # add app
 COPY . ./
 EXPOSE 3000
 # start app
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:dev"]

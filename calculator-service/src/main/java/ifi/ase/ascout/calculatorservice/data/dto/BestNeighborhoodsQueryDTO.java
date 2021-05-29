@@ -1,33 +1,76 @@
 package ifi.ase.ascout.calculatorservice.data.dto;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.List;
-import java.math.BigDecimal;
 
-@Entity
+/**
+ * BestNeighborhoodsQueryDTO is the data object representing a query from the client
+ */
 public class BestNeighborhoodsQueryDTO implements Serializable {
+    /**
+     * The attraction list
+     */
     private List<AttractionDTO> attractionList;
-    private String travelMode;//for DistanceMatrix API
+
+    /**
+     * The travel mode
+     */
+    private String travelMode;
+
+    /**
+     * The top K number of neighbourhoods
+     */
     private int topK;
 
-
-    public BestNeighborhoodsQueryDTO(){ }
-    public BestNeighborhoodsQueryDTO(List<AttractionDTO> attractionList,String trvalMode){
-        this.travelMode=trvalMode;
-        this.attractionList=attractionList;
-        this.topK=5;
+    /**
+     * Constructor of BestNeighborhoodsQueryDTO
+     * @param attractionList the attraction list
+     * @param travelMode the travel mode, i.e. "DRIVING", "WALKING", "TRANSIT"
+     * @param topK the top k number of neighbourhoods
+     */
+    public BestNeighborhoodsQueryDTO(List<AttractionDTO> attractionList,
+                                     String travelMode,
+                                     int topK){
+        this.travelMode = travelMode;
+        this.attractionList = attractionList;
+        this.topK = topK;
     }
 
+    /**
+     * Gets the attraction list
+     * @return a list of AttractionDTO
+     */
     public List<AttractionDTO> getAttractionList() {
         return attractionList;
     }
+
+    /**
+     * Sets the attraction list
+     * @param attractionList the attraction list
+     */
     public void setAttractionList(List<AttractionDTO> attractionList) {
         this.attractionList = attractionList;
     }
-    public String getTravelMode() { return travelMode; }
-    public void setTravelMode(String travelMode) { this.travelMode = travelMode; }
 
+    /**
+     * Gets the travel mode
+     * @return String
+     */
+    public String getTravelMode() {
+        return travelMode;
+    }
+
+    /**
+     * Sets the travel mode
+     * @param travelMode the travel mode, i.e. "DRIVING", "WALKING", "TRANSIT"
+     */
+    public void setTravelMode(String travelMode) {
+        this.travelMode = travelMode;
+    }
+
+    /**
+     * Gets the origins
+     * @return a String array
+     */
     public String[] getOrigins() {
         int len = attractionList.size();
         String[] origins = new String[len];
@@ -37,6 +80,10 @@ public class BestNeighborhoodsQueryDTO implements Serializable {
         return origins;
     }
 
+    /**
+     * Gets the group ids
+     * @return an int array
+     */
     public int[] getGroupIds() {
         int len = attractionList.size();
         int[] groupIds = new int[len];
@@ -52,10 +99,18 @@ public class BestNeighborhoodsQueryDTO implements Serializable {
         return groupIds;
     }
 
+    /**
+     * Gets the topK
+     * @return int
+     */
     public int getTopK() {
         return topK;
     }
 
+    /**
+     * Sets the topK
+     * @param topK the top K number of neighbourhoods
+     */
     public void setTopK(int topK) {
         this.topK = topK;
     }

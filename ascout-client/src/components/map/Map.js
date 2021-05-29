@@ -5,9 +5,7 @@ import AutoComplete from './Autocomplete'
 import LocationMarker from './LocationMarker'
 import AttractionMarker from './AttractionMarker'
 import ListingMarker from './ListingMarker'
-import { config } from 'helpers/Constants.js'
 import { getGeoJsonCoordinates } from 'services/calculatorService'
-import MarkerClusterer from '@googlemaps/markerclustererplus'
 
 const Wrapper = styled.main`
   width: 100%;
@@ -394,12 +392,12 @@ class Map extends Component {
           //onChildClick={() => console.log('child click')}
           onClick={this._onClick}
           bootstrapURLKeys={{
-            key: `${config.api_key}`, //todo please change the API key
+            key: `${process.env.REACT_APP_API_KEY}`, //todo please change the API key
             libraries: ['places', 'geometry'],
-            mapIds: [`${config.map_id}`],
+            mapIds: [`${process.env.REACT_APP_MAP_ID}`],
           }}
           options={{
-            mapId: `${config.map_id}`,
+            mapId: `${process.env.REACT_APP_MAP_ID}`,
           }}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
