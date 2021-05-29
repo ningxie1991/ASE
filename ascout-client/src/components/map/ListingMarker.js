@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Arrow, useLayer } from 'react-laag'
 import styled from 'styled-components'
-import { useLayer, useHover, Arrow } from 'react-laag'
-import HomeIcon from '@material-ui/icons/Home'
 import './AttractionMarker.css'
 
 const StyledMarker = styled.div`
@@ -75,7 +74,12 @@ export default function ListingMarker({ key, listing, open, close }) {
       {isOpen &&
         renderLayer(
           <InfoBox key={key} {...layerProps}>
-            <img src={listing.pictureUrl} width='200' height='150' />
+            <img
+              src={listing.pictureUrl}
+              width='200'
+              height='150'
+              alt={listing.name}
+            />
             <br />
             <InfoDetail>
               {listing.name}

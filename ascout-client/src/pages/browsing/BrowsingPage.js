@@ -17,9 +17,9 @@ export default class BrowsingPage extends Component {
   addAttraction = (attraction) => {
     let attractions = [...this.state.attractions]
     let duplicates = this.state.attractions.filter(
-      (item) => item.placeId == attraction.placeId
+      (item) => item.placeId === attraction.placeId
     )
-    if (!duplicates || duplicates.length == 0) {
+    if (!duplicates || duplicates.length === 0) {
       attractions.push(attraction)
       this.setState({ attractions })
     }
@@ -27,7 +27,7 @@ export default class BrowsingPage extends Component {
 
   removeAttraction = (attraction) => {
     let attractions = this.state.attractions.filter(
-      (item) => item.placeId != attraction.placeId
+      (item) => item.placeId !== attraction.placeId
     )
     this.setState({ attractions })
   }

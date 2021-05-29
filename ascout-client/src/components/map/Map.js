@@ -199,14 +199,14 @@ class Map extends Component {
       const bounds = new mapApi.LatLngBounds()
       if (attractionChange) {
         if (attractions && attractions.length > 1) {
-          attractions.map(function (attraction) {
+          attractions.forEach(function (attraction) {
             const position = { lat: attraction.lat, lng: attraction.lng }
             bounds.extend(position)
           })
         }
       } else if (listingChange) {
         if (listings && listings.length > 0) {
-          listings.map(function (listing) {
+          listings.forEach(function (listing) {
             const position = {
               lat: parseFloat(listing.latitude),
               lng: parseFloat(listing.longitude),
@@ -219,8 +219,14 @@ class Map extends Component {
       } else if (neighbourhoodChange) {
         if (neighbourhoods && neighbourhoods.length > 0) {
           this.drawNeighbourhood(bounds, neighbourhoods)
+        } else {
+          const { mapInstance } = this.state
+          mapInstance.data.forEach(function (feature) {
+            mapInstance.data.remove(feature)
+          })
         }
       }
+
       //TODO why checking > 1
       if (
         (attractions && attractions.length > 1 && attractionChange) ||
@@ -258,7 +264,7 @@ class Map extends Component {
   }
 
   drawNeighbourhood(bounds, neighbourhoods, addGeoData = true) {
-    const { mapApiLoaded, mapInstance, mapApi } = this.state
+    const { mapApiLoaded, mapInstance } = this.state
     if (addGeoData) {
       mapInstance.data.forEach(function (feature) {
         mapInstance.data.remove(feature)
@@ -266,7 +272,7 @@ class Map extends Component {
     }
 
     if (mapApiLoaded) {
-      neighbourhoods.map((neighbourhood) => {
+      neighbourhoods.forEach((neighbourhood) => {
         if (neighbourhood.coordinates && neighbourhood.coordinates.length > 0) {
           var coordinatesFormatted = [JSON.parse(neighbourhood.coordinates)]
           var data = {
@@ -276,14 +282,18 @@ class Map extends Component {
               coordinates: coordinatesFormatted,
             },
           }
-          console.log('data neighbourhod false', data)
-          data.geometry.coordinates[0][0].map((boundary) => {
-            const position = {
-              lat: boundary[1],
-              lng: boundary[0],
-            }
-            bounds.extend(position)
-          })
+
+          data.geometry.coordinates[0] &&
+            data.geometry.coordinates[0].length > 0 &&
+            data.geometry.coordinates[0][0] &&
+            data.geometry.coordinates[0][0].length > 0 &&
+            data.geometry.coordinates[0][0].map((boundary) => {
+              const position = {
+                lat: boundary[1],
+                lng: boundary[0],
+              }
+              bounds.extend(position)
+            })
           if (addGeoData) {
             mapInstance.data.addGeoJson(data)
           }

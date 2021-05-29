@@ -1,10 +1,10 @@
-import { Button, List, ListItem } from '@material-ui/core'
+import { Button } from '@material-ui/core'
 import Grid from '@material-ui/core/Grid'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import React, { Component } from 'react'
 import AttractionList from 'components/sideBar/AttractionList'
-import info_1 from '../../assets/imgs/info_1.png'
 import 'components/sideBar/sidebar.css'
+import React from 'react'
+import info_1 from '../../assets/imgs/info_1.png'
 
 export default function SidebarContentLandingPage(props) {
   return (

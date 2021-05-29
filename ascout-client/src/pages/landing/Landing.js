@@ -1,7 +1,7 @@
 import Grid from '@material-ui/core/Grid'
-import React, { Component } from 'react'
 import Map from 'components/map/Map'
 import Sidebar from 'components/sideBar/Sidebar'
+import React from 'react'
 export default function Landing() {
   return (
     <div>

@@ -1,12 +1,9 @@
+import IconButton from '@material-ui/core/IconButton'
+import Paper from '@material-ui/core/Paper'
+import { withStyles } from '@material-ui/core/styles'
+import SearchIcon from '@material-ui/icons/Search'
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { withStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import InputBase from '@material-ui/core/InputBase'
-import Divider from '@material-ui/core/Divider'
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import SearchIcon from '@material-ui/icons/Search'
 
 const useStyles = (theme) => ({
   root: {
@@ -52,16 +49,7 @@ class AutoComplete extends Component {
   }
 
   componentDidMount({ map, mapApi } = this.props) {
-    const options = {
-      // restrict your search to a specific type of result
-      types: ['address'],
-      // restrict your search to a specific country, or an array of countries
-      // componentRestrictions: { country: ['gb', 'us'] },
-    }
-    this.autoComplete = new mapApi.places.Autocomplete(
-      this.searchInput
-      //options,
-    )
+    this.autoComplete = new mapApi.places.Autocomplete(this.searchInput)
     this.autoComplete.addListener('place_changed', this.onPlaceChanged)
     this.autoComplete.bindTo('bounds', map)
   }
