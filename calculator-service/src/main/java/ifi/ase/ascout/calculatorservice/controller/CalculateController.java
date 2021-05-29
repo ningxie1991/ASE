@@ -4,6 +4,7 @@ import ifi.ase.ascout.calculatorservice.data.dto.BestNeighborhoodsQueryDTO;
 import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
 import ifi.ase.ascout.calculatorservice.servise.ICalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,8 @@ import java.util.List;
  * CalculateController provides the API for interacting with the calculator-service
  */
 @RestController
-@CrossOrigin(origins = "${settings.cors_origin}")
+//@CrossOrigin(origins = {"${settings.cors_origin_dev}", "${settings.cors_origin_local}"})
+//@CrossOrigin(origins = {"${client.url.prod}", "${client.url.dev}", "${client.url.local}"})
 @RequestMapping(path = "/calculate")
 public class CalculateController {
     @Autowired

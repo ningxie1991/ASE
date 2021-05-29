@@ -88,8 +88,14 @@ public class CalculatorServiceTests {
     public void testDifferentOrder() throws Exception {
         when(repository.findAll()).thenReturn(UTILS.dummyNList());
 
-        AttractionDTO a1 = new AttractionDTO("Potsdamer Platz","ChIJIeqReMlRqEcRquFNJTyYoUw",1);//
-        AttractionDTO a2 = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",2);//, Am Tierpark
+        AttractionDTO a1 = new AttractionDTO();
+        a1.setName("Potsdamer Platz");
+        a1.setPlaceId("ChIJIeqReMlRqEcRquFNJTyYoUw");
+        a1.setGroupId(1);
+        AttractionDTO a2 = new AttractionDTO(); //, Am Tierpark
+        a2.setName("Tierpark Berlin");
+        a2.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a2.setGroupId(2);
         List<AttractionDTO> aL = new ArrayList<>();
         aL.add(a1);
         aL.add(a2);
@@ -114,8 +120,14 @@ public class CalculatorServiceTests {
     @Test
     public void testDifferentAttractionGroupIds(){
         when(repository.findAll()).thenReturn(UTILS.dummyNList());
-        AttractionDTO a1 = new AttractionDTO("Potsdamer Platz","ChIJIeqReMlRqEcRquFNJTyYoUw",0);//
-        AttractionDTO a2 = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",0);//, Am Tierpark
+        AttractionDTO a1 = new AttractionDTO();//
+        a1.setName("Potsdamer Platz");
+        a1.setPlaceId("ChIJIeqReMlRqEcRquFNJTyYoUw");
+        a1.setGroupId(0);
+        AttractionDTO a2 = new AttractionDTO();//, Am Tierpark
+        a2.setName("Tierpark Berlin");
+        a2.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a2.setGroupId(0);
         List<AttractionDTO> aL = new ArrayList<>();
         aL.add(a1);
         aL.add(a2);
@@ -162,8 +174,14 @@ public class CalculatorServiceTests {
     public void testInvalidAttractionPlaceId(){
         when(repository.findAll()).thenReturn(UTILS.dummyNList());
 
-        AttractionDTO a1 = new AttractionDTO("Potsdamer Platz","------",1);//
-        AttractionDTO a2 = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",2);//, Am Tierpark
+        AttractionDTO a1 = new AttractionDTO();//
+        a1.setName("Potsdamer Platz");
+        a1.setPlaceId("------");
+        a1.setGroupId(1);
+        AttractionDTO a2 = new AttractionDTO();//, Am Tierpark
+        a2.setName("Tierpark Berlin");
+        a2.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a2.setGroupId(2);
         List<AttractionDTO> aL = new ArrayList<>();
         aL.add(a1);
         aL.add(a2);
@@ -178,7 +196,10 @@ public class CalculatorServiceTests {
     @Test
     public void testTooManyAttractions(){
         when(repository.findAll()).thenReturn(UTILS.dummyNList());
-        AttractionDTO a = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",2);//, Am Tierpark
+        AttractionDTO a = new AttractionDTO();//, Am Tierpark
+        a.setName("Tierpark Berlin");
+        a.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a.setGroupId(2);
         List<AttractionDTO> aL = new ArrayList<>();
         for(int i=0;i<27;++i){
             aL.add(a);

@@ -125,6 +125,12 @@ public class UTILS {
         List<NeighborhoodModel> dnList = Arrays.asList(n1, n2, n3);
         return dnList;
     }
+
+    /**
+     * Returns a large dummy neighbourhood list
+     * @param num the number of items in the list
+     * @return a list of NeighborhoodModel
+     */
     public static List<NeighborhoodModel> dummyNListMany(int num) {
         List<NeighborhoodModel> dnList = new ArrayList<>();
         NeighborhoodModel n1 = new NeighborhoodModel();

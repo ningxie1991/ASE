@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","u":"allclasses-index.html"},{"p":"ifi.ase.ascout.browseservice","l":"BrowseServiceApplication"},{"p":"ifi.ase.ascout.browseservice.controller","l":"ListingsController"},{"p":"ifi.ase.ascout.browseservice.data.model","l":"ListingsModel"},{"p":"ifi.ase.ascout.browseservice.data.repository","l":"ListingsRepository"}];updateSearchResults();

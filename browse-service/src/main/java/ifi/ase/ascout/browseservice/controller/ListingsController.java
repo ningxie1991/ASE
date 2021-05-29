@@ -15,7 +15,7 @@ import java.util.List;
  * ListingsController provides the API for interacting with the browse-service
  */
 @RestController
-@CrossOrigin(origins = "${settings.cors_origin}")
+//@CrossOrigin(origins = {"${settings.cors_origin_dev}", "${settings.cors_origin_local}"})
 @RequestMapping(path = "/browse")
 public class ListingsController {
 
