@@ -6,7 +6,7 @@ Team: Ning Xie - Yasara peiris - Ali Yassine - Yuchen Zhang
 
 # Overview 
 
-AScout is an online web application built to provide travelers an efficient and reliable way of finding their ideal AirBnB rental. This is done by leveraging proximity and public transport data from the Google Maps API, while providing a clear and user friendly user interface. 
+AScout is an online web application built to provide travelers an efficient and reliable way of finding their ideal AirBnB rental. This is done by leveraging proximity and public transport data from the <a href="https://developers.google.com/maps"> Google Maps API </a> and a <a href="https://www.kaggle.com/brittabettendorf/berlin-airbnb-data"> Berlin Airbnb open dataset </a>, while providing a clear and user friendly user interface. 
 
 Travelers often have an itinerary or a list of places that they want to visit when they travel to a city, however online vacation rental marketplaces like AirBnB do not show information concerning proximity to their itinerary. However, it is often challenging and time-consuming for traveler to find ideal rental locations, especially if they are not very familiar with their destination. This motivated us to create a solution that helps travelers plan their trips, without worrying about the location of their accomodation. Our key functionality would have the user plan their itinerary using the user interface, and then we would be able to suggest neighborhoods that would be the most convenient in terms of proximity, and public transport.
 
@@ -21,6 +21,9 @@ More details about the project can be found in <a href="https://github.com/ningx
 ### Back End
 
 The **Spring boot** Java framework is used to drive the back end of our web application. It is chosen because it eliminates boilerplate configurations and code, reduces overall development time, and thus increases efficiency. In addition, the **Java Client for Google Maps Services** is used to add the functionality of the Google Maps API's to our back end.
+
+### Database
+**MongoDB** is the NoSQL database chosen for this project. We created collections in our database to store the Berlin Airbnb open dataset. The back end serivces connect to the database using **Spring MongoDB Repository**.
 
 ### Containerization
 
