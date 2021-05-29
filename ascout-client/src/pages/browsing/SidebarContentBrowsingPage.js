@@ -30,7 +30,7 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Slide from '@material-ui/core/Slide'
-
+import StarIcon from '@material-ui/icons/Star'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
@@ -549,7 +549,13 @@ export default function SidebarContentBrowsingPage(props) {
         aria-describedby='alert-dialog-slide-description'
       >
         <DialogTitle id='alert-dialog-slide-title'>
-          {clickedListing && clickedListing['name']}
+          {clickedListing && clickedListing['name']}{' '}
+          {clickedListing && clickedListing['hostIsSuperhost'] === 't' && (
+            <StarIcon
+              fontSize='large'
+              style={{ float: 'right', color: 'gold' }}
+            ></StarIcon>
+          )}
         </DialogTitle>
         <DialogContent>
           {clickedListing && (
@@ -564,49 +570,12 @@ export default function SidebarContentBrowsingPage(props) {
                     ></img>
                   </Grid>
                   <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Name
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['name']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
                     Host Name
                   </Grid>
                   <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
                     {clickedListing['hostName']}
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Host is Superhost
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['hostIsSuperhost'] === 't'
-                      ? 'True'
-                      : 'False'}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Neighbourhood Group
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['neighbourhoodGroup']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Neighbourhood
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['neighbourhood']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Latitude
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['latitude']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Longitude
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['longitude']}
-                  </Grid>
+
                   <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
                     Property Type
                   </Grid>
