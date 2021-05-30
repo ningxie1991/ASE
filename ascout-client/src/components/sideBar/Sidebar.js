@@ -35,9 +35,12 @@ export default function Sidebar(props) {
             {path.includes('listings') ? (
               <SidebarContentBrowsingPage
                 attractions={props.attractions}
+                hoverAttraction={props.hoverAttraction}
                 onRemoveAttraction={props.onRemoveAttraction}
                 onMarkListings={props.onMarkListings}
                 onMarkNeighbourhoods={props.onMarkNeighbourhoods}
+                showInfoBox={props.showInfoBox}
+                hideInfoBox={props.hideInfoBox}
               ></SidebarContentBrowsingPage>
             ) : (
               <SidebarContentLandingPage

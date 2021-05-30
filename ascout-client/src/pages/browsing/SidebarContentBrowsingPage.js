@@ -1,35 +1,36 @@
-import { Button, CircularProgress } from '@material-ui/core'
-import Grid from '@material-ui/core/Grid'
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
-import React, { useState, useEffect, useRef } from 'react'
-import info_1 from 'assets/imgs/info_1.png'
-import ToggleButton from '@material-ui/lab/ToggleButton'
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
-import FormControl from '@material-ui/core/FormControl'
-import InputLabel from '@material-ui/core/InputLabel'
-import { makeStyles, withStyles } from '@material-ui/core/styles'
+import { Button, Divider } from '@material-ui/core'
 import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
-import Typography from '@material-ui/core/Typography'
-import getListingsByNeighbourhood, {
-  getListingsByNeighbourhoodList,
-} from 'services/browseService'
-import Pagination from '@material-ui/lab/Pagination'
 import Chip from '@material-ui/core/Chip'
-import LocationOnIcon from '@material-ui/icons/LocationOn'
-import EditLocationIcon from '@material-ui/icons/EditLocation'
-import FilterListIcon from '@material-ui/icons/FilterList'
-import IconButton from '@material-ui/core/IconButton'
-import Filters from './Filters'
-import LinearProgress from '@material-ui/core/LinearProgress'
-import getBestNeighbourhoods from '../../services/calculatorService'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControl from '@material-ui/core/FormControl'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Grid from '@material-ui/core/Grid'
+import LinearProgress from '@material-ui/core/LinearProgress'
 import Slide from '@material-ui/core/Slide'
+import { makeStyles, withStyles } from '@material-ui/core/styles'
+import Switch from '@material-ui/core/Switch'
+import Typography from '@material-ui/core/Typography'
+import ApartmentIcon from '@material-ui/icons/Apartment'
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import EditLocationIcon from '@material-ui/icons/EditLocation'
+import HomeWorkIcon from '@material-ui/icons/HomeWork'
+import KingBedIcon from '@material-ui/icons/KingBed'
+import LocationOnIcon from '@material-ui/icons/LocationOn'
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom'
+import PersonIcon from '@material-ui/icons/Person'
+import StarIcon from '@material-ui/icons/Star'
+import WcIcon from '@material-ui/icons/Wc'
+import Pagination from '@material-ui/lab/Pagination'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
+import React, { useState } from 'react'
+import { getListingsByNeighbourhoodList } from 'services/browseService'
+import getBestNeighbourhoods from '../../services/calculatorService'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -43,25 +44,20 @@ const modalHStyle = {
 }
 const modalVStyle = {
   paddingTop: '2%',
-
+  textAlign: 'right',
   fontSize: '14px',
 }
-const card = {
-  boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
-  transition: 'all .25s linear',
-  '&:hover': {
-    boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
-    background: 'green',
-    transform: 'scale3d(1.05, 1.05, 1)',
-  },
-}
+
 export default function SidebarContentBrowsingPage(props) {
   const useStyles = makeStyles({
     root: {
       minWidth: 275,
       boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
+      transition: 'all .25s linear',
       '&:hover': {
         boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
+        cursor: 'pointer',
+        transform: 'scale3d(1.05, 1.05, 1)',
       },
     },
     bullet: {
@@ -74,16 +70,6 @@ export default function SidebarContentBrowsingPage(props) {
     },
     pos: {
       marginBottom: 12,
-    },
-    overrides: {
-      MuiCard: {
-        root: {
-          boxShadow: '0 8px 40px -12px rgba(0,0,0,0.3)',
-          '&:hover': {
-            boxShadow: '0 16px 70px -12.125px rgba(0,0,0,0.3)',
-          },
-        },
-      },
     },
   })
 
@@ -103,25 +89,20 @@ export default function SidebarContentBrowsingPage(props) {
   }))(ToggleButtonGroup)
 
   const classes = useStyles()
-  const filtersRef = useRef({})
   const [category, setCategory] = useState([0])
   const [listings, setListings] = useState([])
   const [neighbourhoods, setNeighbourhoods] = useState(null)
   const [paginatedNeighbourhoodListings, setPaginatedNeighbourhoodListings] =
     useState(null)
-  const [displayNeighbourhoodListings, setDisplayNeighbourhoodListings] =
-    useState([])
   const [paginateCount, setPaginateCount] = React.useState(1)
   const [boundaryNum, setBoundaryNum] = React.useState(0)
   const [error, setError] = React.useState('')
 
   const [loadingListings, setLoadingListings] = useState(false)
   const [loadingNeighbourhoods, setLoadingNeighbourhoods] = useState(false)
-  const [filterModal, setFilterModal] = useState(false)
-  const [filters, setFilters] = useState([])
   const [modalStatus, setModalStatus] = useState(false)
   const [clickedListing, setClickedListing] = useState(null)
-
+  const [showBoundary, setShowBoundary] = useState(true)
   const handleClose = () => {
     setModalStatus(false)
   }
@@ -141,19 +122,20 @@ export default function SidebarContentBrowsingPage(props) {
       setPaginatedData(dataFiltered)
     } else {
       setPaginatedData([])
+      props.onMarkListings([])
     }
   }
 
-  const toggleFilterModal = () => {
-    setFilterModal(!filterModal)
-  }
-
-  const handleFilters = () => {
-    const params = filtersRef.current
-  }
-
   const findNeighbourhoods = () => {
+    setCategory([0])
     setLoadingNeighbourhoods(true)
+    if (listings.length > 0) {
+      setListings([])
+      setPaginatedNeighbourhoodListings(null)
+      props.onMarkNeighbourhoods([])
+      props.onMarkListings([])
+    }
+
     try {
       getBestNeighbourhoods({
         attractionList: props.attractions,
@@ -162,6 +144,7 @@ export default function SidebarContentBrowsingPage(props) {
       })
         .then((res) => {
           const data = res.data
+          setShowBoundary(true)
           props.onMarkNeighbourhoods(data)
           setNeighbourhoods(data)
           getListingsByNeighbourhoods(data)
@@ -190,6 +173,13 @@ export default function SidebarContentBrowsingPage(props) {
     props.onMarkListings(tempArray[paginateCount - 1])
   }
 
+  const handleChange = (event) => {
+    !event.target.checked
+      ? props.onMarkNeighbourhoods([])
+      : props.onMarkNeighbourhoods(neighbourhoods)
+    setShowBoundary(event.target.checked)
+  }
+
   const getListingsByNeighbourhoods = (neighbourhoods) => {
     try {
       setLoadingListings(true)
@@ -201,7 +191,6 @@ export default function SidebarContentBrowsingPage(props) {
           const dataFiltered = res.data.filter(
             (e) => e.neighbourhood === neightbourhoodName
           )
-          setDisplayNeighbourhoodListings(dataFiltered)
           setPaginatedData(dataFiltered)
           setLoadingListings(false)
         })
@@ -223,6 +212,7 @@ export default function SidebarContentBrowsingPage(props) {
           xs={12}
           md={12}
           lg={12}
+          sm={12}
           style={{
             borderBottom: '1px solid #BCB7B7',
             paddingBottom: '1%',
@@ -240,7 +230,7 @@ export default function SidebarContentBrowsingPage(props) {
             justify='flex-start'
             alignItems='baseline'
           >
-            <Grid item xs={6} md={6} lg={6}>
+            <Grid item xs={6} md={6} lg={6} sm={6}>
               <Typography
                 variant='button'
                 display='block'
@@ -250,7 +240,7 @@ export default function SidebarContentBrowsingPage(props) {
                 My Trip Locations
               </Typography>
             </Grid>
-            <Grid item xs={6} md={6} lg={6}>
+            <Grid item xs={6} md={6} lg={6} sm={6}>
               <Button
                 color='primary'
                 variant='contained'
@@ -272,6 +262,7 @@ export default function SidebarContentBrowsingPage(props) {
             xs={12}
             md={12}
             lg={12}
+            sm={12}
             style={{ textAlign: 'left', paddingBottom: '1%', paddingTop: '1%' }}
           >
             {props.attractions &&
@@ -290,7 +281,7 @@ export default function SidebarContentBrowsingPage(props) {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={12} lg={12}>
+        <Grid item xs={12} md={12} lg={12} sm={12}>
           {loadingNeighbourhoods && (
             <Grid
               container
@@ -328,17 +319,18 @@ export default function SidebarContentBrowsingPage(props) {
                   </Typography>
                 </Grid>
                 <Grid>
-                  <IconButton aria-label='upload picture' component='span'>
-                    <FilterListIcon
-                      onClick={toggleFilterModal}
-                    ></FilterListIcon>
-                  </IconButton>
-                  <Filters
-                    stateRef={filtersRef}
-                    handleFilters={handleFilters}
-                    src={filters}
-                    open={filterModal}
-                  ></Filters>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={showBoundary}
+                        onChange={handleChange}
+                        name='checkedB'
+                        color='primary'
+                      />
+                    }
+                    style={{ fontSize: '0.8rem' }}
+                    label='Show Boundary'
+                  />
                 </Grid>
               </Grid>
             )}
@@ -372,11 +364,13 @@ export default function SidebarContentBrowsingPage(props) {
             xs={12}
             md={12}
             lg={12}
+            sm={12}
             style={{
               overflowY: 'auto',
-              height: '600px',
+              height: '530px',
               paddingTop: '2%',
               paddingRight: '2%',
+              overflowX: 'hidden',
             }}
           >
             {!loadingListings &&
@@ -392,18 +386,24 @@ export default function SidebarContentBrowsingPage(props) {
                     xs={12}
                     md={12}
                     lg={12}
+                    sm={12}
                     style={{ marginBottom: '3%' }}
                   >
-                    <Card className={classes.root} style={card}>
+                    <Card
+                      className={classes.root}
+                      onMouseEnter={() => props.showInfoBox(listing)}
+                      onMouseLeave={() => props.hideInfoBox(listing)}
+                    >
                       <CardContent
                         style={{ textAlign: 'left', paddingBottom: '0' }}
                       >
                         <Grid container>
                           <Grid
                             item
-                            xs={12}
-                            md={12}
-                            lg={12}
+                            xs={11}
+                            md={11}
+                            lg={11}
+                            sm={11}
                             style={{ paddingBottom: '2%' }}
                           >
                             <Typography
@@ -414,7 +414,21 @@ export default function SidebarContentBrowsingPage(props) {
                               {listing.name}
                             </Typography>
                           </Grid>
-                          <Grid item xs={4} md={4} lg={4}>
+                          <Grid
+                            item
+                            xs={1}
+                            md={1}
+                            lg={1}
+                            sm={1}
+                            style={{ paddingBottom: '2%' }}
+                          >
+                            {listing && listing['hostIsSuperhost'] === 't' && (
+                              <StarIcon
+                                style={{ float: 'right', color: 'gold' }}
+                              ></StarIcon>
+                            )}
+                          </Grid>
+                          <Grid item xs={4} md={4} lg={4} sm={4}>
                             <Typography variant='body2' component='p'>
                               <img
                                 src={listing.pictureUrl}
@@ -430,6 +444,7 @@ export default function SidebarContentBrowsingPage(props) {
                             xs={8}
                             md={8}
                             lg={8}
+                            sm={8}
                             style={{ position: 'relative', paddingLeft: '2%' }}
                           >
                             <Typography
@@ -447,7 +462,7 @@ export default function SidebarContentBrowsingPage(props) {
                               {listing.neighbourhood}
                             </Typography>
                             <Grid container alignItems='flex-start'>
-                              <Grid item xs={8} md={8} lg={8}>
+                              <Grid item xs={8} md={8} lg={8} sm={8}>
                                 <Typography
                                   variant='overline'
                                   display='block'
@@ -456,7 +471,7 @@ export default function SidebarContentBrowsingPage(props) {
                                   {listing.roomType}
                                 </Typography>
                               </Grid>
-                              <Grid item xs={4} md={4} lg={4}>
+                              <Grid item xs={4} md={4} lg={4} sm={4}>
                                 <Typography
                                   variant='body2'
                                   component='p'
@@ -475,7 +490,7 @@ export default function SidebarContentBrowsingPage(props) {
                                 right: '0',
                                 position: 'absolute',
                                 bottom: '0',
-                                marginBottom: '2%',
+                                marginBottom: '3%',
                               }}
                               onClick={() => setModal(listing)}
                             >
@@ -493,7 +508,7 @@ export default function SidebarContentBrowsingPage(props) {
               })}
           </Grid>
         ) : (
-          <Grid xs={12} sm={12} md={12}>
+          <Grid xs={12} sm={12} md={12} lg={12}>
             <Card className={classes.root}>
               <CardContent style={{ overflowY: 'auto', padding: '3%' }}>
                 <Typography
@@ -528,6 +543,7 @@ export default function SidebarContentBrowsingPage(props) {
               xs={12}
               md={12}
               lg={12}
+              sm={12}
               align='center'
               style={{ display: 'inline-block', paddingTop: '2%' }}
             >
@@ -552,125 +568,157 @@ export default function SidebarContentBrowsingPage(props) {
         onClose={handleClose}
         aria-labelledby='alert-dialog-slide-title'
         aria-describedby='alert-dialog-slide-description'
+        maxWidth='xs'
       >
         <DialogTitle id='alert-dialog-slide-title'>
-          {clickedListing && clickedListing['name']}
+          {clickedListing && clickedListing['name']}{' '}
+          {clickedListing && clickedListing['hostIsSuperhost'] === 't' && (
+            <StarIcon
+              fontSize='large'
+              style={{ float: 'right', color: 'gold' }}
+            ></StarIcon>
+          )}
         </DialogTitle>
         <DialogContent>
           {clickedListing && (
             <DialogContentText id='alert-dialog-slide-description'>
               <Grid container>
                 <>
-                  <Grid item lg={12} md={12} sm={12}>
+                  <Grid item lg={12} md={12} sm={12} xs={12}>
                     <img
                       src={clickedListing['pictureUrl']}
                       height='250'
                       width='100%'
                     ></img>
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Name
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['name']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Host Name
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
+
+                  <Grid
+                    item
+                    lg={6}
+                    md={6}
+                    sm={6}
+                    xs={6}
+                    style={{
+                      paddingTop: '2%',
+                      fontSize: '16px',
+
+                      fontWeight: 'bold',
+                    }}
+                  >
                     {clickedListing['hostName']}
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Host is Superhost
+
+                  <Grid
+                    item
+                    alignItems='center'
+                    lg={6}
+                    md={6}
+                    sm={6}
+                    xs={6}
+                    style={{
+                      display: 'flex',
+                      paddingTop: '2%',
+                      fontSize: '16px',
+                      textAlign: 'right',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {clickedListing['propertyType'] === 'Apartment' ? (
+                      <>
+                        <Grid item lg={10} md={10} sm={10} xs={10}>
+                          Apartment
+                        </Grid>
+                        <Grid item lg={2} md={2} sm={2}>
+                          <ApartmentIcon></ApartmentIcon>
+                        </Grid>
+                      </>
+                    ) : (
+                      <>
+                        <Grid item lg={6} md={6} sm={6} xs={6}>
+                          <HomeWorkIcon></HomeWorkIcon>
+                        </Grid>
+                        <Grid item lg={6} md={6} sm={6} xs={6}>
+                          Hotel
+                        </Grid>
+                      </>
+                    )}
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['hostIsSuperhost'] === 't'
-                      ? 'True'
-                      : 'False'}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Neighbourhood Group
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['neighbourhoodGroup']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Neighbourhood
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['neighbourhood']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Latitude
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['latitude']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Longitude
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['longitude']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Property Type
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['propertyType']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Room Type
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['roomType']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
+                  <Divider
+                    style={{
+                      width: '100%',
+                      marginTop: '2%',
+                      marginBottom: '2%',
+                    }}
+                  ></Divider>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
                     Accommodates
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['accommodates']}
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    {Array(parseInt(clickedListing['accommodates']))
+                      .fill(0)
+                      .map((e, i) => i + 1)
+                      .map((x) => (
+                        <PersonIcon></PersonIcon>
+                      ))}{' '}
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
                     Bathrooms
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['bathrooms']}
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    {Array(parseInt(clickedListing['bathrooms']))
+                      .fill(0)
+                      .map((e, i) => i + 1)
+                      .map((x) => (
+                        <WcIcon></WcIcon>
+                      ))}{' '}
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
                     Bedrooms
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['bedrooms']}
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    {Array(parseInt(clickedListing['bedrooms']))
+                      .fill(0)
+                      .map((e, i) => i + 1)
+                      .map((x) => (
+                        <MeetingRoomIcon></MeetingRoomIcon>
+                      ))}{' '}
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
-                    Bed Type
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['bedType']}
-                  </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
+
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
                     Beds
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['beds']}
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    {Array(parseInt(clickedListing['beds']))
+                      .fill(0)
+                      .map((e, i) => i + 1)
+                      .map((x) => (
+                        <KingBedIcon></KingBedIcon>
+                      ))}{' '}
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
+                  <Divider
+                    style={{
+                      width: '100%',
+                      marginTop: '2%',
+                      marginBottom: '2%',
+                    }}
+                  ></Divider>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
                     Price
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['price']}
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    {clickedListing['price']} CHF
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
                     Security Deposit
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['securityDeposit']}
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    {clickedListing['securityDeposit']} CHF
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalHStyle}>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
                     Cleaning Fee
                   </Grid>
-                  <Grid item lg={6} md={6} sm={6} style={modalVStyle}>
-                    {clickedListing['cleaningFee']}
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    {clickedListing['cleaningFee']} CHF
                   </Grid>
                 </>
               </Grid>

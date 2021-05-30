@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Arrow, useLayer } from 'react-laag'
 import styled from 'styled-components'
-import { useLayer, useHover, Arrow } from 'react-laag'
-import HomeIcon from '@material-ui/icons/Home'
 import './AttractionMarker.css'
 
 const StyledMarker = styled.div`
@@ -34,15 +33,14 @@ const InfoBox = styled.div`
 const InfoDetail = styled.span`
   padding: 0.8em;
   font-size: 10pt;
-  display:block;
-  width:200px;
-  word-wrap:break-word;
+  display: block;
+  width: 200px;
+  word-wrap: break-word;
 `
 
-export default function ListingMarker({ key, listing }) {
+export default function ListingMarker({ key, listing, open, close }) {
   const [isShown, setShown] = useState(true)
   const [isOpen, setOpen] = useState(false)
-
   // specify the appended div id on the container option
   const { triggerProps, layerProps, arrowProps, renderLayer } = useLayer({
     isOpen,
@@ -54,6 +52,14 @@ export default function ListingMarker({ key, listing }) {
     },
   })
 
+  useEffect(() => {
+    if (open) setOpen(true)
+  }, [open])
+
+  useEffect(() => {
+    if (close) setOpen(false)
+  }, [close])
+
   return (
     <div key={key}>
       {isShown && (
@@ -61,16 +67,26 @@ export default function ListingMarker({ key, listing }) {
           key={key}
           onClick={() => setOpen((prev) => !prev)}
           {...triggerProps}
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
         />
       )}
       {isOpen &&
         renderLayer(
           <InfoBox key={key} {...layerProps}>
-            <img src={listing.pictureUrl} width='200' height='150' />
+            <img
+              src={listing.pictureUrl}
+              width='200'
+              height='150'
+              alt={listing.name}
+            />
             <br />
-            <InfoDetail>{listing.name}
-            <br/>
-            <span style={{float: 'right', paddingBottom: '0.5em'}}>{listing.price} CHF</span>
+            <InfoDetail>
+              {listing.name}
+              <br />
+              <span style={{ float: 'right', paddingBottom: '0.5em' }}>
+                {listing.price} CHF
+              </span>
             </InfoDetail>
             <Arrow {...arrowProps} />
           </InfoBox>

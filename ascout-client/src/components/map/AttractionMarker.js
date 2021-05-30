@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
-import { useLayer, useHover, Arrow } from 'react-laag'
 import { Button } from '@material-ui/core'
+import React, { useState } from 'react'
+import { Arrow, useLayer } from 'react-laag'
+import styled from 'styled-components'
 import './AttractionMarker.css'
 
 const StyledMarker = styled.div`
@@ -34,9 +34,9 @@ const InfoBox = styled.div`
 const InfoDetail = styled.span`
   padding: 0.8em;
   font-size: 10pt;
-  display:block;
-  width:200px;
-  word-wrap:break-word;
+  display: block;
+  width: 200px;
+  word-wrap: break-word;
 `
 
 export default function AttractionMarker({ key, attraction, onAddAttraction }) {
@@ -66,7 +66,12 @@ export default function AttractionMarker({ key, attraction, onAddAttraction }) {
       {isOpen &&
         renderLayer(
           <InfoBox key={key} {...layerProps}>
-            <img src={attraction.pictureUrl} width='200' height='150' />
+            <img
+              src={attraction.pictureUrl}
+              width='200'
+              height='150'
+              alt='attraction marker'
+            />
             <br />
             <InfoDetail>{attraction.name}</InfoDetail>
             <Button
