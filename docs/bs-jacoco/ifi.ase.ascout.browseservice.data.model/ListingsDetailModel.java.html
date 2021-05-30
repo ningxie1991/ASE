@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListingsDetailModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">browse-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.browseservice.data.model</a> &gt; <span class="el_source">ListingsDetailModel.java</span></div><h1>ListingsDetailModel.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.browseservice.data.model;
+
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.stereotype.Repository;
+
+@Repository
+@Document(collection = &quot;airbnb_listings_detail&quot;)
+<span class="nc" id="L9">public class ListingsDetailModel {</span>
+
+    @Field(name=&quot;listing_url&quot;)
+    private String listingUrl;
+
+    @Field(name=&quot;name&quot;)
+    private String name;
+
+    @Field(name=&quot;summary&quot;)
+    private String summary;
+
+    @Field(name=&quot;space&quot;)
+    private String space;
+
+    @Field(name=&quot;description&quot;)
+    private String description;
+
+    @Field(name=&quot;neighborhood_overview&quot;)
+    private String neighborhoodOverview;
+
+    @Field(name=&quot;notes&quot;)
+    private String notes;
+
+    @Field(name=&quot;transit&quot;)
+    private String transit;
+
+    @Field(name=&quot;access&quot;)
+    private String access;
+
+    @Field(name=&quot;interaction&quot;)
+    private String interaction;
+
+    @Field(name=&quot;houseRules&quot;)
+    private String houseRules;
+
+    @Field(name=&quot;amenities&quot;)
+    private String amenities;
+
+    @Field(name=&quot;number_of_reviews&quot;)
+    private String numberOfReviews;
+
+    @Field(name=&quot;review_scores_rating&quot;)
+    private String reviewScoresRating;
+
+    @Field(name=&quot;review_scores_accuracy&quot;)
+    private String reviewScoresAccuracy;
+
+    @Field(name=&quot;review_scores_cleanliness&quot;)
+    private String reviewScoresCleanliness;
+
+    @Field(name=&quot;review_scores_checkin&quot;)
+    private String reviewScoresCheckin;
+
+    @Field(name=&quot;review_scores_communication&quot;)
+    private String reviewScoresCommunication;
+
+    @Field(name=&quot;review_scores_location&quot;)
+    private String reviewScoresLocation;
+
+    @Field(name=&quot;review_scores_value&quot;)
+    private String reviewScoresValue;
+
+    @Field(name=&quot;instant_bookable&quot;)
+    private String instantBookable;
+
+    @Field(name=&quot;is_business_travel_ready&quot;)
+    private String isBusinessTravelReady;
+
+    @Field(name=&quot;cancellation_policy&quot;)
+    private String cancellationPolicy;
+
+    public String getListingUrl() {
+<span class="nc" id="L81">        return listingUrl;</span>
+    }
+
+    public void setListingUrl(String listingUrl) {
+<span class="nc" id="L85">        this.listingUrl = listingUrl;</span>
+<span class="nc" id="L86">    }</span>
+
+    public String getName() {
+<span class="nc" id="L89">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L93">        this.name = name;</span>
+<span class="nc" id="L94">    }</span>
+
+    public String getSummary() {
+<span class="nc" id="L97">        return summary;</span>
+    }
+
+    public void setSummary(String summary) {
+<span class="nc" id="L101">        this.summary = summary;</span>
+<span class="nc" id="L102">    }</span>
+
+    public String getSpace() {
+<span class="nc" id="L105">        return space;</span>
+    }
+
+    public void setSpace(String space) {
+<span class="nc" id="L109">        this.space = space;</span>
+<span class="nc" id="L110">    }</span>
+
+    public String getDescription() {
+<span class="nc" id="L113">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L117">        this.description = description;</span>
+<span class="nc" id="L118">    }</span>
+
+    public String getNeighborhoodOverview() {
+<span class="nc" id="L121">        return neighborhoodOverview;</span>
+    }
+
+    public void setNeighborhoodOverview(String neighborhoodOverview) {
+<span class="nc" id="L125">        this.neighborhoodOverview = neighborhoodOverview;</span>
+<span class="nc" id="L126">    }</span>
+
+    public String getNotes() {
+<span class="nc" id="L129">        return notes;</span>
+    }
+
+    public void setNotes(String notes) {
+<span class="nc" id="L133">        this.notes = notes;</span>
+<span class="nc" id="L134">    }</span>
+
+    public String getTransit() {
+<span class="nc" id="L137">        return transit;</span>
+    }
+
+    public void setTransit(String transit) {
+<span class="nc" id="L141">        this.transit = transit;</span>
+<span class="nc" id="L142">    }</span>
+
+    public String getAccess() {
+<span class="nc" id="L145">        return access;</span>
+    }
+
+    public void setAccess(String access) {
+<span class="nc" id="L149">        this.access = access;</span>
+<span class="nc" id="L150">    }</span>
+
+    public String getInteraction() {
+<span class="nc" id="L153">        return interaction;</span>
+    }
+
+    public void setInteraction(String interaction) {
+<span class="nc" id="L157">        this.interaction = interaction;</span>
+<span class="nc" id="L158">    }</span>
+
+    public String getHouseRules() {
+<span class="nc" id="L161">        return houseRules;</span>
+    }
+
+    public void setHouseRules(String houseRules) {
+<span class="nc" id="L165">        this.houseRules = houseRules;</span>
+<span class="nc" id="L166">    }</span>
+
+    public String getAmenities() {
+<span class="nc" id="L169">        return amenities;</span>
+    }
+
+    public void setAmenities(String amenities) {
+<span class="nc" id="L173">        this.amenities = amenities;</span>
+<span class="nc" id="L174">    }</span>
+
+    public String getNumberOfReviews() {
+<span class="nc" id="L177">        return numberOfReviews;</span>
+    }
+
+    public void setNumberOfReviews(String numberOfReviews) {
+<span class="nc" id="L181">        this.numberOfReviews = numberOfReviews;</span>
+<span class="nc" id="L182">    }</span>
+
+    public String getReviewScoresRating() {
+<span class="nc" id="L185">        return reviewScoresRating;</span>
+    }
+
+    public void setReviewScoresRating(String reviewScoresRating) {
+<span class="nc" id="L189">        this.reviewScoresRating = reviewScoresRating;</span>
+<span class="nc" id="L190">    }</span>
+
+    public String getReviewScoresAccuracy() {
+<span class="nc" id="L193">        return reviewScoresAccuracy;</span>
+    }
+
+    public void setReviewScoresAccuracy(String reviewScoresAccuracy) {
+<span class="nc" id="L197">        this.reviewScoresAccuracy = reviewScoresAccuracy;</span>
+<span class="nc" id="L198">    }</span>
+
+    public String getReviewScoresCleanliness() {
+<span class="nc" id="L201">        return reviewScoresCleanliness;</span>
+    }
+
+    public void setReviewScoresCleanliness(String reviewScoresCleanliness) {
+<span class="nc" id="L205">        this.reviewScoresCleanliness = reviewScoresCleanliness;</span>
+<span class="nc" id="L206">    }</span>
+
+    public String getReviewScoresCheckin() {
+<span class="nc" id="L209">        return reviewScoresCheckin;</span>
+    }
+
+    public void setReviewScoresCheckin(String reviewScoresCheckin) {
+<span class="nc" id="L213">        this.reviewScoresCheckin = reviewScoresCheckin;</span>
+<span class="nc" id="L214">    }</span>
+
+    public String getReviewScoresCommunication() {
+<span class="nc" id="L217">        return reviewScoresCommunication;</span>
+    }
+
+    public void setReviewScoresCommunication(String reviewScoresCommunication) {
+<span class="nc" id="L221">        this.reviewScoresCommunication = reviewScoresCommunication;</span>
+<span class="nc" id="L222">    }</span>
+
+    public String getReviewScoresLocation() {
+<span class="nc" id="L225">        return reviewScoresLocation;</span>
+    }
+
+    public void setReviewScoresLocation(String reviewScoresLocation) {
+<span class="nc" id="L229">        this.reviewScoresLocation = reviewScoresLocation;</span>
+<span class="nc" id="L230">    }</span>
+
+    public String getReviewScoresValue() {
+<span class="nc" id="L233">        return reviewScoresValue;</span>
+    }
+
+    public void setReviewScoresValue(String reviewScoresValue) {
+<span class="nc" id="L237">        this.reviewScoresValue = reviewScoresValue;</span>
+<span class="nc" id="L238">    }</span>
+
+    public String getInstantBookable() {
+<span class="nc" id="L241">        return instantBookable;</span>
+    }
+
+    public void setInstantBookable(String instantBookable) {
+<span class="nc" id="L245">        this.instantBookable = instantBookable;</span>
+<span class="nc" id="L246">    }</span>
+
+    public String getIsBusinessTravelReady() {
+<span class="nc" id="L249">        return isBusinessTravelReady;</span>
+    }
+
+    public void setIsBusinessTravelReady(String isBusinessTravelReady) {
+<span class="nc" id="L253">        this.isBusinessTravelReady = isBusinessTravelReady;</span>
+<span class="nc" id="L254">    }</span>
+
+    public String getCancellationPolicy() {
+<span class="nc" id="L257">        return cancellationPolicy;</span>
+    }
+
+    public void setCancellationPolicy(String cancellationPolicy) {
+<span class="nc" id="L261">        this.cancellationPolicy = cancellationPolicy;</span>
+<span class="nc" id="L262">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

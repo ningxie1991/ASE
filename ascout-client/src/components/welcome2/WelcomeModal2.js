@@ -1,20 +1,18 @@
-import React from 'react'
-import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import MuiDialogContent from '@material-ui/core/DialogContent'
-import MuiDialogActions from '@material-ui/core/DialogActions'
-import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
-import Typography from '@material-ui/core/Typography'
-import logo from '../../assets/imgs/logo.png'
+import MuiDialogTitle from '@material-ui/core/DialogTitle'
 import Grid from '@material-ui/core/Grid'
-import welcomemodal1 from '../../assets/imgs/welcomemodal1.png'
-import './WelcomeModal.css'
-import CityAutoComplete from '../autocomplete/city/CityAutoComplete'
+import IconButton from '@material-ui/core/IconButton'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
+import CloseIcon from '@material-ui/icons/Close'
+import React from 'react'
+import logo from '../../assets/imgs/logo.png'
+import welcomemodal1 from '../../assets/imgs/welcomemodal1.png'
 import hist from '../../utils/History'
+import './WelcomeModal.css'
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -52,13 +50,6 @@ const DialogContent = withStyles((theme) => ({
   },
 }))(MuiDialogContent)
 
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions)
-
 export default function WelcomeModal2() {
   const [open, setOpen] = React.useState(true)
 
@@ -81,7 +72,7 @@ export default function WelcomeModal2() {
           <Grid container>
             <Grid item md={7}>
               <h6 className='textQuestion'>Pick how you want to Scout?</h6>
-              <div style={{ marginBottom: '3%', marginTop: '2%' }}>
+              <div style={{ marginBottom: '5%', marginTop: '5%' }}>
                 <Button
                   color='primary'
                   variant='contained'
@@ -93,15 +84,7 @@ export default function WelcomeModal2() {
                   ></ArrowForwardIosIcon>
                 </Button>
               </div>
-              <div style={{ marginBottom: '3%' }}>
-                <Button color='primary' variant='contained'>
-                  Have a look at all the listings of the city{' '}
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </div>
-              <div style={{ marginBottom: '3%' }}>
+              <div style={{ marginBottom: '5%' }}>
                 <Button color='primary' variant='contained'>
                   Have a look at these plans we prepared for you{' '}
                   <ArrowForwardIosIcon
@@ -112,7 +95,7 @@ export default function WelcomeModal2() {
             </Grid>
 
             <Grid item md={5}>
-              <img src={welcomemodal1} width='100%'></img>
+              <img src={welcomemodal1} width='100%' alt='image sticker'></img>
             </Grid>
           </Grid>
         </DialogContent>

@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -60,21 +61,21 @@ public class CalculatorService implements ICalculatorService{
     public List<NeighborhoodModel> bestNeighborhoods(BestNeighborhoodsQueryDTO query) {
         //TODO what if name is null : java.lang.NullPointerException
         TravelMode travelMode = TravelMode.valueOf(query.getTravelMode());
-        String[] origin_attractions = query.getOrigins();//row names,origin/attraction names
+        String[] originAttractions = query.getOrigins();//row names,origin/attraction names
         
         List<NeighborhoodModel> neiList = repository.findAll();//=UTILS.dummyNList();
-        if(neiList.size()==0){
+        if(neiList.isEmpty()){
             logger.error("Empty response from DB!");
-            return null;
+            return neiList;
         }
         logger.debug("get neighborhoods from mongodb repository.findAll():"+neiList.toString());
-        String[] destination_neighborhoods = UTILS.getNeiIDs(neiList);// col names,destination/neighborhood names
-        int olen = origin_attractions.length;
+        String[] destinationNeighborhoods = UTILS.getNeiIDs(neiList);// col names,destination/neighborhood names
+        int olen = originAttractions.length;
         if(olen>apiMaxLen){
             logger.error("Too Many Attractions!(>25)");
-            return null;
+            return new ArrayList<>();
         }
-        int dlen = destination_neighborhoods.length;
+        int dlen = destinationNeighborhoods.length;
         CostMatrix cm = new CostMatrix(olen,dlen);
         int dPageSize = apiMaxNum/olen;
         if(dPageSize>apiMaxLen)dPageSize=apiMaxLen;
@@ -84,11 +85,11 @@ public class CalculatorService implements ICalculatorService{
         try{
             int startIndex = 0;
             for(int i=0;i<dPageNum;++i){
-                String[] partDN = UTILS.sliceStringArray(destination_neighborhoods,startIndex,startIndex+=dPageSize);
+                String[] partDN = UTILS.sliceStringArray(destinationNeighborhoods,startIndex,startIndex+=dPageSize);
                 logger.debug("destination num:"+dlen+",origin num:"+olen+",partDN num:"+partDN.length);
                 matrix = DistanceMatrixApi.getDistanceMatrix(
                         this.context,
-                        origin_attractions,
+                        originAttractions,
                         partDN)
                         .mode(travelMode).await();
                 //TODO examine matrix, for example invalid attractions

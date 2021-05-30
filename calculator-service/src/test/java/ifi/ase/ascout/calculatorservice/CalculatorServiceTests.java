@@ -88,8 +88,14 @@ public class CalculatorServiceTests {
     public void testDifferentOrder() throws Exception {
         when(repository.findAll()).thenReturn(UTILS.dummyNList());
 
-        AttractionDTO a1 = new AttractionDTO("Potsdamer Platz","ChIJIeqReMlRqEcRquFNJTyYoUw",1);//
-        AttractionDTO a2 = new AttractionDTO("Tierpark Berlin","ChIJ3b92pjZJqEcR3P-0LbMptL8",2);//, Am Tierpark
+        AttractionDTO a1 = new AttractionDTO();
+        a1.setName("Potsdamer Platz");
+        a1.setPlaceId("ChIJIeqReMlRqEcRquFNJTyYoUw");
+        a1.setGroupId(1);
+        AttractionDTO a2 = new AttractionDTO(); //, Am Tierpark
+        a2.setName("Tierpark Berlin");
+        a2.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a2.setGroupId(2);
         List<AttractionDTO> aL = new ArrayList<>();
         aL.add(a1);
         aL.add(a2);
@@ -111,4 +117,118 @@ public class CalculatorServiceTests {
         }
     }
 
+    @Test
+    public void testDifferentAttractionGroupIds(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
+        AttractionDTO a1 = new AttractionDTO();//
+        a1.setName("Potsdamer Platz");
+        a1.setPlaceId("ChIJIeqReMlRqEcRquFNJTyYoUw");
+        a1.setGroupId(0);
+        AttractionDTO a2 = new AttractionDTO();//, Am Tierpark
+        a2.setName("Tierpark Berlin");
+        a2.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a2.setGroupId(0);
+        List<AttractionDTO> aL = new ArrayList<>();
+        aL.add(a1);
+        aL.add(a2);
+
+        System.out.println("[Testing full 0 groupIds query]");
+        for( AttractionDTO a : aL){
+            a.setGroupId(0);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+        System.out.println("[Testing unique groupIds query]");
+        int i=1;
+        for( AttractionDTO a : aL){
+            a.setGroupId(i++);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+
+
+        System.out.println("[Testing full 1 groupIds query]");
+        for( AttractionDTO a : aL){
+            a.setGroupId(1);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+    }
+
+    @Test
+    public void testInvalidAttractionPlaceId(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
+
+        AttractionDTO a1 = new AttractionDTO();//
+        a1.setName("Potsdamer Platz");
+        a1.setPlaceId("------");
+        a1.setGroupId(1);
+        AttractionDTO a2 = new AttractionDTO();//, Am Tierpark
+        a2.setName("Tierpark Berlin");
+        a2.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a2.setGroupId(2);
+        List<AttractionDTO> aL = new ArrayList<>();
+        aL.add(a1);
+        aL.add(a2);
+        System.out.println("attraction_order:"+aL.toString());
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+    }
+    @Test
+    public void testTooManyAttractions(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNList());
+        AttractionDTO a = new AttractionDTO();//, Am Tierpark
+        a.setName("Tierpark Berlin");
+        a.setPlaceId("ChIJ3b92pjZJqEcR3P-0LbMptL8");
+        a.setGroupId(2);
+        List<AttractionDTO> aL = new ArrayList<>();
+        for(int i=0;i<27;++i){
+            aL.add(a);
+        }
+        System.out.println("attraction_order:"+aL.toString());
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(aL,"DRIVING",5);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        for( NeighborhoodModel nm :result){
+            System.out.println("|neighborhood:"+nm.getName()+"\t|score:"+nm.getScore()+"|");
+        }
+
+    }
+
+    @Test
+    public void testEmptyDBResponse(){
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+        String travelMode = "DRIVING";
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList1,travelMode, topK);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        assertEquals(0, result.size());
+
+    }
+
+    @Test
+    public void testManyNeiborhoods(){
+        when(repository.findAll()).thenReturn(UTILS.dummyNListMany(35));
+        String travelMode = "DRIVING";
+        BestNeighborhoodsQueryDTO q = new BestNeighborhoodsQueryDTO(attractionList1,travelMode, topK);
+        List<NeighborhoodModel> result = service.bestNeighborhoods(q);
+        assertEquals(topK, result.size());
+    }
 }

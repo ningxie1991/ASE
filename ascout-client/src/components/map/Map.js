@@ -48,8 +48,12 @@ class Map extends Component {
       this.fitMapBounds(false, true, false)
     } else if (prevProps.neighbourhoods !== this.props.neighbourhoods) {
       this.fitMapBounds(true, false, false)
+    } else if (prevProps.hoverListingShow !== this.props.hoverListingShow) {
+      this.showHoverInfoBox(true, false, false)
     }
   }
+
+  showHoverInfoBox = () => {}
 
   onMarkerInteraction = (childKey, childProps, mouse) => {
     this.setState({
@@ -195,14 +199,14 @@ class Map extends Component {
       const bounds = new mapApi.LatLngBounds()
       if (attractionChange) {
         if (attractions && attractions.length > 1) {
-          attractions.map(function (attraction) {
+          attractions.forEach(function (attraction) {
             const position = { lat: attraction.lat, lng: attraction.lng }
             bounds.extend(position)
           })
         }
       } else if (listingChange) {
         if (listings && listings.length > 0) {
-          listings.map(function (listing) {
+          listings.forEach(function (listing) {
             const position = {
               lat: parseFloat(listing.latitude),
               lng: parseFloat(listing.longitude),
@@ -214,8 +218,12 @@ class Map extends Component {
         }
       } else if (neighbourhoodChange) {
         if (neighbourhoods && neighbourhoods.length > 0) {
-          console.log('draw neighbourhood if condiiton')
           this.drawNeighbourhood(bounds, neighbourhoods)
+        } else {
+          const { mapInstance } = this.state
+          mapInstance.data.forEach(function (feature) {
+            mapInstance.data.remove(feature)
+          })
         }
       }
 
@@ -223,7 +231,10 @@ class Map extends Component {
       if (
         (attractions && attractions.length > 1 && attractionChange) ||
         (listings && listingChange) ||
-        (neighbourhoods && neighbourhoods.length > 0 && neighbourhoodChange)
+        (neighbourhoods &&
+          neighbourhoods.length > 0 &&
+          neighbourhoodChange &&
+          listings.length === 0)
       ) {
         mapInstance.fitBounds(bounds)
       }
@@ -248,10 +259,15 @@ class Map extends Component {
       this.setState({ error: error.response })
     }
   }
+  onEachFeature = (feature, layer) => {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.popupContent) {
+      layer.bindPopup(layer.properties.popupContent)
+    }
+  }
 
   drawNeighbourhood(bounds, neighbourhoods, addGeoData = true) {
-    console.log('draw neighbourhood')
-    const { mapApiLoaded, mapInstance, mapApi } = this.state
+    const { mapApiLoaded, mapInstance } = this.state
     if (addGeoData) {
       mapInstance.data.forEach(function (feature) {
         mapInstance.data.remove(feature)
@@ -259,10 +275,9 @@ class Map extends Component {
     }
 
     if (mapApiLoaded) {
-      neighbourhoods.map((neighbourhood) => {
+      neighbourhoods.forEach((neighbourhood) => {
         if (neighbourhood.coordinates && neighbourhood.coordinates.length > 0) {
           var coordinatesFormatted = [JSON.parse(neighbourhood.coordinates)]
-          console.log('coordinates to draw', coordinatesFormatted)
           var data = {
             type: 'Feature',
             geometry: {
@@ -270,48 +285,35 @@ class Map extends Component {
               coordinates: coordinatesFormatted,
             },
           }
-          data.geometry.coordinates[0][0].map((boundary) => {
-            const position = {
-              lat: boundary[1],
-              lng: boundary[0],
-            }
-            bounds.extend(position)
-          })
-          if (addGeoData) mapInstance.data.addGeoJson(data)
+
+          data.geometry.coordinates[0] &&
+            data.geometry.coordinates[0].length > 0 &&
+            data.geometry.coordinates[0][0] &&
+            data.geometry.coordinates[0][0].length > 0 &&
+            data.geometry.coordinates[0][0].map((boundary) => {
+              const position = {
+                lat: boundary[1],
+                lng: boundary[0],
+              }
+              bounds.extend(position)
+            })
+          if (addGeoData) {
+            mapInstance.data.addGeoJson(data)
+          }
         }
       })
     }
   }
-  // drawNeighbourhood(bounds, coordinates) {
-  //   var coordinatesFormatted = [JSON.parse(coordinates)]
-  //   console.log('coordinate', coordinatesFormatted)
-  //   const { mapApiLoaded, mapInstance, mapApi } = this.state
-
-  //   if (mapApiLoaded) {
-  //     var data = {
-  //       type: 'Feature',
-  //       geometry: {
-  //         type: 'MultiPolygon',
-  //         coordinates: coordinatesFormatted,
-  //       },
-  //     }
-  //     data.geometry.coordinates[0][0].map((boundary) => {
-  //       const position = {
-  //         lat: boundary[1],
-  //         lng: boundary[0],
-  //       }
-  //       bounds.extend(position)
-  //     })
-  //     mapInstance.data.forEach(function (feature) {
-  //       mapInstance.data.remove(feature)
-  //     })
-  //     mapInstance.data.addGeoJson(data)
-  //   }
-  // }
 
   overrideInfoWindowClick = () => {
     const { mapInstance, mapApi } = this.state
-
+    mapInstance.data.setStyle({
+      fillColor: '#616161',
+      strokeColor: '#2f4f4f',
+      strokeOpacity: 1,
+      strokeWeight: 2.5,
+      fillOpacity: 0.2,
+    })
     //override the built-in setPosition-method
     mapApi.InfoWindow.prototype.setPosition = function () {
       //this property isn't documented, but as it seems
@@ -347,19 +349,27 @@ class Map extends Component {
 
   render() {
     const { currentPlace, mapApiLoaded, mapInstance, mapApi } = this.state
-    const { attractions, listings } = this.props
-
+    const { attractions, listings, hoverListingShow, hoverListingHide } =
+      this.props
     const listingMarkers =
       listings &&
-      listings.map(function (listing) {
-        return (
-          <ListingMarker
-            lat={listing.latitude}
-            lng={listing.longitude}
-            listing={listing}
-          />
-        )
-      })
+      listings.map((listing) => (
+        <ListingMarker
+          lat={listing.latitude}
+          lng={listing.longitude}
+          listing={listing}
+          open={
+            hoverListingShow && hoverListingShow.name === listing.name
+              ? true
+              : false
+          }
+          close={
+            hoverListingHide && hoverListingHide.name === listing.name
+              ? true
+              : false
+          }
+        />
+      ))
 
     const locationsMarkers =
       attractions &&

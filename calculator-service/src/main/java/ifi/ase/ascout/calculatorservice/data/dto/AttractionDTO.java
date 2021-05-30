@@ -22,17 +22,6 @@ public class AttractionDTO implements Serializable{
      */
     private int groupId;
 
-    public AttractionDTO(){ }
-    public AttractionDTO(String placeId,int groupId){
-        this.placeId=placeId;
-        this.groupId=groupId;
-    }
-    public AttractionDTO(String name,String placeId,int groupId){
-        this.name=name;
-        this.placeId=placeId;
-        this.groupId=groupId;
-    }
-
     /**
      * Gets the place id
      * @return String

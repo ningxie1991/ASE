@@ -4,6 +4,7 @@ import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -122,6 +123,24 @@ public class UTILS {
 
         // the size of the list must be the same as TOP_K
         List<NeighborhoodModel> dnList = Arrays.asList(n1, n2, n3);
+        return dnList;
+    }
+
+    /**
+     * Returns a large dummy neighbourhood list
+     * @param num the number of items in the list
+     * @return a list of NeighborhoodModel
+     */
+    public static List<NeighborhoodModel> dummyNListMany(int num) {
+        List<NeighborhoodModel> dnList = new ArrayList<>();
+        NeighborhoodModel n1 = new NeighborhoodModel();
+        n1.setName("Halensee");
+        n1.setGroup("Charlottenburg-Wilm.");
+        n1.setPlaceId("place_id:ChIJFShAgshQqEcRDrn0lWepaKA");
+        n1.setCoordinates("[[[[12.33,13.55]]]]");
+        for(int i=0;i<num;++i){
+            dnList.add(n1);
+        }
         return dnList;
     }
 
