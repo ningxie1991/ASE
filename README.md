@@ -20,14 +20,14 @@ More details about the project can be found in <a href="https://github.com/ningx
 
 ### Back End
 
-The **Spring boot** Java framework is used to drive the back end of our web application. It is chosen because it eliminates boilerplate configurations and code, reduces overall development time, and thus increases efficiency. In addition, the **Java Client for Google Maps Services** is used to add the functionality of the Google Maps API's to our back end.
+The **Spring Boot** Java framework is used to drive the back end of our web application. It is chosen because it eliminates boilerplate configurations and code, reduces overall development time, and thus increases efficiency. In addition, the **Java Client for Google Maps Services** is used to add the functionality of the Google Maps API's to our back end.
 
 ### Database
 **MongoDB** is the NoSQL database chosen for this project. We created collections in our database to store the Berlin Airbnb open dataset. The back end serivces connect to the database using **Spring MongoDB Repository**.
 
 ### Containerization
 
-**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. GitHub action, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
+**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. The GitHub Action workflow, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
 
 ### CI/CD
 
