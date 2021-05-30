@@ -720,6 +720,25 @@ export default function SidebarContentBrowsingPage(props) {
                   <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
                     {clickedListing['cleaningFee']} CHF
                   </Grid>
+                  <Divider
+                    style={{
+                      width: '100%',
+                      marginTop: '2%',
+                      marginBottom: '2%',
+                    }}
+                  ></Divider>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalHStyle}>
+                    AirBnb Link
+                  </Grid>
+                  <Grid item lg={6} md={6} sm={6} xs={6} style={modalVStyle}>
+                    <a
+                      href={`https://www.airbnb.com/rooms/${clickedListing['id']}`}
+                      target='_blank'
+                      style={{ color: 'darkslategray' }}
+                    >
+                      Click here to redirect to AirBnb
+                    </a>
+                  </Grid>
                 </>
               </Grid>
             </DialogContentText>
