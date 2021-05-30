@@ -35,7 +35,7 @@ The **Spring boot** Java framework is used to drive the back end of our web appl
 
 ### Testing
 
-The back end testing environment is composed of **JUnit** for writing unit tests and **JaCoCo** for code coverage metrics. For the front end testing environment we intend to use the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows <a href="https://github.com/ningxie1991/AScout/blob/develop/.github/workflows/CI-SonarCloud-browse-service.yml"> (example) </a>.
+The back end testing environment is composed of **JUnit5** for writing unit tests and **JaCoCo** for code coverage metrics. For the front end testing environment we intend to use the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows <a href="https://github.com/ningxie1991/AScout/blob/develop/.github/workflows/CI-SonarCloud-browse-service.yml"> (example script) </a>.
 
 More details about testing and CI/CD can be found in <a href="https://github.com/ningxie1991/AScout/wiki/Testing-and-Continuous-Integration"> Wiki - Testing and Continuous Integration </a>.
 
