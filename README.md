@@ -77,10 +77,10 @@ Latest release in the production environment can be accessed at http://ascout.or
 
 To use the website go to: <a href="http://ascout.org/"> ascout.org </a> and follow the prompts. When you first access the website select Berlin as the city you wish to visit. Then you will be presented with choices. Click the "Calculate the ideal neighborhood" button, and start entering the destinations you wish to visit. After you are done, click the "find neighborhood" button and you will shortly be presented with the listings from the three most convenient neighborhoods for your itenirary.
 
-Youtube link for the demo: https://youtu.be/Q8Q2Ni_joiw
+Youtube link for the demo: https://youtu.be/IGtEoX6wCbY
 
 <p align="center">
-  <img width="700" align="center" href="https://youtu.be/Q8Q2Ni_joiw" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
+  <img width="700" align="center" href="https://youtu.be/IGtEoX6wCbY" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
 </p>
 
 
