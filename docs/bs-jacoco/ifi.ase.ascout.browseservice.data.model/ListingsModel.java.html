@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ListingsModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">browse-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.browseservice.data.model</a> &gt; <span class="el_source">ListingsModel.java</span></div><h1>ListingsModel.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.browseservice.data.model;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.stereotype.Repository;
+
+/**
+ * ListingsModel is a DTO object for a listing stored in the MongoDB airbnb_listings collection
+ */
+@Repository
+@Document(collection = &quot;airbnb_listings&quot;)
+<span class="fc" id="L13">public class ListingsModel {</span>
+
+    @Id
+    @Field(name=&quot;_id&quot;)
+    private String id;
+
+    @Field(name=&quot;name&quot;)
+    private String name;
+
+    @Field(name=&quot;host_id&quot;)
+    private String hostId;
+
+    @Field(name=&quot;host_name&quot;)
+    private String hostName;
+
+    @Field(name=&quot;host_is_superhost&quot;)
+    private String hostIsSuperhost;
+
+    @Field(name=&quot;neighbourhood_group&quot;)
+    private String neighbourhoodGroup;
+
+    @Field(name=&quot;neighbourhood&quot;)
+    private String neighbourhood;
+
+    @Field(name=&quot;latitude&quot;)
+    private String latitude;
+
+    @Field(name=&quot;longitude&quot;)
+    private String longitude;
+
+    @Field(name=&quot;property_type&quot;)
+    private String propertyType;
+
+    @Field(name=&quot;room_type&quot;)
+    private String roomType;
+
+    @Field(name=&quot;accommodates&quot;)
+    private String accommodates;
+
+    @Field(name=&quot;bathrooms&quot;)
+    private String bathrooms;
+
+    @Field(name=&quot;bedrooms&quot;)
+    private String bedrooms;
+
+    @Field(name=&quot;bed_type&quot;)
+    private String bedType;
+
+    @Field(name=&quot;beds&quot;)
+    private String beds;
+
+    @Field(name=&quot;picture_url&quot;)
+    private String pictureUrl;
+
+    @Field(name=&quot;price&quot;)
+    private String price;
+
+    @Field(name=&quot;security_deposit&quot;)
+    private String securityDeposit;
+
+    @Field(name=&quot;cleaning_fee&quot;)
+    private String cleaningFee;
+
+    /**
+     * Gets the id
+     * @return String
+     */
+    public String getId() {
+<span class="fc" id="L81">        return id;</span>
+    }
+
+    /**
+     * Sets the id
+     * @param id the id of the listing
+     */
+    public void setId(String id) {
+<span class="fc" id="L89">        this.id = id;</span>
+<span class="fc" id="L90">    }</span>
+
+    /**
+     * Gets the name
+     * @return String
+     */
+    public String getName() {
+<span class="fc" id="L97">        return name;</span>
+    }
+
+    /**
+     * Sets the name
+     * @param name the name of the listing
+     */
+    public void setName(String name) {
+<span class="fc" id="L105">        this.name = name;</span>
+<span class="fc" id="L106">    }</span>
+
+    /**
+     * Gets the host id
+     * @return String
+     */
+    public String getHostId() {
+<span class="fc" id="L113">        return hostId;</span>
+    }
+
+    /**
+     * Sets the host id
+     * @param hostId the host id of the listing
+     */
+    public void setHostId(String hostId) {
+<span class="fc" id="L121">        this.hostId = hostId;</span>
+<span class="fc" id="L122">    }</span>
+
+    /**
+     * Gets the host name
+     * @return String
+     */
+    public String getHostName() {
+<span class="fc" id="L129">        return hostName;</span>
+    }
+
+    /**
+     * Sets the host name
+     * @param hostName the host name of the listing
+     */
+    public void setHostName(String hostName) {
+<span class="fc" id="L137">        this.hostName = hostName;</span>
+<span class="fc" id="L138">    }</span>
+
+    /**
+     * Gets whether host is superhost
+     * @return String
+     */
+    public String getHostIsSuperhost() {
+<span class="fc" id="L145">        return hostIsSuperhost;</span>
+    }
+
+    /**
+     * Sets whether host is superhost
+     * @param hostIsSuperhost whether host is superhost, value is &quot;t&quot; or &quot;f&quot;
+     */
+    public void setHostIsSuperhost(String hostIsSuperhost) {
+<span class="fc" id="L153">        this.hostIsSuperhost = hostIsSuperhost;</span>
+<span class="fc" id="L154">    }</span>
+
+    /**
+     * Gets the neighbourhood group
+     * @return String
+     */
+    public String getNeighbourhoodGroup() {
+<span class="fc" id="L161">        return neighbourhoodGroup;</span>
+    }
+
+    /**
+     * Sets the neighbourhood group
+     * @param neighbourhoodGroup the neighbourhood group of the listing
+     */
+    public void setNeighbourhoodGroup(String neighbourhoodGroup) {
+<span class="fc" id="L169">        this.neighbourhoodGroup = neighbourhoodGroup;</span>
+<span class="fc" id="L170">    }</span>
+
+    /**
+     * Gets the neighbourhood
+     * @return String
+     */
+    public String getNeighbourhood() {
+<span class="fc" id="L177">        return neighbourhood;</span>
+    }
+
+    /**
+     * Sets the neighbourhood
+     * @param neighbourhood the neighbourhood of the listing
+     */
+    public void setNeighbourhood(String neighbourhood) {
+<span class="fc" id="L185">        this.neighbourhood = neighbourhood;</span>
+<span class="fc" id="L186">    }</span>
+
+    /**
+     * Gets the latitude
+     * @return String
+     */
+    public String getLatitude() {
+<span class="fc" id="L193">        return latitude;</span>
+    }
+
+    /**
+     * Sets the latitude
+     * @param latitude the latitude of the listing, value is float
+     */
+    public void setLatitude(String latitude) {
+<span class="fc" id="L201">        this.latitude = latitude;</span>
+<span class="fc" id="L202">    }</span>
+
+    /**
+     * Gets the longitude
+     * @return String
+     */
+    public String getLongitude() {
+<span class="fc" id="L209">        return longitude;</span>
+    }
+
+    /**
+     * Sets the longitude
+     * @param longitude the longitude of the listing, value is float
+     */
+    public void setLongitude(String longitude) {
+<span class="fc" id="L217">        this.longitude = longitude;</span>
+<span class="fc" id="L218">    }</span>
+
+    /**
+     * Gets the property type
+     * @return String
+     */
+    public String getPropertyType() {
+<span class="fc" id="L225">        return propertyType;</span>
+    }
+
+    /**
+     * Sets the property type
+     * @param propertyType the property type of the listing
+     */
+    public void setPropertyType(String propertyType) {
+<span class="fc" id="L233">        this.propertyType = propertyType;</span>
+<span class="fc" id="L234">    }</span>
+
+    /**
+     * Gets the room type
+     * @return String
+     */
+    public String getRoomType() {
+<span class="fc" id="L241">        return roomType;</span>
+    }
+
+    /**
+     * Sets the room type
+     * @param roomType the room type of the listing
+     */
+    public void setRoomType(String roomType) {
+<span class="fc" id="L249">        this.roomType = roomType;</span>
+<span class="fc" id="L250">    }</span>
+
+    /**
+     * Gets the number that the listing accommodates
+     * @return String
+     */
+    public String getAccommodates() {
+<span class="fc" id="L257">        return accommodates;</span>
+    }
+
+    /**
+     * Sets the number that the listing accommodates
+     * @param accommodates the number that the listing accommodates, value is int
+     */
+    public void setAccommodates(String accommodates) {
+<span class="fc" id="L265">        this.accommodates = accommodates;</span>
+<span class="fc" id="L266">    }</span>
+
+    /**
+     * Gets the number of bathrooms
+     * @return String
+     */
+    public String getBathrooms() {
+<span class="fc" id="L273">        return bathrooms;</span>
+    }
+
+    /**
+     * Sets the number of bathrooms
+     * @param bathrooms the number of bathrooms of the listing, value is int
+     */
+    public void setBathrooms(String bathrooms) {
+<span class="fc" id="L281">        this.bathrooms = bathrooms;</span>
+<span class="fc" id="L282">    }</span>
+
+    /**
+     * Gets the number of bedrooms
+     * @return String
+     */
+    public String getBedrooms() {
+<span class="fc" id="L289">        return bedrooms;</span>
+    }
+
+    /**
+     * Sets the number of bedrooms
+     * @param bedrooms the number of bedrooms of the listing, value is int
+     */
+    public void setBedrooms(String bedrooms) {
+<span class="fc" id="L297">        this.bedrooms = bedrooms;</span>
+<span class="fc" id="L298">    }</span>
+
+    /**
+     * Gets the bed type
+     * @return String
+     */
+    public String getBedType() {
+<span class="fc" id="L305">        return bedType;</span>
+    }
+
+    /**
+     * Sets the bed type
+     * @param bedType the bed type of the listing
+     */
+    public void setBedType(String bedType) {
+<span class="fc" id="L313">        this.bedType = bedType;</span>
+<span class="fc" id="L314">    }</span>
+
+    /**
+     * Gets the number of beds
+     * @return String
+     */
+    public String getBeds() {
+<span class="fc" id="L321">        return beds;</span>
+    }
+
+    /**
+     * Sets the number of beds
+     * @param beds the number of beds of the listing, value is int
+     */
+    public void setBeds(String beds) {
+<span class="fc" id="L329">        this.beds = beds;</span>
+<span class="fc" id="L330">    }</span>
+
+    /**
+     * Gets the picture url
+     * @return String
+     */
+    public String getPictureUrl() {
+<span class="fc" id="L337">        return pictureUrl;</span>
+    }
+
+    /**
+     * Sets the picture url
+     * @param pictureUrl the picture url of the listing
+     */
+    public void setPictureUrl(String pictureUrl) {
+<span class="fc" id="L345">        this.pictureUrl = pictureUrl;</span>
+<span class="fc" id="L346">    }</span>
+
+    /**
+     * Gets the price
+     * @return String
+     */
+    public String getPrice() {
+<span class="fc" id="L353">        return price;</span>
+    }
+
+    /**
+     * Sets the price
+     * @param price the price of the listing, value is int
+     */
+    public void setPrice(String price) {
+<span class="fc" id="L361">        this.price = price;</span>
+<span class="fc" id="L362">    }</span>
+
+    /**
+     * Gets the security deposit
+     * @return String
+     */
+    public String getSecurityDeposit() {
+<span class="fc" id="L369">        return securityDeposit;</span>
+    }
+
+    /**
+     * Sets the security deposit
+     * @param securityDeposit the security deposit of the listing, value is int
+     */
+    public void setSecurityDeposit(String securityDeposit) {
+<span class="fc" id="L377">        this.securityDeposit = securityDeposit;</span>
+<span class="fc" id="L378">    }</span>
+
+    /**
+     * Gets the cleaning fee
+     * @return String
+     */
+    public String getCleaningFee() {
+<span class="fc" id="L385">        return cleaningFee;</span>
+    }
+
+    /**
+     * Sets the cleaning fee
+     * @param cleaningFee the cleaning fee of the listing, value is int
+     */
+    public void setCleaningFee(String cleaningFee) {
+<span class="fc" id="L393">        this.cleaningFee = cleaningFee;</span>
+<span class="fc" id="L394">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
