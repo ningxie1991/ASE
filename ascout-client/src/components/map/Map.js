@@ -231,7 +231,10 @@ class Map extends Component {
       if (
         (attractions && attractions.length > 1 && attractionChange) ||
         (listings && listingChange) ||
-        (neighbourhoods && neighbourhoods.length > 0 && neighbourhoodChange)
+        (neighbourhoods &&
+          neighbourhoods.length > 0 &&
+          neighbourhoodChange &&
+          listings.length === 0)
       ) {
         mapInstance.fitBounds(bounds)
       }
