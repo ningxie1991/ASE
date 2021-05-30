@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BestNeighborhoodsQueryDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculator-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.calculatorservice.data.dto</a> &gt; <span class="el_source">BestNeighborhoodsQueryDTO.java</span></div><h1>BestNeighborhoodsQueryDTO.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.calculatorservice.data.dto;
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * BestNeighborhoodsQueryDTO is the data object representing a query from the client
+ */
+public class BestNeighborhoodsQueryDTO implements Serializable {
+    /**
+     * The attraction list
+     */
+    private List&lt;AttractionDTO&gt; attractionList;
+
+    /**
+     * The travel mode
+     */
+    private String travelMode;
+
+    /**
+     * The top K number of neighbourhoods
+     */
+    private int topK;
+
+    /**
+     * Constructor of BestNeighborhoodsQueryDTO
+     * @param attractionList the attraction list
+     * @param travelMode the travel mode, i.e. &quot;DRIVING&quot;, &quot;WALKING&quot;, &quot;TRANSIT&quot;
+     * @param topK the top k number of neighbourhoods
+     */
+    public BestNeighborhoodsQueryDTO(List&lt;AttractionDTO&gt; attractionList,
+                                     String travelMode,
+<span class="fc" id="L32">                                     int topK){</span>
+<span class="fc" id="L33">        this.travelMode = travelMode;</span>
+<span class="fc" id="L34">        this.attractionList = attractionList;</span>
+<span class="fc" id="L35">        this.topK = topK;</span>
+<span class="fc" id="L36">    }</span>
+
+    /**
+     * Gets the attraction list
+     * @return a list of AttractionDTO
+     */
+    public List&lt;AttractionDTO&gt; getAttractionList() {
+<span class="fc" id="L43">        return attractionList;</span>
+    }
+
+    /**
+     * Sets the attraction list
+     * @param attractionList the attraction list
+     */
+    public void setAttractionList(List&lt;AttractionDTO&gt; attractionList) {
+<span class="nc" id="L51">        this.attractionList = attractionList;</span>
+<span class="nc" id="L52">    }</span>
+
+    /**
+     * Gets the travel mode
+     * @return String
+     */
+    public String getTravelMode() {
+<span class="fc" id="L59">        return travelMode;</span>
+    }
+
+    /**
+     * Sets the travel mode
+     * @param travelMode the travel mode, i.e. &quot;DRIVING&quot;, &quot;WALKING&quot;, &quot;TRANSIT&quot;
+     */
+    public void setTravelMode(String travelMode) {
+<span class="nc" id="L67">        this.travelMode = travelMode;</span>
+<span class="nc" id="L68">    }</span>
+
+    /**
+     * Gets the origins
+     * @return a String array
+     */
+    public String[] getOrigins() {
+<span class="fc" id="L75">        int len = attractionList.size();</span>
+<span class="fc" id="L76">        String[] origins = new String[len];</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">        for ( int i =0;i&lt;len;++i){</span>
+<span class="fc" id="L78">            origins[i]= &quot;place_id:&quot; + attractionList.get(i).getPlaceId();</span>
+        }
+<span class="fc" id="L80">        return origins;</span>
+    }
+
+    /**
+     * Gets the group ids
+     * @return an int array
+     */
+    public int[] getGroupIds() {
+<span class="fc" id="L88">        int len = attractionList.size();</span>
+<span class="fc" id="L89">        int[] groupIds = new int[len];</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">        if(attractionList.get(0).getGroupId()==0){</span>
+<span class="fc bfc" id="L91" title="All 2 branches covered.">            for ( int i =0;i&lt;len;++i){</span>
+<span class="fc" id="L92">                groupIds[i]= i;</span>
+            }
+        }else{
+<span class="fc bfc" id="L95" title="All 2 branches covered.">            for ( int i =0;i&lt;len;++i){</span>
+<span class="fc" id="L96">                groupIds[i]= attractionList.get(i).getGroupId();</span>
+            }
+        }
+<span class="fc" id="L99">        return groupIds;</span>
+    }
+
+    /**
+     * Gets the topK
+     * @return int
+     */
+    public int getTopK() {
+<span class="fc" id="L107">        return topK;</span>
+    }
+
+    /**
+     * Sets the topK
+     * @param topK the top K number of neighbourhoods
+     */
+    public void setTopK(int topK) {
+<span class="nc" id="L115">        this.topK = topK;</span>
+<span class="nc" id="L116">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UTILS.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculator-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.calculatorservice.utils</a> &gt; <span class="el_source">UTILS.java</span></div><h1>UTILS.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.calculatorservice.utils;
+
+import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.IntStream;
+
+/**
+ * Utilities class
+ */
+<span class="nc" id="L16">public class UTILS {</span>
+<span class="fc" id="L17">    private static final Logger logger= LoggerFactory.getLogger(UTILS.class);</span>
+    private static final int TOP_K = 3;
+
+    /**
+     * Gets the TOP_k
+     * @return the top k number
+     */
+    public static int getTopK(){
+<span class="fc" id="L25">        return TOP_K;</span>
+    }
+
+    /**
+     * Add rows
+     * @param r1 the row 1
+     * @param r2 the row 2
+     * @return a double array consisting row 1 and row 2
+     */
+    public static double[] add_rows(double[] r1,double[] r2){
+<span class="fc" id="L35">        int len = r1.length;</span>
+<span class="fc bfc" id="L36" title="All 2 branches covered.">        for (int i = 0; i &lt; len; i++) {</span>
+<span class="fc" id="L37">            r1[i] += r2[i];</span>
+        }
+<span class="fc" id="L39">        return r1;</span>
+    }
+
+    /**
+     * Gets the minimum rows
+     * @param r1 the row 1
+     * @param r2 the row 2
+     * @return a double array
+     */
+    public static double[] min_rows(double[] r1,double[] r2){
+<span class="fc" id="L49">        int len = r1.length;</span>
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        IntStream.range(0, len).filter(i -&gt; r1[i] &gt; r2[i]).forEach(i -&gt; r1[i] = r2[i]);</span>
+<span class="fc" id="L51">        return r1;</span>
+    }
+
+    /**
+     * Fill in scores
+     * @param nList the neighbourhood list
+     * @param scores the scores to fill in
+     */
+    public static void fillInScores(List&lt;NeighborhoodModel&gt; nList,double[] scores){
+<span class="fc" id="L60">        int len = nList.size();</span>
+<span class="fc" id="L61">        IntStream.range(0, len).forEach(i -&gt; nList.get(i).setScore(scores[i]));</span>
+<span class="fc" id="L62">    }</span>
+
+    /**
+     * Get neighbourhood ids
+     * @param nList the neighbourhood list
+     * @return a String array
+     */
+    public static String[] getNeiIDs(List&lt;NeighborhoodModel&gt; nList){
+<span class="fc" id="L70">        int len = nList.size();</span>
+<span class="fc" id="L71">        String[] ids= new String[len];</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        for (int i = 0; i &lt; len; i++) {</span>
+<span class="fc" id="L73">            String name = nList.get(i).getName();</span>
+<span class="fc" id="L74">            String placeId = nList.get(i).getPlaceId();</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            if(placeId!=null){</span>
+<span class="fc" id="L76">                ids[i] = placeId;</span>
+            }else{
+<span class="nc" id="L78">                ids[i] = name;</span>
+            }
+        }
+<span class="fc" id="L81">        return ids;</span>
+    }
+
+    /**
+     * Gets the top neighbourhoods
+     * @param nList the neighbourhood list
+     * @param neighborhoodCosts the neighbourhood costs
+     * @param topk the top k number
+     * @return a list of NeighborhoodModel
+     */
+    public static List&lt;NeighborhoodModel&gt; getTopNeighborhoods(List&lt;NeighborhoodModel&gt; nList,double[] neighborhoodCosts,int topk){
+<span class="fc" id="L92">        UTILS.fillInScores(nList,neighborhoodCosts);</span>
+<span class="fc" id="L93">        Collections.sort(nList);</span>
+        try{
+<span class="fc" id="L95">            return nList.subList(0,topk);</span>
+<span class="fc" id="L96">        }catch (Exception e){</span>
+<span class="fc" id="L97">            return nList;</span>
+        }
+    }
+
+    /**
+     * Returns a dummy neighbourhood list for testing
+     * @return a list of NeighborhoodModel
+     */
+    public static List&lt;NeighborhoodModel&gt; dummyNList() {
+<span class="fc" id="L106">        NeighborhoodModel n1 = new NeighborhoodModel();</span>
+<span class="fc" id="L107">        n1.setName(&quot;Halensee&quot;);</span>
+<span class="fc" id="L108">        n1.setGroup(&quot;Charlottenburg-Wilm.&quot;);</span>
+<span class="fc" id="L109">        n1.setPlaceId(&quot;place_id:ChIJFShAgshQqEcRDrn0lWepaKA&quot;);</span>
+<span class="fc" id="L110">        n1.setCoordinates(&quot;[[[[12.33,13.55]]]]&quot;);</span>
+
+<span class="fc" id="L112">        NeighborhoodModel n2 = new NeighborhoodModel();</span>
+<span class="fc" id="L113">        n2.setName(&quot;Alexanderplatz&quot;);</span>
+<span class="fc" id="L114">        n2.setGroup(&quot;Mitte&quot;);</span>
+<span class="fc" id="L115">        n2.setPlaceId(&quot;place_id:ChIJbygR2x5OqEcRbhbkZsMB_DA&quot;);</span>
+<span class="fc" id="L116">        n2.setCoordinates(&quot;[[[[13.44,5.55]]]]&quot;);</span>
+
+<span class="fc" id="L118">        NeighborhoodModel n3 = new NeighborhoodModel();</span>
+<span class="fc" id="L119">        n3.setName(&quot;KantstraÃŸe&quot;);</span>
+<span class="fc" id="L120">        n3.setGroup(&quot;Charlottenburg-Wilm.&quot;);</span>
+<span class="fc" id="L121">        n3.setPlaceId(&quot;place_id:ChIJFY-53-NQqEcRyLXE7MeZD24&quot;);</span>
+<span class="fc" id="L122">        n3.setCoordinates(&quot;[[[[11.33,3.55]]]]&quot;);</span>
+
+        // the size of the list must be the same as TOP_K
+<span class="fc" id="L125">        List&lt;NeighborhoodModel&gt; dnList = Arrays.asList(n1, n2, n3);</span>
+<span class="fc" id="L126">        return dnList;</span>
+    }
+
+    /**
+     * Returns a large dummy neighbourhood list
+     * @param num the number of items in the list
+     * @return a list of NeighborhoodModel
+     */
+    public static List&lt;NeighborhoodModel&gt; dummyNListMany(int num) {
+<span class="fc" id="L135">        List&lt;NeighborhoodModel&gt; dnList = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L136">        NeighborhoodModel n1 = new NeighborhoodModel();</span>
+<span class="fc" id="L137">        n1.setName(&quot;Halensee&quot;);</span>
+<span class="fc" id="L138">        n1.setGroup(&quot;Charlottenburg-Wilm.&quot;);</span>
+<span class="fc" id="L139">        n1.setPlaceId(&quot;place_id:ChIJFShAgshQqEcRDrn0lWepaKA&quot;);</span>
+<span class="fc" id="L140">        n1.setCoordinates(&quot;[[[[12.33,13.55]]]]&quot;);</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">        for(int i=0;i&lt;num;++i){</span>
+<span class="fc" id="L142">            dnList.add(n1);</span>
+        }
+<span class="fc" id="L144">        return dnList;</span>
+    }
+
+    /**
+     * Slice string array
+     * @param array the String array
+     * @param startIndex the start index
+     * @param endIndex the end index
+     * @return a String array
+     */
+    public static String[] sliceStringArray(String array[], int startIndex, int endIndex ){
+<span class="fc" id="L155">        int limit = array.length;</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if(limit&lt;endIndex)endIndex=limit;</span>
+<span class="fc" id="L157">        int sliceSize = endIndex-startIndex;</span>
+<span class="fc" id="L158">        logger.info(&quot;array size:&quot;+array.length+&quot;,slice size:&quot;+sliceSize+&quot;,startIndex:&quot;+startIndex+&quot;,endIndex:&quot;+endIndex);</span>
+<span class="fc" id="L159">        String[] part = new String[sliceSize];</span>
+        //Copying the contents of the array
+<span class="fc bfc" id="L161" title="All 2 branches covered.">        for(int i=0; i&lt;sliceSize; i++){</span>
+<span class="fc" id="L162">            part[i] = array[startIndex+i];</span>
+        }
+<span class="fc" id="L164">        return part;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

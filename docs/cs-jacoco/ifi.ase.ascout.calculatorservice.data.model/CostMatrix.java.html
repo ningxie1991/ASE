@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CostMatrix.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculator-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.calculatorservice.data.model</a> &gt; <span class="el_source">CostMatrix.java</span></div><h1>CostMatrix.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.calculatorservice.data.model;
+
+import com.google.maps.model.DistanceMatrix;
+import ifi.ase.ascout.calculatorservice.utils.UTILS;
+
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
+/**
+ * CostMatrix
+ */
+public class CostMatrix {
+    private final double[][] costMatrix;
+    private final int rowNum;//number of neiborhoods/destinations
+    private final int colNum;//number of attractions/origins
+    private int colItr;
+
+    /**
+     * Constructor of CostMatrix
+     * @param rnum the row number
+     * @param cnum the column number
+     */
+<span class="fc" id="L23">    public CostMatrix(int rnum, int cnum){</span>
+<span class="fc" id="L24">        this.costMatrix = new double[rnum][cnum];</span>
+<span class="fc" id="L25">        this.colItr = 0;</span>
+<span class="fc" id="L26">        this.rowNum = rnum;</span>
+<span class="fc" id="L27">        this.colNum = cnum;</span>
+<span class="fc" id="L28">    }</span>
+
+    /**
+     * Fill in the matrix
+     * @param fillInMatrix the matrix to fill in
+     */
+    public void fillIn(double[][] fillInMatrix){
+<span class="fc" id="L35">        int rnum = fillInMatrix.length;</span>
+<span class="pc bpc" id="L36" title="2 of 4 branches missed.">        if(rnum &lt; 0 || rnum != this.rowNum) return;</span>
+<span class="fc" id="L37">        int cnum = fillInMatrix[0].length;</span>
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">        for(int c = 0; c &lt; cnum &amp;&amp; colItr &lt; this.colNum; ++colItr, ++c){</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">            for(int r = 0; r &lt; this.rowNum; ++r){</span>
+<span class="fc" id="L40">                this.costMatrix[r][colItr]=fillInMatrix[r][c];</span>
+            }
+        }
+<span class="fc" id="L43">    }</span>
+
+    /**
+     * Fill in the distance matrix
+     * @param dMatrix the distance matrix to fill in
+     */
+    public void fillInDistanceMatrix(DistanceMatrix dMatrix){
+        // TODO regulation and balance
+<span class="fc" id="L51">        int rlen = dMatrix.rows.length;//TODO NullPointerException: null</span>
+<span class="fc" id="L52">        int clen = dMatrix.rows[0].elements.length;</span>
+<span class="fc" id="L53">        double[][] cMatrix = new double[rlen][clen];</span>
+        //findout max distance and duration
+<span class="fc" id="L55">        long maxDis=0;</span>
+<span class="fc" id="L56">        long maxDur=0;</span>
+<span class="fc bfc" id="L57" title="All 2 branches covered.">        for(int i=0;i&lt;rlen;++i){</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            for(int j=0;j&lt;clen;++j){</span>
+<span class="fc" id="L59">                long distance = dMatrix.rows[i].elements[j].distance.inMeters;</span>
+<span class="fc" id="L60">                long duration = dMatrix.rows[i].elements[j].duration.inSeconds;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                if(distance&gt;maxDis)maxDis=distance;</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                if(duration&gt;maxDur)maxDur=duration;</span>
+            }
+        }
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for(int i=0;i&lt;rlen;++i){</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">            for(int j=0;j&lt;clen;++j){</span>
+<span class="fc" id="L67">                double distance = dMatrix.rows[i].elements[j].distance.inMeters;</span>
+<span class="fc" id="L68">                double duration = dMatrix.rows[i].elements[j].duration.inSeconds;</span>
+<span class="pc bpc" id="L69" title="2 of 4 branches missed.">                if(maxDis &gt; 0 &amp;&amp; maxDur &gt; 0){</span>
+<span class="fc" id="L70">                    cMatrix[i][j] = (distance / maxDis + duration / maxDur) * 0.5;</span>
+                }else{
+<span class="nc" id="L72">                    System.err.println(</span>
+                       &quot;cm[&quot;+i+&quot;][&quot;+j+&quot;]=&quot;+cMatrix[i][j]+&quot;\n&quot;+
+                       &quot;(distance:&quot;+distance+
+                       &quot;,duration:&quot;+duration+
+                       &quot;,maxDis:&quot;+maxDis+
+                       &quot;,maxDur:&quot;+maxDur+&quot;)&quot;);
+                }
+            }
+        }
+<span class="fc" id="L81">        this.fillIn(cMatrix);</span>
+<span class="fc" id="L82">    }</span>
+
+    /**
+     * Gets the cost matrix
+     * @return a 2D array of double
+     */
+    public double[][] getCostMatrix() {
+<span class="nc" id="L89">        return this.costMatrix;</span>
+    }
+
+    /**
+     * Calculates the column cost by group
+     * @param groupIds the group ids
+     * @return an array of double
+     */
+    public double[] calculateColumnCostByGroup(int[] groupIds ){
+        //rlen=cnum = number of neighborhoods, as destinations;
+<span class="fc" id="L99">        int rlen = this.costMatrix.length;</span>
+        //clen=rnum = number of attractions, as origins;
+<span class="fc" id="L101">        int clen = this.costMatrix[0].length;</span>
+<span class="fc" id="L102">        double[] neiToAllCosts = new double[clen];</span>
+<span class="fc" id="L103">        IntStream.range(0, clen).forEach(i -&gt; neiToAllCosts[i] = 0);</span>
+<span class="fc" id="L104">        double[] neiToGroupCost = this.costMatrix[0];</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for(int i = 1; i &lt; rlen; ++i){</span>
+<span class="fc bfc" id="L106" title="All 2 branches covered.">            if(groupIds[i]==groupIds[i-1]){//Same group, take minimum</span>
+                //neiToGroupCost = min{costMatrix[i],neiToGroupCost}
+<span class="fc bfc" id="L108" title="All 2 branches covered.">                for(int j=0;j&lt;clen;++j){</span>
+<span class="fc" id="L109">                    UTILS.min_rows(neiToGroupCost,this.costMatrix[i]);</span>
+                }
+            }else{//Change group, adds to neiToAllCosts, optionally with weight
+                //neiToAllCosts += neiToGroupCost
+<span class="fc" id="L113">                UTILS.add_rows(neiToAllCosts,neiToGroupCost);</span>
+<span class="fc" id="L114">                neiToGroupCost = this.costMatrix[i];</span>
+            }
+        }
+<span class="fc" id="L117">        UTILS.add_rows(neiToAllCosts,neiToGroupCost);</span>
+<span class="fc" id="L118">        return neiToAllCosts;</span>
+    }
+
+    /**
+     * Converts to string
+     * @return String
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L127">        return &quot;CostMatrix{&quot; +</span>
+<span class="fc" id="L128">                &quot;costMatrix=&quot; + Arrays.deepToString(costMatrix) +</span>
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
