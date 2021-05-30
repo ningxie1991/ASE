@@ -2,7 +2,7 @@
 
 This is a project for the advanced software engineering class at UZH. 
 
-Team: Ning Xie - Yasara peiris - Ali Yassine - Yuchen Zhang
+Team: Yasara Peiris - Ning Xie - Ali Yassine - Yuchen Zhang
 
 # Overview 
 
@@ -20,22 +20,22 @@ More details about the project can be found in <a href="https://github.com/ningx
 
 ### Back End
 
-The **Spring boot** Java framework is used to drive the back end of our web application. It is chosen because it eliminates boilerplate configurations and code, reduces overall development time, and thus increases efficiency. In addition, the **Java Client for Google Maps Services** is used to add the functionality of the Google Maps API's to our back end.
+The **Spring Boot** Java framework is used to drive the back end of our web application. It is chosen because it eliminates boilerplate configurations and code, reduces overall development time, and thus increases efficiency. In addition, the **Java Client for Google Maps Services** is used to add the functionality of the Google Maps API's to our back end.
 
 ### Database
 **MongoDB** is the NoSQL database chosen for this project. We created collections in our database to store the Berlin Airbnb open dataset. The back end serivces connect to the database using **Spring MongoDB Repository**.
 
 ### Containerization
 
-**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. GitHub action, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
+**Docker** is used for the purposes of containarization and deployment of the different microservices. Each microservice is provided with a Dockerfile so that they can be put into seperate containers. The GitHub Action workflow, **Build and Deploy to GKE** is used to build and package each microservice into a docker container that is pulished to the Google cloud **Container Registry** and deployed to the corresponding kubernetes cluster for dev and prod environments. 
 
 ### CI/CD
 
-**GitHub Actions** is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time. CI/CD scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a>.
+<a href="https://github.com/ningxie1991/AScout/actions"> **GitHub Actions** </a> is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time. CI/CD scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a>.
 
 ### Testing
 
-The back end testing environment is composed of **JUnit** for writing unit tests and **JaCoCo** for code coverage metrics. The front end testing environment uses the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows <a href="https://github.com/ningxie1991/AScout/blob/develop/.github/workflows/CI-SonarCloud-browse-service.yml"> (example) </a>.
+The back end testing environment is composed of **JUnit5** for writing unit tests and **JaCoCo** for code coverage metrics. For the front end testing environment we intend to use the React testing library. In addition, **SonarQube** is used for automatic static code analysis. The testing environments are integrated to run in the GitHub Actions workflows <a href="https://github.com/ningxie1991/AScout/blob/develop/.github/workflows/CI-SonarCloud-browse-service.yml"> (example script) </a>.
 
 More details about testing and CI/CD can be found in <a href="https://github.com/ningxie1991/AScout/wiki/Testing-and-Continuous-Integration"> Wiki - Testing and Continuous Integration </a>.
 
@@ -75,12 +75,12 @@ Latest release in the production environment can be accessed at http://ascout.or
       
 # How to Use Demo
 
-To use the website go to: <a href="http://ascout.org/"> ascout.org </a> and follow the prompts. When you first access the website select Berlin as the city you wish to visit. Then you will be presented with choices. Click the "Calculate the ideal neighborhood" button, and start entering the destinations you wish to visit. After you are done, click the "find neighborhood" button and you will shortly be presented with the listings from the three most convenient neighborhoods for your itenirary.
+To use the website go to: <a href="http://ascout.org/"> ascout.org </a> and follow the prompts. When you first access the website select Berlin as the city you wish to visit. Then you will be presented with choices. Click the "Calculate the ideal neighborhood" button, and start entering the destinations you wish to visit. After you are done, click the "find neighborhood" button and you will shortly be presented with the listings from the three most convenient neighborhoods for your itenirary. You will be able to see all the listings on the side bar and on the map. You can hover over the listings on the map to see a preview, or you can click on the more details button to see all the information including a link to the original AirBnb listing.
 
-Youtube link for the demo: https://youtu.be/Q8Q2Ni_joiw
+Youtube link for the demo: https://youtu.be/IGtEoX6wCbY
 
 <p align="center">
-  <img width="700" align="center" href="https://youtu.be/Q8Q2Ni_joiw" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
+  <img width="700" align="center" href="https://youtu.be/IGtEoX6wCbY" src="https://github.com/ningxie1991/AScout/blob/develop/images/Wiki/demoascout.gif" alt="demo"/>
 </p>
 
 

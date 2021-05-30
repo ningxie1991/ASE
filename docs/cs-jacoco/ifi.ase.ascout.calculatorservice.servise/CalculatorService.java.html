@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculatorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculator-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.calculatorservice.servise</a> &gt; <span class="el_source">CalculatorService.java</span></div><h1>CalculatorService.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.calculatorservice.servise;
+
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.errors.ApiException;
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.TravelMode;
+import ifi.ase.ascout.calculatorservice.data.dto.BestNeighborhoodsQueryDTO;
+import ifi.ase.ascout.calculatorservice.data.model.CostMatrix;
+import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
+import ifi.ase.ascout.calculatorservice.data.repository.NeighborhoodsRepository;
+import ifi.ase.ascout.calculatorservice.utils.UTILS;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.IntStream;
+
+/**
+ * CalculatorService is the service that provides the algorithm to calculate the best neighbourhoods
+ */
+@Service
+public class CalculatorService implements ICalculatorService{
+    // logger
+    private final Logger logger;
+    // context
+    private final GeoApiContext context;
+    // repository
+    @Autowired
+    private NeighborhoodsRepository repository;
+    // apiMaxNum
+    @Value(&quot;${api.max_num}&quot;)
+    private int apiMaxNum;
+    // apiMaxLen
+    @Value(&quot;${api.max_len}&quot;)
+    private int apiMaxLen;
+
+    /**
+     * Constructor of CalculatorService
+     * @param apiKey the api key
+     */
+<span class="fc" id="L48">    public CalculatorService(@Value(&quot;${api.key}&quot;) String apiKey) {</span>
+<span class="fc" id="L49">        this.context = new GeoApiContext.Builder()</span>
+<span class="fc" id="L50">                .apiKey(apiKey)</span>
+<span class="fc" id="L51">                .build();</span>
+<span class="fc" id="L52">        this.logger = LoggerFactory.getLogger(this.getClass());</span>
+<span class="fc" id="L53">    }</span>
+
+    /**
+     * Calculates the best neighbourhoods
+     * @param query a BestNeighborhoodsQueryDTO object
+     * @return a list of NeighborhoodModel
+     */
+    @Override
+    public List&lt;NeighborhoodModel&gt; bestNeighborhoods(BestNeighborhoodsQueryDTO query) {
+        //TODO what if name is null : java.lang.NullPointerException
+<span class="fc" id="L63">        TravelMode travelMode = TravelMode.valueOf(query.getTravelMode());</span>
+<span class="fc" id="L64">        String[] originAttractions = query.getOrigins();//row names,origin/attraction names</span>
+        
+<span class="fc" id="L66">        List&lt;NeighborhoodModel&gt; neiList = repository.findAll();//=UTILS.dummyNList();</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if(neiList.isEmpty()){</span>
+<span class="fc" id="L68">            logger.error(&quot;Empty response from DB!&quot;);</span>
+<span class="fc" id="L69">            return neiList;</span>
+        }
+<span class="fc" id="L71">        logger.debug(&quot;get neighborhoods from mongodb repository.findAll():&quot;+neiList.toString());</span>
+<span class="fc" id="L72">        String[] destinationNeighborhoods = UTILS.getNeiIDs(neiList);// col names,destination/neighborhood names</span>
+<span class="fc" id="L73">        int olen = originAttractions.length;</span>
+<span class="fc bfc" id="L74" title="All 2 branches covered.">        if(olen&gt;apiMaxLen){</span>
+<span class="fc" id="L75">            logger.error(&quot;Too Many Attractions!(&gt;25)&quot;);</span>
+<span class="fc" id="L76">            return new ArrayList&lt;&gt;();</span>
+        }
+<span class="fc" id="L78">        int dlen = destinationNeighborhoods.length;</span>
+<span class="fc" id="L79">        CostMatrix cm = new CostMatrix(olen,dlen);</span>
+<span class="fc" id="L80">        int dPageSize = apiMaxNum/olen;</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if(dPageSize&gt;apiMaxLen)dPageSize=apiMaxLen;</span>
+<span class="fc" id="L82">        int dPageNum = dlen/dPageSize;</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">        if(dlen%dPageSize!=0)dPageNum+=1;</span>
+<span class="fc" id="L84">        DistanceMatrix matrix = null;</span>
+        try{
+<span class="fc" id="L86">            int startIndex = 0;</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            for(int i=0;i&lt;dPageNum;++i){</span>
+<span class="fc" id="L88">                String[] partDN = UTILS.sliceStringArray(destinationNeighborhoods,startIndex,startIndex+=dPageSize);</span>
+<span class="fc" id="L89">                logger.debug(&quot;destination num:&quot;+dlen+&quot;,origin num:&quot;+olen+&quot;,partDN num:&quot;+partDN.length);</span>
+<span class="fc" id="L90">                matrix = DistanceMatrixApi.getDistanceMatrix(</span>
+                        this.context,
+                        originAttractions,
+                        partDN)
+<span class="fc" id="L94">                        .mode(travelMode).await();</span>
+                //TODO examine matrix, for example invalid attractions
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">                if(matrix==null){</span>
+<span class="nc" id="L97">                    logger.error(&quot;Null Distance Matrix Received!&quot;);</span>
+<span class="nc" id="L98">                    return null;</span>
+                }
+<span class="fc" id="L100">                cm.fillInDistanceMatrix(matrix);</span>
+            }
+<span class="fc" id="L102">        }catch(InterruptedException | ApiException | IOException e){</span>
+<span class="fc" id="L103">            Thread.currentThread().interrupt();</span>
+<span class="fc" id="L104">            logger.error(&quot;DistanceMatrixApi Error&quot;, e);</span>
+<span class="fc" id="L105">        }</span>
+<span class="fc" id="L106">        logger.debug(&quot;cost matrix result:&quot;+cm.toString());</span>
+<span class="fc" id="L107">        double[] neighborhoodCosts = cm.calculateColumnCostByGroup(query.getGroupIds());</span>
+<span class="fc" id="L108">        logger.info(&quot;all neighborhoods' scores:&quot;, Arrays.toString(neighborhoodCosts));</span>
+<span class="fc" id="L109">        return UTILS.getTopNeighborhoods(neiList,neighborhoodCosts,query.getTopK());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

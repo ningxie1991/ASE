@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CalculateController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculator-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.calculatorservice.controller</a> &gt; <span class="el_source">CalculateController.java</span></div><h1>CalculateController.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.calculatorservice.controller;
+
+import ifi.ase.ascout.calculatorservice.data.dto.BestNeighborhoodsQueryDTO;
+import ifi.ase.ascout.calculatorservice.data.model.NeighborhoodModel;
+import ifi.ase.ascout.calculatorservice.servise.ICalculatorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * CalculateController provides the API for interacting with the calculator-service
+ */
+@RestController
+//@CrossOrigin(origins = {&quot;${settings.cors_origin_dev}&quot;, &quot;${settings.cors_origin_local}&quot;})
+//@CrossOrigin(origins = {&quot;${client.url.prod}&quot;, &quot;${client.url.dev}&quot;, &quot;${client.url.local}&quot;})
+@RequestMapping(path = &quot;/calculate&quot;)
+<span class="fc" id="L21">public class CalculateController {</span>
+    @Autowired
+    private ICalculatorService service;
+
+    /**
+     * Calculates the best neighbourhoods based on a query from the frontend consisting of a list of attractions,
+     * travel mode and the number of top neighbourhoods
+     * @param query the BestNeighborhoodsQueryDTO query object
+     * @return ResponseEntity with a list of NeighborhoodModel
+     */
+    @PostMapping(path = &quot;/best_neighborhoods&quot;, consumes = &quot;application/json&quot;, produces = &quot;application/json&quot;)
+    public ResponseEntity&lt;List&lt;NeighborhoodModel&gt;&gt; bestNeighborhoods(@RequestBody BestNeighborhoodsQueryDTO query) {
+<span class="fc" id="L33">        List&lt;NeighborhoodModel&gt; nList = service.bestNeighborhoods(query);</span>
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if(nList.isEmpty()){</span>
+<span class="fc" id="L35">            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(nList);</span>
+        }
+<span class="fc" id="L37">        return ResponseEntity.status(HttpStatus.OK).body(nList);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NeighborhoodModel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculator-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.calculatorservice.data.model</a> &gt; <span class="el_source">NeighborhoodModel.java</span></div><h1>NeighborhoodModel.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.calculatorservice.data.model;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.stereotype.Repository;
+
+/**
+ * NeighborhoodModel is the data model for a neighbourhood in the &quot;neighborhoods_with_coords&quot; collection stored in MongoDB
+ */
+@Repository
+@Document(collection = &quot;neighborhoods_with_coords&quot;)
+<span class="fc" id="L11">public class NeighborhoodModel implements Comparable&lt;NeighborhoodModel&gt;{</span>
+
+    // attributes from the DB
+    @Field(name=&quot;coordinates&quot;)
+    private String coordinates;
+    @Field(name=&quot;group&quot;)
+    private String group;
+    @Field(name=&quot;name&quot;)
+    private String name;
+    @Field(name=&quot;place_id&quot;)
+    private String placeId;
+
+    // generated attribute
+    private double score;
+
+    /**
+     * Gets the coordinates of neighbourhood boundaries
+     * @return String
+     */
+    public String getCoordinates() {
+<span class="fc" id="L31">        return coordinates;</span>
+    }
+
+    /**
+     * Sets the coordinates of neighbourhood boundaries
+     * @param coordinates the coordinates of neighbourhood boundaries
+     */
+    public void setCoordinates(String coordinates) {
+<span class="fc" id="L39">        this.coordinates = coordinates;</span>
+<span class="fc" id="L40">    }</span>
+
+    /**
+     * Gets the group of the neighbourhood
+     * @return String
+     */
+    public String getGroup() {
+<span class="fc" id="L47">        return group;</span>
+    }
+
+    /**
+     * Sets the group of the neighbourhood
+     * @param group the group of the neighbourhood
+     */
+    public void setGroup(String group) {
+<span class="fc" id="L55">        this.group = group;</span>
+<span class="fc" id="L56">    }</span>
+
+    /**
+     * Gets the name of the neighbourhood
+     * @return String
+     */
+    public String getName() {
+<span class="fc" id="L63">        return name;</span>
+    }
+
+    /**
+     * Sets the name of the neighbourhood
+     * @param name the name of neighbourhood
+     */
+    public void setName(String name) {
+<span class="fc" id="L71">        this.name = name;</span>
+<span class="fc" id="L72">    }</span>
+
+    /**
+     * Gets the place id of the neighbourhood
+     * @return String
+     */
+    public String getPlaceId() {
+<span class="fc" id="L79">        return placeId;</span>
+    }
+
+    /**
+     * Sets the place id of the neighbourhood
+     * @param placeId the place id of the neighbourhood
+     */
+    public void setPlaceId(String placeId) {
+<span class="fc" id="L87">        this.placeId = placeId;</span>
+<span class="fc" id="L88">    }</span>
+
+    /**
+     * Gets the score of of the neighbourhood
+     * @return Double
+     */
+    public Double getScore() {
+<span class="fc" id="L95">        return score;</span>
+    }
+
+    /**
+     * Sets the score of of the neighbourhood
+     * @param score the score of of the neighbourhood
+     */
+    public void setScore(double score) {
+<span class="fc" id="L103">        this.score = score;</span>
+<span class="fc" id="L104">    }</span>
+
+    /**
+     * Compares neighbourhoods
+     * @param o neighbourhood model to compare to
+     * @return int
+     */
+    @Override
+    public int compareTo(NeighborhoodModel o) {
+<span class="fc" id="L113">        return this.getScore().compareTo(o.getScore());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

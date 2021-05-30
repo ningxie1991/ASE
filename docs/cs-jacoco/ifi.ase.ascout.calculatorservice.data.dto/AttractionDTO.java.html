@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AttractionDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">calculator-service</a> &gt; <a href="index.source.html" class="el_package">ifi.ase.ascout.calculatorservice.data.dto</a> &gt; <span class="el_source">AttractionDTO.java</span></div><h1>AttractionDTO.java</h1><pre class="source lang-java linenums">package ifi.ase.ascout.calculatorservice.data.dto;
+
+import java.io.Serializable;
+
+/**
+ * AttractionDTO is a data object representing an attraction
+ */
+<span class="fc" id="L8">public class AttractionDTO implements Serializable{</span>
+
+    /**
+     * The place id of the attraction
+     */
+    private String placeId;
+
+    /**
+     * The name of the attraction
+     */
+    private String name;
+  
+    /**
+     * The group id of the attraction
+     */
+    private int groupId;
+
+    /**
+     * Gets the place id
+     * @return String
+     */
+    public String getPlaceId() {
+<span class="fc" id="L30">        return placeId;</span>
+    }
+
+    /**
+     * Sets the place id
+     * @param placeId the place id of the attraction
+     */
+    public void setPlaceId(String placeId) {
+<span class="fc" id="L38">        this.placeId = placeId;</span>
+<span class="fc" id="L39">    }</span>
+
+    /**
+     * Gets the group id
+     * @return int
+     */
+    public int getGroupId() {
+<span class="fc" id="L46">        return groupId;</span>
+    }
+
+    /**
+     * Sets the group id
+     * @param groupId the group id of the attraction
+     */
+    public void setGroupId(int groupId) {
+<span class="fc" id="L54">        this.groupId = groupId;</span>
+<span class="fc" id="L55">    }</span>
+
+    /**
+     * Gets the name
+     * @return String
+     */
+    public String getName() {
+<span class="fc" id="L62">        return name;</span>
+    }
+
+    /**
+     * Sets the name
+     * @param name the name of the attraction
+     */
+    public void setName(String name) {
+<span class="fc" id="L70">        this.name = name;</span>
+<span class="fc" id="L71">    }</span>
+        
+
+    @Override
+    public String toString() {
+<span class="fc" id="L76">        return &quot;AttractionDTO{&quot; +</span>
+                &quot;name='&quot; + name  + '\'' +
+                &quot;, placeId='&quot; + placeId + '\'' +
+                &quot;, groupId=&quot; + groupId +
+                '}';
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
