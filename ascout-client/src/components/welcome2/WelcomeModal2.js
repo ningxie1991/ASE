@@ -72,7 +72,7 @@ export default function WelcomeModal2() {
           <Grid container>
             <Grid item md={7}>
               <h6 className='textQuestion'>Pick how you want to Scout?</h6>
-              <div style={{ marginBottom: '3%', marginTop: '2%' }}>
+              <div style={{ marginBottom: '5%', marginTop: '5%' }}>
                 <Button
                   color='primary'
                   variant='contained'
@@ -84,15 +84,7 @@ export default function WelcomeModal2() {
                   ></ArrowForwardIosIcon>
                 </Button>
               </div>
-              <div style={{ marginBottom: '3%' }}>
-                <Button color='primary' variant='contained'>
-                  Have a look at all the listings of the city{' '}
-                  <ArrowForwardIosIcon
-                    style={{ paddingLeft: '3%' }}
-                  ></ArrowForwardIosIcon>
-                </Button>
-              </div>
-              <div style={{ marginBottom: '3%' }}>
+              <div style={{ marginBottom: '5%' }}>
                 <Button color='primary' variant='contained'>
                   Have a look at these plans we prepared for you{' '}
                   <ArrowForwardIosIcon
