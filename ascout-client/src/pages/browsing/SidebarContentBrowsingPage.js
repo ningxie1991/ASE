@@ -329,7 +329,7 @@ export default function SidebarContentBrowsingPage(props) {
                       />
                     }
                     style={{ fontSize: '0.8rem' }}
-                    label='Show Boundary'
+                    label='Show Boundaries'
                   />
                 </Grid>
               </Grid>
