@@ -2,7 +2,7 @@
 
 This is a project for the advanced software engineering class at UZH. 
 
-Team: Ning Xie - Yasara peiris - Ali Yassine - Yuchen Zhang
+Team: Yasara Peiris - Ning Xie - Ali Yassine - Yuchen Zhang
 
 # Overview 
 
