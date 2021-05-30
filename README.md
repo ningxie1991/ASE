@@ -31,7 +31,7 @@ The **Spring boot** Java framework is used to drive the back end of our web appl
 
 ### CI/CD
 
-**GitHub Actions** is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time. CI/CD scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a>.
+<a href="https://github.com/ningxie1991/AScout/actions"> **GitHub Actions** </a> is used to automate the CI/CD pipeline. It is mainly used for the convenience of building, testing, and deploying the code straight from GitHub. In addition, it includes workflow templates, that were useful as a starting point and to save time. CI/CD scripts can be found in <a href="https://github.com/ningxie1991/AScout/tree/main/.github/workflows"> github workflows </a>.
 
 ### Testing
 
