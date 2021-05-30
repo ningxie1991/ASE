@@ -103,6 +103,7 @@ export default function SidebarContentBrowsingPage(props) {
   const [modalStatus, setModalStatus] = useState(false)
   const [clickedListing, setClickedListing] = useState(null)
   const [showBoundary, setShowBoundary] = useState(true)
+  const [listingPanelHeight, setListingPanelHeight] = useState(window.innerHeight*0.6)
   const handleClose = () => {
     setModalStatus(false)
   }
@@ -159,6 +160,16 @@ export default function SidebarContentBrowsingPage(props) {
       setError(error.response)
     }
   }
+
+  React.useEffect(() => {
+    /* Inside of a "useEffect" hook add an event listener that updates
+       the "width" state variable when the window size changes */
+    window.addEventListener("resize", () => setListingPanelHeight(window.innerHeight*0.6));
+
+    /* passing an empty array as the dependencies of the effect will cause this
+       effect to only run when the component mounts, and not each time it updates.
+       We only want the listener to be added once */
+  }, []);
 
   const setPaginatedData = (dataFiltered) => {
     var count = 0
@@ -367,7 +378,8 @@ export default function SidebarContentBrowsingPage(props) {
             sm={12}
             style={{
               overflowY: 'auto',
-              height: '530px',
+              //height: '530px',
+              height: listingPanelHeight,
               paddingTop: '2%',
               paddingRight: '2%',
               overflowX: 'hidden',
