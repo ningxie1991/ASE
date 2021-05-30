@@ -140,7 +140,7 @@ export default function SidebarContentBrowsingPage(props) {
     try {
       getBestNeighbourhoods({
         attractionList: props.attractions,
-        travelMode: 'TRANSIT',
+        travelMode: 'DRIVING',
         topK: 3,
       })
         .then((res) => {
